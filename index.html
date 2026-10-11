@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14532d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="description" content="Kirana Smart - a demo online grocery store for neighbourhood kirana shops. Order on WhatsApp.">
+  <title data-i18n="page.title.store">Kirana Smart - Neighbourhood Grocery (Demo)</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+
+  <header class="site-header" id="top">
+    <div class="header-row">
+      <button id="menuBtn" class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="siteNav" data-i18n-aria="nav.menu" aria-label="Menu"><span aria-hidden="true">&#9776;</span></button>
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/images/logo.svg" alt="" width="36" height="36">
+        <span class="brand-text">
+          <strong data-brand-name>Kirana Smart</strong>
+          <small id="storeLine" class="store-line"></small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <button id="langBtn" class="btn btn-ghost btn-sm" type="button"></button>
+        <button id="cartBtn" class="btn btn-cart" type="button" aria-haspopup="dialog">
+          <span aria-hidden="true">&#128722;</span>
+          <span class="cart-label" data-i18n="nav.cart">Cart</span>
+          <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="header-search">
+      <div class="search-wrap">
+        <label class="sr-only" for="searchInput" data-i18n="search.label">Search products</label>
+        <input id="searchInput" class="search-input" type="search" autocomplete="off" enterkeyhint="search" maxlength="60" data-i18n-placeholder="search.placeholder" placeholder="Search products (e.g. atta, dal, oil)">
+        <button id="searchClear" class="search-clear" type="button" data-i18n-aria="search.clear" aria-label="Clear search" hidden>&#10005;</button>
+      </div>
+    </div>
+    <nav id="siteNav" class="site-nav" aria-label="Main" hidden>
+      <a href="#top" data-goto="top" data-i18n="nav.home">Home</a>
+      <a href="#offers" data-goto="offers" data-i18n="nav.offers">Offers</a>
+      <a href="#shop" data-goto="shop" data-i18n="nav.shop">All products</a>
+      <a href="admin.html" class="nav-demo" data-i18n="nav.dashboard">Shopkeeper Demo Dashboard</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="container">
+      <div class="demo-banner" role="note">
+        <strong data-i18n="demo.label">DEMO</strong>
+        <span data-i18n="demo.banner">This is a demo store. Products and prices are sample data that the shop owner must verify before real use.</span>
+      </div>
+
+      <div id="appError" class="state-panel state-error" role="alert" hidden>
+        <h2 data-i18n="err.generic">Something went wrong while loading the store.</h2>
+        <p id="appErrorDetail" class="muted"></p>
+        <div class="state-actions">
+          <button id="errReload" class="btn btn-primary" type="button" data-i18n="err.retry">Reload</button>
+          <button id="errReset" class="btn btn-ghost" type="button" data-i18n="err.reset">Reset demo data</button>
+        </div>
+      </div>
+
+      <div id="homeSections">
+        <section id="home" class="hero" aria-labelledby="heroTitle">
+          <div class="hero-text">
+            <h1 id="heroTitle" data-i18n="hero.title">Your neighbourhood kirana, now on your phone</h1>
+            <p data-i18n="hero.sub">Pick your groceries and send your order to the shop on WhatsApp.</p>
+            <a class="btn btn-light" href="#shop" data-goto="shop" data-i18n="hero.cta">Start shopping</a>
+          </div>
+          <ul class="hero-points">
+            <li data-i18n="hero.p1">No online payment - pay the shop directly</li>
+            <li data-i18n="hero.p2">Order goes to the shop's WhatsApp</li>
+            <li data-i18n="hero.p3">Works in English and Hindi</li>
+          </ul>
+        </section>
+
+        <section class="block" aria-labelledby="catTitle">
+          <h2 id="catTitle" class="block-title" data-i18n="sec.categories">Shop by category</h2>
+          <div id="catGrid" class="cat-grid"></div>
+        </section>
+
+        <section id="featuredSec" class="block" aria-labelledby="featuredTitle">
+          <h2 id="featuredTitle" class="block-title" data-i18n="sec.featured">Featured products</h2>
+          <div id="featuredGrid" class="product-grid"></div>
+        </section>
+
+        <section id="popularSec" class="block" aria-labelledby="popularTitle">
+          <h2 id="popularTitle" class="block-title" data-i18n="sec.popular">Popular products</h2>
+          <div id="popularGrid" class="product-grid"></div>
+        </section>
+
+        <section id="offers" class="block" aria-labelledby="offersTitle">
+          <h2 id="offersTitle" class="block-title" data-i18n="sec.offers">Special offers</h2>
+          <p class="muted block-note" data-i18n="sec.offers.note">Demo offers - sample discounts for demonstration only.</p>
+          <div id="offersGrid" class="product-grid"></div>
+        </section>
+      </div>
+
+      <section id="shop" class="block" aria-labelledby="shopTitle">
+        <h2 id="shopTitle" class="block-title" data-i18n="sec.all">All products</h2>
+        <div class="filters">
+          <div class="field">
+            <label for="catFilter" data-i18n="filter.category">Category</label>
+            <select id="catFilter"></select>
+          </div>
+          <div class="field">
+            <label for="sortSelect" data-i18n="filter.sort">Sort by</label>
+            <select id="sortSelect">
+              <option value="default" data-i18n="sort.default">Default</option>
+              <option value="priceAsc" data-i18n="sort.priceAsc">Price: low to high</option>
+              <option value="priceDesc" data-i18n="sort.priceDesc">Price: high to low</option>
+              <option value="name" data-i18n="sort.name">Name: A to Z</option>
+            </select>
+          </div>
+          <button id="clearFilters" class="btn btn-ghost" type="button" data-i18n="filter.clear">Clear filters</button>
+        </div>
+        <p id="resultCount" class="muted result-count" aria-live="polite"></p>
+        <div id="productGrid" class="product-grid" aria-busy="true">
+          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+        </div>
+        <div id="noResults" class="state-panel" hidden>
+          <h3 data-i18n="noresults.title">No products found</h3>
+          <p class="muted" data-i18n="noresults.text">Try a different word or clear the filters.</p>
+          <button id="noResultsClear" class="btn btn-primary" type="button" data-i18n="filter.clear">Clear filters</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p><strong data-brand-name>Kirana Smart</strong> - <span data-i18n="footer.demo">Demo only. Sample products, sample prices, no online payments, no delivery tracking. Orders are sent only when the customer presses Send in WhatsApp.</span></p>
+      <p><a href="admin.html" data-i18n="nav.dashboard">Shopkeeper Demo Dashboard</a></p>
+    </div>
+  </footer>
+
+  <div id="drawerOverlay" class="overlay" hidden></div>
+  <aside id="cartDrawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+    <div class="drawer-head">
+      <h2 id="drawerTitle"></h2>
+      <button id="drawerClose" class="icon-btn" type="button" data-i18n-aria="common.close" aria-label="Close">&#10005;</button>
+    </div>
+    <div id="drawerBody" class="drawer-body"></div>
+  </aside>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <noscript>
+    <div class="demo-banner">JavaScript is required to use this store. Please enable JavaScript in your browser.</div>
+  </noscript>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
