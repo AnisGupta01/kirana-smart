@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14532d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="robots" content="noindex, nofollow">
+  <title data-i18n="page.title.admin">Shopkeeper Dashboard (Demo) - Kirana Smart</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="admin-page">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <a class="brand" href="admin.html">
+        <img class="brand-logo" src="assets/images/logo.svg" alt="" width="36" height="36">
+        <span class="brand-text">
+          <strong data-brand-name>Kirana Smart</strong>
+          <small class="store-line" data-i18n="admin.title">Shopkeeper Dashboard (Demo)</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <button id="langBtn" class="btn btn-ghost btn-sm" type="button"></button>
+        <a class="btn btn-cart" href="index.html" id="backToStore" data-i18n="admin.backToStore">Back to store</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="container">
+      <div class="demo-banner demo-banner-warn" role="note">
+        <strong data-i18n="demo.label">DEMO</strong>
+        <span data-i18n="admin.banner">Demo dashboard: no login, no security, and changes are saved only in this browser on this device. They do NOT reach customers' phones.</span>
+      </div>
+
+      <div id="appError" class="state-panel state-error" role="alert" hidden>
+        <h2 data-i18n="err.generic">Something went wrong while loading the store.</h2>
+        <p id="appErrorDetail" class="muted"></p>
+        <button id="errReset" class="btn btn-primary" type="button" data-i18n="err.reset">Reset demo data</button>
+      </div>
+
+      <div id="adminApp">
+        <div class="tabs" role="tablist" aria-label="Dashboard sections" data-i18n-aria="admin.tabs">
+          <button class="tab" role="tab" id="tab-overview" data-tab="overview" aria-controls="panel-overview" aria-selected="true" type="button" data-i18n="tab.overview">Overview</button>
+          <button class="tab" role="tab" id="tab-products" data-tab="products" aria-controls="panel-products" aria-selected="false" tabindex="-1" type="button" data-i18n="tab.products">Products</button>
+          <button class="tab" role="tab" id="tab-orders" data-tab="orders" aria-controls="panel-orders" aria-selected="false" tabindex="-1" type="button" data-i18n="tab.orders">Orders</button>
+          <button class="tab" role="tab" id="tab-settings" data-tab="settings" aria-controls="panel-settings" aria-selected="false" tabindex="-1" type="button" data-i18n="tab.settings">Settings</button>
+        </div>
+
+        <!-- Overview -->
+        <section id="panel-overview" class="tab-panel" role="tabpanel" aria-labelledby="tab-overview">
+          <h2 class="block-title" data-i18n="ov.title">Today at a glance (demo)</h2>
+          <div id="overviewStats" class="stat-grid"></div>
+          <div class="two-col">
+            <div class="box">
+              <h3 data-i18n="ov.statusToday">Today's orders by status</h3>
+              <ul id="overviewStatus" class="chip-list"></ul>
+            </div>
+            <div class="box">
+              <h3 data-i18n="ov.restock">Needs restocking</h3>
+              <ul id="overviewLow" class="plain-list"></ul>
+            </div>
+          </div>
+          <p class="muted small" data-i18n="ov.sampleNote">Orders and sales here are sample data for demonstration.</p>
+        </section>
+
+        <!-- Products -->
+        <section id="panel-products" class="tab-panel" role="tabpanel" aria-labelledby="tab-products" hidden>
+          <h2 class="block-title" data-i18n="tab.products">Products</h2>
+          <div class="toolbar">
+            <div class="field grow">
+              <label for="invSearch" data-i18n="inv.search">Search inventory</label>
+              <input id="invSearch" type="search" autocomplete="off" maxlength="60">
+            </div>
+            <div class="field">
+              <label for="invCat" data-i18n="filter.category">Category</label>
+              <select id="invCat"></select>
+            </div>
+            <div class="field">
+              <label for="invStatus" data-i18n="inv.filterStatus">Stock status</label>
+              <select id="invStatus">
+                <option value="all" data-i18n="inv.all">All</option>
+                <option value="low" data-i18n="inv.low">Low stock</option>
+                <option value="out" data-i18n="inv.out">Out of stock</option>
+                <option value="unavailable" data-i18n="inv.unavailable">Unavailable</option>
+              </select>
+            </div>
+            <button id="addProductBtn" class="btn btn-primary" type="button" data-i18n="inv.add">Add product</button>
+          </div>
+          <p id="invCount" class="muted result-count" aria-live="polite"></p>
+          <ul id="invList" class="inv-list"></ul>
+          <div id="invEmpty" class="state-panel" hidden>
+            <h3 data-i18n="inv.empty">No products match.</h3>
+          </div>
+        </section>
+
+        <!-- Orders -->
+        <section id="panel-orders" class="tab-panel" role="tabpanel" aria-labelledby="tab-orders" hidden>
+          <h2 class="block-title" data-i18n="ord.title">Incoming orders (demo)</h2>
+          <p class="muted block-note" data-i18n="ord.note">These are fictional sample orders. Real customer orders arrive on the shop's WhatsApp, not here.</p>
+          <div class="toolbar">
+            <div class="field">
+              <label for="ordFilter" data-i18n="ord.filter">Filter by status</label>
+              <select id="ordFilter"></select>
+            </div>
+          </div>
+          <ul id="orderList" class="order-list"></ul>
+          <div id="orderEmpty" class="state-panel" hidden>
+            <h3 data-i18n="ord.none">No orders.</h3>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="panel-settings" class="tab-panel" role="tabpanel" aria-labelledby="tab-settings" hidden>
+          <h2 class="block-title" data-i18n="set.title">Shop settings (this browser only)</h2>
+          <p class="alert alert-info" data-i18n="set.permanent">To make settings permanent for every customer, edit assets/js/config.js and deploy again.</p>
+          <form id="settingsForm" class="form-card" novalidate>
+            <div class="field">
+              <label for="s-storeName" data-i18n="set.storeName">Shop name</label>
+              <input id="s-storeName" type="text" maxlength="60" autocomplete="off">
+              <p class="field-error" id="serr-storeName" role="alert" hidden></p>
+            </div>
+            <div class="field">
+              <label for="s-storeLocation" data-i18n="set.location">Shop location</label>
+              <input id="s-storeLocation" type="text" maxlength="100" autocomplete="off">
+              <p class="field-error" id="serr-storeLocation" role="alert" hidden></p>
+            </div>
+            <div class="field">
+              <label for="s-whatsappNumber" data-i18n="set.whatsapp">Shop WhatsApp number</label>
+              <input id="s-whatsappNumber" type="tel" inputmode="tel" maxlength="20" autocomplete="off" aria-describedby="hint-whatsapp serr-whatsappNumber">
+              <p class="hint" id="hint-whatsapp" data-i18n="set.whatsappHint">Country code plus 10-digit number, digits only (format: 91XXXXXXXXXX). Customer orders open WhatsApp to this number.</p>
+              <p class="field-error" id="serr-whatsappNumber" role="alert" hidden></p>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="s-deliveryFee" data-i18n="set.deliveryFee">Delivery fee (&#8377;)</label>
+                <input id="s-deliveryFee" type="text" inputmode="decimal" maxlength="7" autocomplete="off">
+                <p class="field-error" id="serr-deliveryFee" role="alert" hidden></p>
+              </div>
+              <div class="field">
+                <label for="s-freeDeliveryAbove" data-i18n="set.freeAbove">Free delivery above (&#8377;, 0 = never)</label>
+                <input id="s-freeDeliveryAbove" type="text" inputmode="decimal" maxlength="9" autocomplete="off">
+                <p class="field-error" id="serr-freeDeliveryAbove" role="alert" hidden></p>
+              </div>
+              <div class="field">
+                <label for="s-lowStockThreshold" data-i18n="set.lowStock">Low-stock warning at</label>
+                <input id="s-lowStockThreshold" type="text" inputmode="numeric" maxlength="4" autocomplete="off">
+                <p class="field-error" id="serr-lowStockThreshold" role="alert" hidden></p>
+              </div>
+            </div>
+            <div class="field">
+              <label for="s-deliveryNote" data-i18n="set.deliveryNote">Delivery note shown to customers</label>
+              <input id="s-deliveryNote" type="text" maxlength="120" autocomplete="off">
+              <p class="field-error" id="serr-deliveryNote" role="alert" hidden></p>
+            </div>
+            <div id="settingsMsg" class="alert alert-success" role="status" hidden></div>
+            <button id="saveSettingsBtn" class="btn btn-primary" type="submit" data-i18n="common.save">Save</button>
+          </form>
+
+          <div class="box danger-zone">
+            <h3 data-i18n="set.resetTitle">Reset demo data</h3>
+            <p class="muted" data-i18n="set.resetText">Restores the original sample products, sample orders and settings in this browser. Your shopping cart is not touched.</p>
+            <button id="resetDemoBtn" class="btn btn-danger" type="button" data-i18n="set.reset">Reset demo data</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p data-i18n="admin.footer">Demo dashboard: LocalStorage only, no login, no cloud sync. Not a secure production admin system.</p>
+      <p><a href="index.html" data-i18n="admin.backToStore">Back to store</a></p>
+    </div>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <noscript>
+    <div class="demo-banner">JavaScript is required to use this dashboard.</div>
+  </noscript>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
