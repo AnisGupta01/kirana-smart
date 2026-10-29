@@ -128,6 +128,9 @@
   function renderStoreLine() {
     var s = KS.getSettings();
     $("storeLine").textContent = s.storeName + (s.storeLocation ? " · " + s.storeLocation : "");
+    $("footStore").textContent = s.storeName;
+    $("footLoc").textContent = s.storeLocation;
+    $("footLoc").hidden = !s.storeLocation;
   }
 
   function updateLangBtn() {
@@ -141,6 +144,21 @@
     var n = KS.cart.count();
     $("cartCount").textContent = String(n);
     $("cartBtn").setAttribute("aria-label", t("cart.open", { n: n }));
+    /* Sticky bottom cart bar (mobile) */
+    var bar = $("cartBar");
+    var total = KS.cart.totals("pickup", KS.getSettings()).subtotal;
+    bar.hidden = n === 0;
+    bar.setAttribute("aria-label", t("cart.open", { n: n }));
+    $("cartBarCount").textContent = t(n === 1 ? "cartbar.item" : "cartbar.items", { n: n });
+    $("cartBarTotal").textContent = KS.money(total);
+    doc.body.classList.toggle("has-cartbar", n > 0);
+  }
+
+  function markActiveCategory() {
+    var tiles = doc.querySelectorAll("#catGrid .cat-tile");
+    for (var i = 0; i < tiles.length; i++) {
+      tiles[i].setAttribute("aria-pressed", tiles[i].getAttribute("data-cat") === state.category ? "true" : "false");
+    }
   }
 
   function buildCategoryFilter() {
@@ -161,7 +179,7 @@
         class: "cat-tile", type: "button", "data-cat": c,
         onclick: function () { setCategory(c); goTo("shop"); }
       }, [
-        h("span", { class: "cat-icon", "aria-hidden": "true", text: CAT_ICONS[c] }),
+        h("span", { class: "cat-icon cat-icon-" + c, "aria-hidden": "true", text: CAT_ICONS[c] }),
         h("span", { class: "cat-name", text: KS.categoryLabel(c) }),
         h("span", { class: "cat-count muted", text: t("results.count", { n: n }) })
       ]));
@@ -189,6 +207,7 @@
     $("noResults").hidden = list.length > 0;
     $("resultCount").textContent = list.length ? t("results.count", { n: list.length }) : "";
     $("homeSections").hidden = filtersActive();
+    markActiveCategory();
   }
 
   function renderAll() {
@@ -312,6 +331,14 @@
     });
     body.appendChild(list);
     var totals = KS.cart.totals("pickup", settings);
+    var freeAbove = Number(settings.freeDeliveryAbove) || 0;
+    if (freeAbove > 0 && Number(settings.deliveryFee) > 0) {
+      var left = Math.max(0, KS.toPaise(freeAbove) - KS.toPaise(totals.subtotal)) / 100;
+      body.appendChild(h("div", { class: "free-progress" + (left === 0 ? " is-done" : "") }, [
+        h("p", { class: "free-progress-text", text: left > 0 ? t("cart.freeProgress", { amount: KS.money(left) }) : t("cart.freeReached") }),
+        h("progress", { class: "free-progress-bar", max: String(freeAbove), value: String(Math.min(freeAbove, totals.subtotal)), "aria-hidden": "true" })
+      ]));
+    }
     body.appendChild(h("div", { class: "cart-foot" }, [
       h("div", { class: "total-row" }, [h("span", { text: t("cart.subtotal") }), h("strong", { id: "cartSubtotal", text: KS.money(totals.subtotal) })]),
       h("p", { class: "muted small", text: t("cart.feeNote") }),
@@ -583,6 +610,7 @@
 
     $("langBtn").addEventListener("click", function () { KS.setLang(KS.getLang() === "en" ? "hi" : "en"); });
     $("cartBtn").addEventListener("click", openDrawer);
+    $("cartBar").addEventListener("click", openDrawer);
     $("drawerClose").addEventListener("click", closeDrawer);
     $("drawerOverlay").addEventListener("click", closeDrawer);
 

@@ -681,30 +681,37 @@
   }
   KS.placeholderImage = function (p) {
     var art = ART[p.category] || ART.atta;
-    var word = String(p.name || "").split(/\s+/)[0].toUpperCase().slice(0, 9);
+    var word = String(p.name || "").split(/\s+/)[0].toUpperCase().slice(0, 10);
+    var fg = art.fg;
     var body;
     if (art.shape === "sack") {
-      body = '<path d="M62 40 Q50 28 64 20 L96 20 Q110 28 98 40 Q124 62 122 112 Q120 138 80 138 Q40 138 38 112 Q36 62 62 40 Z" fill="' + art.fg + '"/>' +
-        '<rect x="62" y="38" width="36" height="7" rx="3" fill="#ffffff" fill-opacity="0.35"/>';
+      body = '<path d="M62 44 Q50 32 64 24 L96 24 Q110 32 98 44 Q124 66 122 112 Q120 136 80 136 Q40 136 38 112 Q36 66 62 44 Z" fill="' + fg + '"/>' +
+        '<path d="M64 42 Q80 48 96 42" stroke="#ffffff" stroke-opacity="0.45" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<path d="M50 70 Q46 92 50 116" stroke="#ffffff" stroke-opacity="0.22" stroke-width="7" fill="none" stroke-linecap="round"/>';
     } else if (art.shape === "bottle") {
-      body = '<rect x="66" y="16" width="28" height="14" rx="3" fill="' + art.fg + '"/>' +
-        '<rect x="71" y="30" width="18" height="18" fill="' + art.fg + '" fill-opacity="0.8"/>' +
-        '<rect x="48" y="46" width="64" height="98" rx="16" fill="' + art.fg + '"/>';
+      body = '<rect x="68" y="18" width="24" height="12" rx="3" fill="' + fg + '"/>' +
+        '<rect x="72" y="30" width="16" height="16" fill="' + fg + '" fill-opacity="0.75"/>' +
+        '<rect x="50" y="44" width="60" height="92" rx="16" fill="' + fg + '"/>' +
+        '<rect x="58" y="54" width="8" height="72" rx="4" fill="#ffffff" fill-opacity="0.25"/>';
     } else if (art.shape === "carton") {
-      body = '<polygon points="46,52 80,30 114,52 114,142 46,142" fill="' + art.fg + '"/>' +
-        '<polygon points="46,52 80,30 114,52 80,64" fill="#ffffff" fill-opacity="0.3"/>';
+      body = '<polygon points="50,54 80,32 110,54 110,136 50,136" fill="' + fg + '"/>' +
+        '<polygon points="50,54 80,32 110,54 80,66" fill="#ffffff" fill-opacity="0.35"/>' +
+        '<rect x="56" y="70" width="7" height="58" rx="3.5" fill="#ffffff" fill-opacity="0.25"/>';
     } else if (art.shape === "packet") {
-      body = '<rect x="34" y="34" width="92" height="112" rx="8" fill="' + art.fg + '"/>' +
-        '<rect x="34" y="34" width="92" height="12" rx="4" fill="#ffffff" fill-opacity="0.3"/>' +
-        '<rect x="34" y="134" width="92" height="12" rx="4" fill="#ffffff" fill-opacity="0.3"/>';
+      body = '<path d="M40 36 h80 l-4 10 4 10 v68 l-4 0 4 12 h-80 l4 -12 -4 0 v-68 l4 -10 z" fill="' + fg + '"/>' +
+        '<rect x="40" y="36" width="80" height="10" fill="#ffffff" fill-opacity="0.3"/>' +
+        '<rect x="48" y="58" width="8" height="66" rx="4" fill="#ffffff" fill-opacity="0.22"/>';
     } else {
-      body = '<rect x="38" y="40" width="84" height="20" rx="8" fill="' + art.fg + '" fill-opacity="0.8"/>' +
-        '<rect x="44" y="58" width="72" height="84" rx="12" fill="' + art.fg + '"/>';
+      body = '<rect x="42" y="42" width="76" height="18" rx="8" fill="' + fg + '" fill-opacity="0.8"/>' +
+        '<rect x="46" y="58" width="68" height="78" rx="14" fill="' + fg + '"/>' +
+        '<rect x="54" y="66" width="8" height="60" rx="4" fill="#ffffff" fill-opacity="0.25"/>';
     }
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">' +
-      '<rect width="160" height="160" fill="' + art.bg + '"/>' + body +
-      '<rect x="46" y="84" width="68" height="26" rx="5" fill="#ffffff"/>' +
-      '<text x="80" y="102" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="' + art.fg + '">' + xmlEsc(word) + '</text>' +
+      '<rect width="160" height="160" fill="' + art.bg + '"/>' +
+      '<circle cx="80" cy="82" r="62" fill="#ffffff" fill-opacity="0.55"/>' +
+      '<ellipse cx="80" cy="140" rx="44" ry="6" fill="#000000" fill-opacity="0.08"/>' + body +
+      '<rect x="40" y="86" width="80" height="24" rx="12" fill="#ffffff"/>' +
+      '<text x="80" y="102.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="' + (word.length > 8 ? 9.5 : word.length > 6 ? 11 : 12.5) + '" font-weight="700" letter-spacing="' + (word.length > 7 ? 0 : 0.5) + '" fill="' + fg + '">' + xmlEsc(word) + '</text>' +
       '</svg>';
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   };
