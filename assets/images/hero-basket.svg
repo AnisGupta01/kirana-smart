@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 340" width="420" height="340" role="img" aria-label="A basket of fresh groceries">
+  <defs>
+    <linearGradient id="hb-bk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98a3a"/><stop offset="1" stop-color="#a85f1d"/></linearGradient>
+    <linearGradient id="hb-sack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6d58b"/><stop offset="1" stop-color="#e2b24f"/></linearGradient>
+  </defs>
+  <circle cx="210" cy="176" r="150" fill="#ffffff" fill-opacity="0.10"/>
+  <circle cx="210" cy="176" r="112" fill="#ffffff" fill-opacity="0.08"/>
+  <ellipse cx="210" cy="312" rx="150" ry="14" fill="#04210f" fill-opacity="0.25"/>
+  <!-- atta sack -->
+  <path d="M104 92 Q96 74 112 66 L160 66 Q176 74 168 92 Q196 120 192 190 L84 190 Q78 120 104 92 Z" fill="url(#hb-sack)"/>
+  <path d="M110 84 Q136 92 164 84" stroke="#b7791f" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="104" y="118" width="66" height="30" rx="8" fill="#ffffff"/>
+  <text x="137" y="139" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#a16207">ATTA</text>
+  <!-- milk carton -->
+  <polygon points="186,82 216,56 246,82 246,190 186,190" fill="#ffffff"/>
+  <polygon points="186,82 216,56 246,82 216,94" fill="#dbeafe"/>
+  <rect x="186" y="118" width="60" height="28" fill="#2563eb"/>
+  <text x="216" y="137" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff">MILK</text>
+  <!-- oil bottle -->
+  <rect x="262" y="40" width="22" height="14" rx="3" fill="#15803d"/>
+  <rect x="266" y="54" width="14" height="18" fill="#fde68a"/>
+  <rect x="250" y="70" width="46" height="120" rx="14" fill="#facc15"/>
+  <rect x="256" y="112" width="34" height="36" rx="6" fill="#ffffff" fill-opacity="0.85"/>
+  <circle cx="273" cy="130" r="9" fill="#f59e0b"/>
+  <!-- greens -->
+  <ellipse cx="318" cy="112" rx="18" ry="38" fill="#22c55e" transform="rotate(18 318 112)"/>
+  <ellipse cx="300" cy="122" rx="15" ry="34" fill="#16a34a" transform="rotate(-12 300 122)"/>
+  <ellipse cx="334" cy="134" rx="14" ry="30" fill="#4ade80" transform="rotate(34 334 134)"/>
+  <!-- basket -->
+  <path d="M60 176 H360 L330 300 Q326 312 312 312 H108 Q94 312 90 300 Z" fill="url(#hb-bk)"/>
+  <path d="M84 214 H336 M93 250 H327 M101 284 H319" stroke="#f2b46b" stroke-width="5" stroke-linecap="round" stroke-opacity="0.65"/>
+  <path d="M130 186 L140 304 M180 186 L184 306 M230 186 L228 306 M280 186 L272 304" stroke="#8a4b16" stroke-width="4" stroke-opacity="0.35"/>
+  <rect x="48" y="164" width="324" height="26" rx="13" fill="#8a4b16"/>
+  <rect x="58" y="168" width="304" height="7" rx="3.5" fill="#ffffff" fill-opacity="0.18"/>
+  <!-- tomatoes and onion on the rim -->
+  <circle cx="110" cy="166" r="22" fill="#ef4444"/>
+  <circle cx="102" cy="158" r="6" fill="#ffffff" fill-opacity="0.35"/>
+  <path d="M104 146 l6 4 6-4 -2 7 h-8z" fill="#16a34a"/>
+  <circle cx="148" cy="172" r="18" fill="#dc2626"/>
+  <path d="M143 156 l5 3 5-3 -2 6 h-6z" fill="#16a34a"/>
+  <circle cx="318" cy="168" r="20" fill="#c084fc"/>
+  <path d="M318 146 q4 -8 0 -14" stroke="#16a34a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="312" cy="161" r="5" fill="#ffffff" fill-opacity="0.35"/>
+  <!-- sparkles -->
+  <circle cx="64" cy="70" r="6" fill="#fbbf24"/>
+  <circle cx="370" cy="62" r="4" fill="#fbbf24"/>
+  <circle cx="384" cy="210" r="5" fill="#fde68a"/>
+  <circle cx="40" cy="226" r="4" fill="#fde68a"/>
+</svg>
