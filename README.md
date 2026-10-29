@@ -1,96 +1,105 @@
-# Kirana Smart (MVP demo)
+# Kirana Smart: shop websites that sell themselves
 
-A mobile-first grocery website demo for Indian neighbourhood kirana stores. Customers browse products, fill a cart and send the order to the shop on **WhatsApp**. The shopkeeper gets a **demo dashboard** to manage products, stock and sample orders.
+**Apni dukaan ki website, 1 din mein. WhatsApp pe order. Koi commission nahi.**
 
-Plain HTML, CSS and JavaScript. No build step, no framework, no API keys, no database. It works straight after extracting the ZIP and deploys as a static site on Vercel.
+This repository is a complete, static "sell kit" for selling simple websites to local shops (kirana, mithai, bakery, cloud kitchen) in Uttar Pradesh. Shopkeepers find the landing page (for example from an Instagram reel), try a live demo, and tap **Free demo maango**, which opens WhatsApp to the owner with a prefilled `DEMO` message. No visits needed.
 
-> **This is an MVP demo, not a production multi-store system.** Read "Demo-only" below before showing it to a shop owner.
+Plain HTML, CSS and JavaScript. No build step, no framework, no backend, no API keys. Free hosting on GitHub Pages (or Vercel). Hindi + English everywhere. Fast on cheap Android phones and installable as an app (PWA).
 
-## What works
+Live: https://anisgupta01.github.io/kirana-smart/
 
-- Storefront: header with store name, search, cart count, Hindi/English toggle, mobile menu.
-- Home: welcome banner, category shortcuts, featured, popular and demo-offer sections.
-- Catalog: 33 sample products in 9 categories, live search, category filter, price/name sort, clear filters, friendly no-results and empty-cart screens.
-- Cart: add, increase, decrease, remove, correct subtotal, stock limit enforced, saved in the browser (survives refresh).
-- Checkout: name, mobile number, delivery/pickup, address, notes, validation, order summary.
-- WhatsApp order: builds a formatted message (store, order ref, customer, items, prices, subtotal, delivery, address, notes, total) and opens `wa.me` with the encoded text.
-- Dashboard (`admin.html`): overview, add/edit/delete product (with confirmation), update price and stock, mark available/unavailable, search and filter inventory, low-stock flags, sample orders with status control (Pending, Accepted, Ready, Completed, Cancelled), order detail, settings, reset demo data.
+## Fill these in before sharing the link
 
-## Demo-only (be honest with shop owners)
+| What | Where | Notes |
+|---|---|---|
+| **Your WhatsApp number** (every "Free demo maango" button) | `assets/js/site-config.js` → `ownerWhatsApp` | Digits only: `91` + 10-digit number. Until set, buttons show a "number not set" notice. |
+| Instagram link (optional) | `assets/js/site-config.js` → `instagram` | Shows an Instagram link in the footer. |
+| Demo shops' WhatsApp numbers (optional) | `store/shops/*.json` → `whatsappNumber` | Put **your** number here so prospects' test orders reach you; otherwise checkout explains the number is not set. |
+| Real reviews | `index.html` `#reviews` + `assets/js/site-i18n.js` (`l.rev.*`) | The three current reviews are clearly marked SAMPLE. Replace them once real shops agree. |
+| Custom domain (optional) | GitHub Pages settings, then update URLs in `sitemap.xml`, `robots.txt`, canonical/OG tags | `robots.txt` only takes effect at a domain root. |
 
-- **No online payment.** The site never takes or claims payment.
-- **WhatsApp is the order channel.** An order exists only when the customer presses **Send** inside WhatsApp. The site never shows an order as confirmed.
-- **Dashboard data is local.** Products, stock, settings and orders live in LocalStorage of one browser on one device. Changes do **not** reach customers' phones. Real orders arrive on WhatsApp, not in the dashboard.
-- **Dashboard orders are fictional samples.** The customer site does not write orders into the dashboard.
-- **No login.** The dashboard link is public and not secure. Do not store private customer data in it.
-- **All products, prices and stock are sample data.** The shop owner must verify every item before real use.
-- No delivery tracking, no cloud sync, no multi-store support.
+## What's inside
 
-To make changes permanent for every customer, edit `assets/js/config.js` and `assets/js/products.js`, then deploy again. A real backend (database plus login) is the natural next paid upgrade.
+| Page | What it is |
+|---|---|
+| `index.html` | Landing page for shopkeepers: hero, live phone preview, niche demos, why-us vs quick-commerce/marketplaces, features, how it works, pricing, freelancer/agency offer, sample reviews, FAQ (Hindi + English), sticky WhatsApp CTA. SEO meta, Open Graph, JSON-LD. |
+| `shop-website-lucknow.html`, `-kanpur.html`, `-varanasi.html` | City SEO pages with their own Hindi/English copy. |
+| `store/index.html?shop=<id>` | The shop website (storefront + WhatsApp checkout). One app, driven by `store/shops/<id>.json`. No `?shop=` = kirana demo. |
+| `store/admin.html?shop=<id>` | Shopkeeper demo dashboard (products, stock, sample orders, settings) with links to Udhaar Khata and the QR poster. |
+| `udhaar.html` | Digital Udhaar Khata demo: per-customer ledger, udhaar/payment entries, running balance, Hindi WhatsApp reminder, CSV export. LocalStorage only, no lending. |
+| `qr-poster.html` | A4 counter poster "Scan karo, WhatsApp pe order karo" with a QR made on the device (vendored MIT `qrcode-generator`, no CDN). Print / Save as PDF. |
+| `privacy.html`, `terms.html`, `refund.html` | Simple, DPDP-aware policies with Hindi summaries. Shops handle their own GST/FSSAI. |
+| `manifest.webmanifest`, `sw.js`, `assets/js/pwa.js` | Installable app + offline shell. |
+| `sitemap.xml`, `robots.txt` | SEO basics. |
+
+### Niche demos (all fictional, sample prices)
+
+| Demo | File | Link |
+|---|---|---|
+| Sharma Kirana Store | `store/shops/kirana.json` | `store/?shop=kirana` |
+| Shree Mithai Ghar | `store/shops/mithai.json` | `store/?shop=mithai` |
+| Fresh Oven Bakery | `store/shops/bakery.json` | `store/?shop=bakery` |
+| Ghar Ka Swaad Kitchen | `store/shops/cloud-kitchen.json` | `store/?shop=cloud-kitchen` |
+
+**New shop in ~30 minutes:** copy one JSON file and edit it. Step-by-step in Hindi and English: [`docs/NEW-SHOP.md`](docs/NEW-SHOP.md).
+
+## Pricing shown on the site
+
+Starter ₹999 one-time setup + ₹149/month (first month free) · Udhaar Khata Pro +₹99/month · Festival posters ₹199/set · Template licence ₹1,499–₹2,999 · Reseller ₹499/month. Change them in `index.html` and `assets/js/site-i18n.js` (both languages), and in `terms.html`.
 
 ## Project structure
 
 ```
-kirana-smart/
-  index.html          customer storefront
-  admin.html          shopkeeper demo dashboard
-  vercel.json         static hosting settings
-  assets/
-    css/style.css
-    js/config.js      <- shop name, WhatsApp number, delivery fee
-    js/products.js    <- demo products and sample orders
-    js/i18n.js        <- English and Hindi text
-    js/common.js      shared helpers (storage, validation, WhatsApp)
-    js/cart.js        cart logic
-    js/app.js         storefront
-    js/admin.js       dashboard
-    images/           logo and placeholder
-  tests/              automated checks (run with Node)
-  README.md  DEPLOYMENT.md  TESTING.md
+index.html                      landing page (shopkeepers)
+shop-website-<city>.html        Lucknow / Kanpur / Varanasi SEO pages
+udhaar.html  qr-poster.html     shop tools
+privacy.html terms.html refund.html
+store/
+  index.html  admin.html        shop website + demo dashboard
+  shops/*.json                  ONE file per shop (name, number, hours, colours, categories, products)
+assets/
+  css/style.css                 design system (greens + turmeric on cream) + store
+  css/site.css  css/tools.css   landing/city/legal pages, udhaar + QR poster (+ A4 print)
+  js/site-config.js             <- YOUR WhatsApp number (TODO)
+  js/site-i18n.js  js/site.js   landing texts (en/hi) + WhatsApp links + preview
+  js/shop-loader.js             picks ?shop= and fetches its JSON
+  js/i18n.js common.js cart.js app.js admin.js   store (shared helpers, cart, storefront, dashboard)
+  js/udhaar-core.js udhaar.js   Udhaar Khata logic + page
+  js/qr-poster.js               poster + QR (uses assets/vendor/qrcode-generator)
+  js/pwa.js                     registers sw.js
+  images/                       original SVG art, icons, OG image
+docs/NEW-SHOP.md                how to add a shop
+tests/                          static, logic, sell-kit and browser tests
+manifest.webmanifest sw.js sitemap.xml robots.txt vercel.json
 ```
 
-## Customise for a shop
+## Demo-only (be honest with shop owners)
 
-1. Open `assets/js/config.js`.
-2. Change `storeName`, `storeLocation`.
-3. Set `whatsappNumber` to the shop's number: country code plus 10 digits, digits only, e.g. `919876543210`. Until you replace the placeholder `91XXXXXXXXXX`, checkout shows an error instead of opening WhatsApp. This is on purpose.
-4. Set `deliveryFee` and `freeDeliveryAbove` (in rupees). `0` fee means free delivery.
-5. Optional: `brandColor` (hex like `#14532d`) and `defaultLanguage` (`"en"` or `"hi"`).
-6. Save and refresh.
+- **No online payment.** Customers pay the shop directly (cash/UPI). The site never takes payment.
+- **WhatsApp is the order channel.** An order exists only when the customer presses **Send** in WhatsApp.
+- **Dashboard and Udhaar Khata data are local** to one browser on one device. No login, no cloud sync. To change prices for every customer, edit the shop's JSON file and deploy.
+- **Udhaar Khata is a record book only**, not lending or payments.
+- **Demo shops, products, prices, sample orders and reviews are fictional.**
 
-## Replace demo products and prices
+## Preview / deploy
 
-1. Open `assets/js/products.js`. Each product is one line with `name`, `nameHi`, `category`, `price`, `unit`, `stock`, and so on. The field list is at the top of the file.
-2. Edit, add or remove lines. Keep every `id` unique. Categories allowed: `atta, rice, dal, oil, dairy, snacks, beverages, personal, cleaning`.
-3. Optional `mrp` (original price) shows a discount badge. Optional `image`: an `https://` link or a file in `assets/images/`. Leave `""` for an automatic picture.
-4. **Important:** browsers keep the first copy of the product list. After editing `products.js`, open `admin.html`, go to **Settings**, press **Reset demo data**. (Or clear the site data in your browser.) Customers visiting for the first time will see your new list automatically.
+- GitHub Pages: push to `main`; the site is served from the repository root.
+- Vercel: see `DEPLOYMENT.md`.
+- Locally: any static server from the repo root (for example `npx serve .`), then open `http://localhost:3000/`. The store needs a server (it fetches its JSON); opening the HTML file directly will show "shop not found".
+- After changing files, bump `CACHE` in `sw.js` (`ks-shell-v2`, …) so installed phones refresh.
 
-You can also add or edit single products in the dashboard, but those edits stay on that device only.
+## Tests
 
-## Preview on an Android phone
+See `TESTING.md`. Quick run:
 
-- **Easiest:** deploy to Vercel (see `DEPLOYMENT.md`) and open the link on the phone.
-- **Local file:** extract the ZIP with a file manager, then open `index.html` in Chrome. It works from a file too. If the phone refuses, use the Vercel route.
-
-## Upload to GitHub and deploy to Vercel
-
-Step-by-step, Android-friendly instructions are in **DEPLOYMENT.md**.
-
-## Troubleshooting
-
-| Problem | Fix |
-|---|---|
-| Checkout says the WhatsApp number is not set up | Put a real number in `config.js` (format `91XXXXXXXXXX`) and redeploy. |
-| WhatsApp does not open | Install WhatsApp, or tap "Open WhatsApp again" / "Copy order message" on the screen after checkout. |
-| My product edits do not show | Dashboard > Settings > Reset demo data (restores `products.js`). |
-| Page looks unstyled or blank | Check that the `assets` folder was uploaded with the same folder names. File names are case-sensitive on Vercel. |
-| Something broke after many edits | Dashboard > Settings > Reset demo data. |
-| Images missing | An automatic picture is used when an image link fails. Check the link starts with `https://`. |
-| Browser blocks storage (private mode) | The site still works, but cart and edits are lost on refresh. |
+```
+node tests/static.test.js && node tests/logic.test.js && node tests/sellkit.test.js
+node tests/e2e.js        # needs playwright + chromium
+```
 
 ## Security notes
 
-- No secrets, passwords or API keys anywhere.
-- All user text is added to the page with `textContent` (no unsafe HTML), and there is no `eval()`.
-- A Content-Security-Policy meta tag limits scripts to this site.
-- Prices must be above zero and quantities whole numbers within stock.
+- No secrets, passwords or API keys. No external scripts, fonts or CDNs.
+- All user text is inserted with `textContent`; no `eval()`, no `innerHTML`.
+- Content-Security-Policy meta on every page (`script-src 'self'`).
+- Shop JSON values are validated (ids, colours, image URLs, prices) before use.
