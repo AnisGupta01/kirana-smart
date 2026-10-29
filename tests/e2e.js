@@ -11,7 +11,7 @@ let chromium;
 try { ({ chromium } = require("playwright")); } catch (e) { ({ chromium } = require("/opt/npm-tools/node_modules/playwright")); }
 
 const root = path.join(__dirname, "..");
-const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".json": "application/json" };
+const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".json": "application/json", ".png": "image/png", ".webmanifest": "application/manifest+json", ".xml": "application/xml", ".txt": "text/plain; charset=utf-8" };
 
 let passed = 0, failed = 0;
 function ok(cond, name, extra) {
@@ -23,7 +23,7 @@ function serve() {
   return new Promise((resolve) => {
     const srv = http.createServer((req, res) => {
       let p = decodeURIComponent(req.url.split("?")[0]);
-      if (p === "/") p = "/index.html";
+      if (p.endsWith("/")) p += "index.html";
       const file = path.join(root, p);
       if (!file.startsWith(root) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); res.end("not found"); return; }
       res.writeHead(200, { "Content-Type": MIME[path.extname(file)] || "application/octet-stream" });
@@ -33,8 +33,8 @@ function serve() {
   });
 }
 
-async function newPage(browser, base, viewport, problems) {
-  const ctx = await browser.newContext({ viewport: viewport || { width: 390, height: 800 }, locale: "en-IN" });
+async function newPage(browser, base, viewport, problems, opts) {
+  const ctx = await browser.newContext(Object.assign({ viewport: viewport || { width: 390, height: 800 }, locale: "en-IN" }, opts || {}));
   const page = await ctx.newPage();
   page.on("pageerror", (e) => problems.push("pageerror: " + e.message));
   page.on("console", (m) => { if (m.type() === "error") problems.push("console: " + m.text()); });
@@ -58,7 +58,7 @@ async function overflowX(page) {
     /* ---------------- Storefront ---------------- */
     console.log("Storefront - load and layout");
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems);
-    await page.goto(base + "/index.html");
+    await page.goto(base + "/store/index.html");
     await page.waitForSelector("#productGrid .product-card");
     ok((await page.locator("#productGrid .product-card").count()) === 33, "33 products rendered in catalog");
     ok((await page.title()).includes("Kirana Smart"), "page title");
@@ -240,7 +240,7 @@ async function overflowX(page) {
 
     /* ---------------- Dashboard ---------------- */
     console.log("Dashboard - overview and products");
-    await page.goto(base + "/admin.html");
+    await page.goto(base + "/store/admin.html");
     await page.waitForSelector("#overviewStats .stat");
     ok((await page.locator("#overviewStats .stat").count()) === 6, "6 overview stats");
     ok((await page.textContent("#stat-total .stat-value")) === "33", "overview total products 33");
@@ -363,14 +363,14 @@ async function overflowX(page) {
     await page.click("#saveSettingsBtn");
     ok(await page.locator("#settingsMsg").isVisible(), "settings saved message");
 
-    await page.goto(base + "/index.html");
+    await page.goto(base + "/store/index.html");
     await page.waitForSelector("#productGrid .product-card");
     ok((await page.textContent("#storeLine")).includes("Gupta General Store"), "store name change visible on storefront (same browser)");
     ok((await page.locator('#productGrid .product-card[data-product="p002"]').textContent()).includes("Currently unavailable"), "unavailable product shown as unavailable on storefront");
     ok((await page.locator('#productGrid .product-card[data-product="p001"] .card-price strong').textContent()) === "₹240", "price change visible on storefront");
 
     /* reset demo */
-    await page.goto(base + "/admin.html#settings");
+    await page.goto(base + "/store/admin.html#settings");
     await page.waitForSelector("#resetDemoBtn");
     await page.click("#resetDemoBtn");
     await page.click(".modal .btn-ghost");
@@ -400,7 +400,7 @@ async function overflowX(page) {
     /* desktop layout */
     console.log("Desktop and keyboard");
     const d = await newPage(browser, base, { width: 1280, height: 800 }, problems);
-    await d.page.goto(base + "/index.html");
+    await d.page.goto(base + "/store/index.html");
     await d.page.waitForSelector("#productGrid .product-card");
     ok(await d.page.locator("#siteNav").isVisible(), "nav bar visible on desktop");
     ok(await d.page.locator("#menuBtn").isHidden(), "hamburger hidden on desktop");
@@ -417,7 +417,7 @@ async function overflowX(page) {
     const ep = await e.newPage();
     const eerrs = [];
     ep.on("pageerror", (x) => eerrs.push(x.message));
-    await ep.goto(base + "/index.html");
+    await ep.goto(base + "/store/index.html");
     await ep.waitForSelector("#productGrid .product-card");
     ok(eerrs.length === 0 && (await ep.locator("#productGrid .product-card").count()) === 33, "store still works when browser blocks storage");
     await e.close();
@@ -430,10 +430,12 @@ async function overflowX(page) {
     const p2 = await c2.newPage();
     const e2 = [];
     p2.on("pageerror", (x) => e2.push(x.message));
-    await p2.goto(base + "/index.html");
+    await p2.goto(base + "/store/index.html");
     await p2.waitForSelector("#productGrid .product-card");
     ok(e2.length === 0 && (await p2.locator("#productGrid .product-card").count()) === 33 && (await p2.textContent("#cartCount")) === "0", "corrupt LocalStorage handled gracefully");
     await c2.close();
+
+    await require("./e2e-sellkit.js")({ browser, base, problems, ok, newPage, overflowX, root });
 
     const nf = await browser.newContext();
     const np = await nf.newPage();
