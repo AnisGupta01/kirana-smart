@@ -337,7 +337,7 @@ main:focus { outline: none; }
 .field label, .field legend { font-weight: 700; font-size: 0.88rem; color: var(--ink); }
 .filters .field { margin-bottom: 0; }
 .filters .field label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-input[type="text"], input[type="tel"], input[type="search"], input[type="number"], select, textarea {
+input[type="text"], input[type="tel"], input[type="url"], input[type="search"], input[type="number"], select, textarea {
   width: 100%; min-height: 48px; padding: 10px 14px; font: inherit; color: var(--ink);
   background: #fff; border: 1.5px solid var(--line-strong); border-radius: 12px;
   transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
@@ -347,7 +347,7 @@ select {
   background: #fff url("../images/chevron.svg") right 12px center / 18px 18px no-repeat;
 }
 input[type="text"]:hover, input[type="tel"]:hover, select:hover, textarea:hover { border-color: #a9a28c; }
-input[type="text"]:focus, input[type="tel"]:focus, input[type="number"]:focus, select:focus, textarea:focus,
+input[type="text"]:focus, input[type="tel"]:focus, input[type="url"]:focus, input[type="number"]:focus, select:focus, textarea:focus,
 .inv-list input[type="search"]:focus, #invSearch:focus {
   outline: none; border-color: var(--brand-600); box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.15);
 }
@@ -850,3 +850,32 @@ body.has-cartbar .toasts { bottom: calc(92px + env(safe-area-inset-bottom, 0px))
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
+
+/* ============================================================
+   Shops (store/shops/*.json): monogram logo, live-shop mode,
+   "made with" footer link, dashboard tools
+   ============================================================ */
+.brand-mono {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--brand), var(--brand-600));
+  color: #fff; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+  border: 2px solid var(--accent);
+}
+.is-live-shop [data-demo-only] { display: none !important; }
+.made-with { font-size: 0.85rem; opacity: 0.9; }
+.made-with a { font-weight: 700; }
+.tools-box { margin-bottom: 12px; }
+.tools-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.tools-links .btn { flex: 1 1 220px; }
+/* Shops with their own colours (mithai, bakery, cloud kitchen, real shops) */
+.has-shop-colors { --brand-50: #fff8eb; --brand-100: #fdecc8; }
+.has-shop-colors .hero {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(251, 191, 36, 0.30) 0%, rgba(251, 191, 36, 0) 55%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.28) 100%),
+    var(--brand);
+}
+.has-shop-colors .hero-sub, .has-shop-colors .hero-points li { color: #fff3e6; }
+.has-shop-colors .btn-primary:hover, .has-shop-colors .btn-cart:hover { background: var(--brand); filter: brightness(0.88); }
+.cat-icon-art { overflow: hidden; background: #fff; }
+.cat-icon-art img { width: 36px; height: 36px; }

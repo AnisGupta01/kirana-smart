@@ -1,0 +1,9 @@
+# Kirana Smart
+# Note: on GitHub Pages project sites (username.github.io/kirana-smart/) search engines
+# only read robots.txt from the domain root. This file takes effect once the site is
+# served from its own domain or from the root of username.github.io.
+User-agent: *
+Allow: /
+Disallow: /store/admin.html
+
+Sitemap: https://anisgupta01.github.io/kirana-smart/sitemap.xml

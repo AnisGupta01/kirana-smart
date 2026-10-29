@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-base="../">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -7,16 +7,19 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="robots" content="noindex, nofollow">
   <title data-i18n="page.title.admin">Shopkeeper Dashboard (Demo) - Kirana Smart</title>
-  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../assets/images/icon-180.png">
+  <script src="../assets/js/shop-loader.js"></script>
 </head>
 <body class="admin-page">
   <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
 
   <header class="site-header">
     <div class="header-row">
-      <a class="brand" href="admin.html">
-        <img class="brand-logo" src="assets/images/logo.svg" alt="" width="40" height="40">
+      <a class="brand" href="admin.html" data-keep-shop>
+        <img class="brand-logo" src="../assets/images/logo.svg" alt="" width="40" height="40">
         <span class="brand-text">
           <strong data-brand-name>Kirana Smart</strong>
           <small class="store-line" data-i18n="admin.title">Shopkeeper Dashboard (Demo)</small>
@@ -24,7 +27,7 @@
       </a>
       <div class="header-actions">
         <button id="langBtn" class="btn btn-ghost btn-sm lang-btn" type="button"></button>
-        <a class="btn btn-cart" href="index.html" id="backToStore" data-i18n="admin.backToStore">Back to store</a>
+        <a class="btn btn-cart" href="index.html" data-keep-shop id="backToStore" data-i18n="admin.backToStore">Back to store</a>
       </div>
     </div>
   </header>
@@ -62,6 +65,13 @@
             <div class="box">
               <h3 data-i18n="ov.restock">Needs restocking</h3>
               <ul id="overviewLow" class="plain-list"></ul>
+            </div>
+          </div>
+          <div class="box tools-box">
+            <h3 data-i18n="tools.title">Shop tools</h3>
+            <div class="tools-links">
+              <a id="udhaarLink" class="btn btn-accent" href="../udhaar.html" data-i18n="tools.udhaar">Digital Udhaar Khata</a>
+              <a id="qrLink" class="btn btn-ghost" href="../qr-poster.html" data-i18n="tools.qr">Make QR poster for the counter</a>
             </div>
           </div>
           <p class="muted small" data-i18n="ov.sampleNote">Orders and sales here are sample data for demonstration.</p>
@@ -174,7 +184,7 @@
     <div class="container">
       <div class="footer-bottom footer-bottom-solo">
         <p><strong data-brand-name>Kirana Smart</strong> &middot; <span data-i18n="admin.footer">Demo dashboard: LocalStorage only, no login, no cloud sync. Not a secure production admin system.</span></p>
-        <p><a href="index.html" data-i18n="admin.backToStore">Back to store</a></p>
+        <p><a href="index.html" data-keep-shop data-i18n="admin.backToStore">Back to store</a></p>
       </div>
     </div>
   </footer>
@@ -185,10 +195,9 @@
     <div class="demo-banner">JavaScript is required to use this dashboard.</div>
   </noscript>
 
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/products.js"></script>
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/common.js"></script>
-  <script src="assets/js/admin.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script src="../assets/js/pwa.js"></script>
 </body>
 </html>

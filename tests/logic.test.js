@@ -20,7 +20,9 @@ function eq(a, b, name) {
   ok(same, name);
 }
 
-function makeWindow(config) {
+function readShop(id) { return JSON.parse(fs.readFileSync(path.join(root, "store/shops", id + ".json"), "utf8")); }
+
+function makeWindow(config, shopId) {
   const store = {};
   const win = {
     localStorage: {
@@ -28,16 +30,18 @@ function makeWindow(config) {
       setItem: (k, v) => { store[k] = String(v); },
       removeItem: (k) => { delete store[k]; }
     },
-    document: { documentElement: { lang: "en", style: { setProperty() {} } }, querySelectorAll: () => [], querySelector: () => null },
+    document: { documentElement: { lang: "en", style: { setProperty() {} }, getAttribute: () => null }, querySelectorAll: () => [], querySelector: () => null },
     navigator: {},
     setTimeout, console
   };
   win.window = win;
   win.global = win;
   vm.createContext(win);
-  ["config.js", "products.js", "i18n.js", "common.js", "cart.js"].forEach((f) => {
+  ["i18n.js", "common.js", "cart.js"].forEach((f) => {
     vm.runInContext(fs.readFileSync(path.join(root, "assets/js", f), "utf8"), win, { filename: f });
   });
+  /* the kirana demo shop: store/shops/kirana.json (what shop-loader.js fetches) */
+  win.KS.applyShop(readShop(shopId || "kirana"));
   if (config) Object.assign(win.KS_CONFIG, config);
   return { win, store };
 }

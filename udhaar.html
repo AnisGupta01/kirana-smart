@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14532d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="description" content="Digital Udhaar Khata demo: record credit given and payments received, see running balance, send a polite WhatsApp reminder, export CSV. Free demo by Kirana Smart.">
+  <link rel="canonical" href="https://anisgupta01.github.io/kirana-smart/udhaar.html">
+  <title data-i18n="ud.pageTitle">Digital Udhaar Khata (Demo) - Kirana Smart</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/tools.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/images/icon-180.png">
+</head>
+<body class="admin-page udhaar-page">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/images/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <strong>Kirana Smart</strong>
+          <small class="store-line" data-i18n="ud.title">Digital Udhaar Khata (Demo)</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <button id="langBtn" class="btn btn-ghost btn-sm lang-btn" type="button">हिंदी</button>
+        <a class="btn btn-cart" href="store/admin.html" data-i18n="ud.toDashboard">Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="container narrow">
+      <div class="demo-banner demo-banner-warn" role="note">
+        <strong data-i18n="demo.label">DEMO</strong>
+        <span data-i18n="ud.banner">Demo record book only. Data stays in this phone's browser, it is not backed up. Kirana Smart does not lend money or collect payments.</span>
+      </div>
+
+      <section class="ud-summary" aria-labelledby="udSumTitle">
+        <h1 id="udSumTitle" class="block-title" data-i18n="ud.heading">Udhaar Khata</h1>
+        <div class="stat-grid ud-stats">
+          <div class="stat"><span class="stat-label" data-i18n="ud.totalDue">Total baaki (to collect)</span><strong id="udTotalDue" class="stat-value">₹0</strong></div>
+          <div class="stat"><span class="stat-label" data-i18n="ud.dueCustomers">Customers with dues</span><strong id="udDueCount" class="stat-value">0</strong></div>
+          <div class="stat"><span class="stat-label" data-i18n="ud.customers">All customers</span><strong id="udCustCount" class="stat-value">0</strong></div>
+        </div>
+      </section>
+
+      <!-- List view -->
+      <section id="udListView" aria-labelledby="udListTitle">
+        <div class="box ud-shop">
+          <div class="field">
+            <label for="udShopName" data-i18n="ud.shopName">Your shop name (used in reminders)</label>
+            <input id="udShopName" type="text" maxlength="60" autocomplete="organization">
+          </div>
+        </div>
+
+        <form id="udAddForm" class="box ud-add" novalidate>
+          <h2 id="udListTitle" class="ud-h2" data-i18n="ud.addCustomer">Add customer</h2>
+          <div class="field-row two">
+            <div class="field" id="udf-name">
+              <label for="udName" data-i18n="ud.name">Customer name</label>
+              <input id="udName" type="text" maxlength="60" autocomplete="off" required>
+              <p id="udErrName" class="field-error" hidden></p>
+            </div>
+            <div class="field" id="udf-phone">
+              <label for="udPhone" data-i18n="ud.phone">Mobile number (optional)</label>
+              <input id="udPhone" type="tel" inputmode="numeric" maxlength="16" autocomplete="off">
+              <p id="udErrPhone" class="field-error" hidden></p>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit" data-i18n="ud.add">Add customer</button>
+        </form>
+
+        <div class="toolbar ud-toolbar">
+          <div class="field grow">
+            <label for="udSearch" data-i18n="ud.search">Search customer</label>
+            <input id="udSearch" type="search" maxlength="60" autocomplete="off">
+          </div>
+          <button id="udExport" class="btn btn-ghost" type="button" data-i18n="ud.export">Export CSV</button>
+        </div>
+
+        <ul id="udList" class="ud-list" aria-live="polite"></ul>
+        <div id="udEmpty" class="state-panel" hidden>
+          <h3 data-i18n="ud.emptyTitle">No customers yet</h3>
+          <p class="muted" data-i18n="ud.emptyText">Add your first customer above, or load sample data to see how it works.</p>
+          <button id="udSample" class="btn btn-accent" type="button" data-i18n="ud.loadSample">Load sample customers</button>
+        </div>
+      </section>
+
+      <!-- Customer view -->
+      <section id="udCustView" aria-labelledby="udCustName" hidden>
+        <button id="udBack" class="btn btn-ghost btn-sm" type="button" data-i18n="ud.back">&larr; All customers</button>
+        <div class="box ud-cust-head">
+          <div>
+            <h2 id="udCustName" class="ud-h2"></h2>
+            <p id="udCustPhone" class="muted small"></p>
+          </div>
+          <div class="ud-balance">
+            <span class="stat-label" id="udBalLabel" data-i18n="ud.balance">Balance</span>
+            <strong id="udBalance" class="ud-bal-value">₹0</strong>
+          </div>
+        </div>
+
+        <form id="udEntryForm" class="box" novalidate>
+          <div class="field-row two">
+            <div class="field">
+              <label for="udAmount" data-i18n="ud.amount">Amount (₹)</label>
+              <input id="udAmount" type="text" inputmode="decimal" maxlength="10" autocomplete="off">
+              <p id="udErrAmount" class="field-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="udNote" data-i18n="ud.note">Note (optional)</label>
+              <input id="udNote" type="text" maxlength="80" autocomplete="off">
+              <p id="udErrNote" class="field-error" hidden></p>
+            </div>
+          </div>
+          <div class="ud-entry-btns">
+            <button id="udGave" class="btn btn-danger" type="submit" value="credit" data-i18n="ud.gave">Udhaar diya (+)</button>
+            <button id="udGot" class="btn btn-primary" type="submit" value="payment" data-i18n="ud.got">Paisa mila (&minus;)</button>
+          </div>
+        </form>
+
+        <div class="ud-actions">
+          <a id="udRemind" class="btn btn-whatsapp" href="https://wa.me/" target="_blank" rel="noopener noreferrer" data-i18n="ud.remind">Send WhatsApp reminder</a>
+          <button id="udDelete" class="btn btn-danger-ghost" type="button" data-i18n="ud.deleteCustomer">Delete customer</button>
+        </div>
+        <p class="muted small" data-i18n="ud.remindHint">WhatsApp opens with a polite Hindi message. Nothing is sent until you press Send.</p>
+
+        <h3 class="ud-h3" data-i18n="ud.history">History</h3>
+        <div class="table-wrap">
+          <table class="ud-table">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="ud.colDate">Date</th>
+                <th scope="col" data-i18n="ud.colNote">Note</th>
+                <th scope="col" class="num" data-i18n="ud.colAmount">Amount</th>
+                <th scope="col" class="num" data-i18n="ud.colBalance">Balance</th>
+                <th scope="col"><span class="sr-only" data-i18n="ud.colActions">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="udLedger"></tbody>
+          </table>
+        </div>
+        <p id="udNoEntries" class="muted" data-i18n="ud.noEntries" hidden>No entries yet.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom footer-bottom-solo">
+        <p><strong>Kirana Smart</strong> &middot; <span data-i18n="ud.footer">Udhaar Khata demo. Not a lending, credit or payment service. Data stays on this device.</span></p>
+        <p><a href="index.html" data-i18n="ud.getOwn">Get a website + Udhaar Khata for your shop</a> &middot; <a href="privacy.html" data-i18n="legal.privacy">Privacy</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+  <noscript><div class="demo-banner">JavaScript is required for the Udhaar Khata demo.</div></noscript>
+
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/udhaar-core.js"></script>
+  <script src="assets/js/udhaar.js"></script>
+  <script src="assets/js/pwa.js"></script>
+</body>
+</html>

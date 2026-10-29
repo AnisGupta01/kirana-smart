@@ -1,0 +1,72 @@
+{
+  "_readme": "CLOUD KITCHEN DEMO. Fictional kitchen. All dishes, prices and portions are SAMPLE data. Copy this file to make a new shop - see docs/NEW-SHOP.md.",
+  "id": "cloud-kitchen",
+  "demo": true,
+  "niche": "cloud-kitchen",
+  "brandName": "Kirana Smart",
+  "storeName": "Ghar Ka Swaad Kitchen (Demo)",
+  "storeLocation": "Delivery only, Demo City (fictional address)",
+  "whatsappNumber": "917266042235",
+  "hours": {"en":"Lunch 12-3 PM, Dinner 7-11 PM (sample hours)","hi":"लंच 12-3 बजे, डिनर 7-11 बजे (नमूना समय)"},
+  "colors": {"brand":"#9a3412","accent":"#facc15"},
+  "logoText": "GS",
+  "heroImage": "assets/images/hero-kitchen.svg",
+  "deliveryFee": 30,
+  "freeDeliveryAbove": 399,
+  "deliveryNote": "Pure veg. Delivery within 4 km in about 40 minutes (sample terms).",
+  "pickupNote": "Self pickup from the kitchen gate.",
+  "lowStockThreshold": 5,
+  "defaultLanguage": "en",
+  "categories": [
+    {"id":"thali","en":"Thalis","hi":"थाली","art":"bowl","bg":"#fef3c7","fg":"#b45309"},
+    {"id":"mains","en":"Sabzi & Dal","hi":"सब्ज़ी और दाल","art":"bowl","bg":"#fee2e2","fg":"#b91c1c"},
+    {"id":"rice","en":"Biryani & Rice","hi":"बिरयानी और चावल","art":"bowl","bg":"#ecfccb","fg":"#4d7c0f"},
+    {"id":"rolls","en":"Rolls & Snacks","hi":"रोल और नाश्ता","art":"packet","bg":"#ffedd5","fg":"#c2410c"},
+    {"id":"drinks","en":"Drinks","hi":"ड्रिंक्स","art":"cup","bg":"#e0f2fe","fg":"#0369a1"},
+    {"id":"desserts","en":"Desserts","hi":"मीठा","art":"sweet","bg":"#fae8ff","fg":"#a21caf"}
+  ],
+  "text": {
+    "en": {
+      "page.title.store": "Ghar Ka Swaad Kitchen (Demo) - Order food on WhatsApp",
+      "hero.eyebrow": "Home-style veg food, cooked fresh",
+      "hero.title": "Ghar jaisa khana, order on WhatsApp",
+      "hero.sub": "Pick your thali or biryani, send the order on WhatsApp, and pay on delivery. No app commission.",
+      "hero.cta": "See the menu",
+      "search.placeholder": "Search dishes (e.g. thali, biryani, roll)",
+      "footer.about": "A home-style cloud kitchen, now online. Order on WhatsApp and pay the kitchen directly.",
+      "how.s1.d": "Add dishes to your cart. No sign-up needed."
+    },
+    "hi": {
+      "page.title.store": "घर का स्वाद किचन (डेमो) - WhatsApp पर खाना ऑर्डर करें",
+      "hero.eyebrow": "घर जैसा शाकाहारी खाना, ताज़ा बना",
+      "hero.title": "घर जैसा खाना, WhatsApp पर ऑर्डर",
+      "hero.sub": "थाली या बिरयानी चुनें, ऑर्डर WhatsApp पर भेजें और डिलीवरी पर भुगतान करें। ऐप का कमीशन नहीं।",
+      "hero.cta": "मेन्यू देखें",
+      "search.placeholder": "डिश खोजें (जैसे थाली, बिरयानी, रोल)",
+      "footer.about": "घर जैसा खाना बनाने वाला क्लाउड किचन, अब ऑनलाइन। WhatsApp पर ऑर्डर करें और भुगतान सीधे किचन को करें।",
+      "how.s1.d": "डिश कार्ट में डालें। साइन-अप की ज़रूरत नहीं।"
+    }
+  },
+  "products": [
+    {"id":"k001","name":"Regular Veg Thali","nameHi":"रेगुलर वेज थाली","category":"thali","price":149,"mrp":null,"unit":"1 plate","stock":30,"available":true,"featured":true,"popular":true,"image":""},
+    {"id":"k002","name":"Special Thali (Paneer)","nameHi":"स्पेशल थाली (पनीर)","category":"thali","price":199,"mrp":229,"unit":"1 plate","stock":20,"available":true,"featured":true,"popular":true,"image":""},
+    {"id":"k003","name":"Mini Thali","nameHi":"मिनी थाली","category":"thali","price":99,"mrp":null,"unit":"1 plate","stock":25,"available":true,"popular":true,"image":""},
+    {"id":"k004","name":"Paneer Butter Masala","nameHi":"पनीर बटर मसाला","category":"mains","price":220,"mrp":null,"unit":"Full (serves 2)","stock":12,"available":true,"popular":true,"image":""},
+    {"id":"k005","name":"Dal Makhani","nameHi":"दाल मखनी","category":"mains","price":180,"mrp":null,"unit":"Full (serves 2)","stock":15,"available":true,"image":""},
+    {"id":"k006","name":"Rajma Chawal","nameHi":"राजमा चावल","category":"mains","price":130,"mrp":null,"unit":"1 plate","stock":20,"available":true,"popular":true,"image":""},
+    {"id":"k007","name":"Chole Bhature","nameHi":"छोले भटूरे","category":"mains","price":120,"mrp":null,"unit":"2 pcs","stock":4,"available":true,"image":""},
+    {"id":"k008","name":"Veg Biryani","nameHi":"वेज बिरयानी","category":"rice","price":160,"mrp":null,"unit":"1 plate","stock":15,"available":true,"featured":true,"image":""},
+    {"id":"k009","name":"Paneer Biryani","nameHi":"पनीर बिरयानी","category":"rice","price":199,"mrp":null,"unit":"1 plate","stock":10,"available":true,"image":""},
+    {"id":"k010","name":"Jeera Rice","nameHi":"जीरा राइस","category":"rice","price":110,"mrp":null,"unit":"1 plate","stock":0,"available":true,"image":""},
+    {"id":"k011","name":"Paneer Kathi Roll","nameHi":"पनीर काठी रोल","category":"rolls","price":110,"mrp":null,"unit":"1 pc","stock":20,"available":true,"popular":true,"image":""},
+    {"id":"k012","name":"Veg Roll","nameHi":"वेज रोल","category":"rolls","price":80,"mrp":null,"unit":"1 pc","stock":20,"available":true,"image":""},
+    {"id":"k013","name":"Sweet Lassi","nameHi":"मीठी लस्सी","category":"drinks","price":60,"mrp":null,"unit":"300 ml","stock":25,"available":true,"image":""},
+    {"id":"k014","name":"Masala Chaas","nameHi":"मसाला छाछ","category":"drinks","price":40,"mrp":null,"unit":"300 ml","stock":25,"available":true,"image":""},
+    {"id":"k015","name":"Gulab Jamun","nameHi":"गुलाब जामुन","category":"desserts","price":50,"mrp":null,"unit":"2 pcs","stock":30,"available":true,"image":""}
+  ],
+  "sampleOrders": [
+    {"n":1,"minsAgo":8,"status":"Pending","name":"Demo Customer A","phone":"98XXXXXX31","type":"delivery","address":"Room 0, Sample PG, Demo City (fictional address)","notes":"Less spicy please (sample note).","items":[["k001",2],["k013",2]]},
+    {"n":2,"minsAgo":45,"status":"Accepted","name":"Demo Customer B","phone":"97XXXXXX32","type":"delivery","address":"Office 0, Sample Plaza, Demo City (fictional address)","notes":"","items":[["k008",3],["k015",3]]},
+    {"n":3,"minsAgo":200,"status":"Completed","name":"Demo Customer C","phone":"96XXXXXX33","type":"pickup","address":"","notes":"","items":[["k011",2],["k014",2]]}
+  ]
+}

@@ -1,0 +1,108 @@
+/* ============================================================
+   KIRANA SMART - SHOP TOOLS
+   Digital Udhaar Khata (udhaar.html) and the QR poster maker
+   (qr-poster.html), including the A4 print layout.
+   ============================================================ */
+.narrow { max-width: 860px; }
+.ud-h2 { font-size: 1.2rem; margin-bottom: 10px; }
+.ud-h3 { font-size: 1.05rem; margin: 22px 0 10px; }
+.ud-summary { margin-top: 16px; }
+.ud-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ud-stats .stat:first-child { grid-column: 1 / -1; }
+.ud-stats .stat-value { font-size: 1.4rem; overflow-wrap: normal; white-space: nowrap; }
+.ud-stats .stat:first-child .stat-value { font-size: 1.9rem; color: #b42318; }
+.ud-shop, .ud-add, #udEntryForm { margin-bottom: 12px; }
+.ud-shop .field { margin-bottom: 0; }
+.field-row.two { grid-template-columns: 1fr; }
+.ud-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin: 4px 0 12px; }
+.ud-toolbar .grow { flex: 1 1 200px; }
+.ud-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ud-row-btn {
+  display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px;
+  padding: 12px 14px; border-radius: var(--radius); border: 1px solid var(--line); background: #fff;
+  font: inherit; color: var(--ink); text-align: left; cursor: pointer; box-shadow: var(--shadow-sm);
+}
+.ud-row-btn:hover { border-color: var(--brand-600); }
+.ud-row-main { display: flex; flex-direction: column; min-width: 0; }
+.ud-row-name { overflow-wrap: anywhere; }
+.ud-pill { flex: none; padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 0.85rem; white-space: nowrap; }
+.ud-pill.due { background: #fee2e2; color: #991b1b; }
+.ud-pill.adv { background: #e0f2fe; color: #075985; }
+.ud-pill.clear { background: var(--brand-100); color: var(--brand); }
+.ud-nomatch { padding: 10px 4px; }
+.ud-cust-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin: 12px 0; }
+.ud-cust-head .ud-h2 { margin: 0; overflow-wrap: anywhere; }
+.ud-balance { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.ud-bal-value { font-size: 1.9rem; font-weight: 800; line-height: 1.1; }
+.ud-bal-value.due, .ud-table .due { color: #b42318; }
+.ud-bal-value.adv, .ud-table .adv { color: #0f7a3f; }
+.ud-bal-value.clear { color: var(--brand); }
+.ud-entry-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ud-entry-btns .btn { min-height: 52px; }
+.ud-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 4px; }
+.ud-actions .btn { flex: 1 1 200px; }
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ud-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); font-size: 0.92rem; }
+.ud-table th, .ud-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+.ud-table th { background: var(--bg); font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.ud-table .num { text-align: right; white-space: nowrap; }
+.ud-table td:nth-child(2) { overflow-wrap: anywhere; }
+.ud-del { width: 36px; height: 36px; }
+@media (min-width: 640px) {
+  .field-row.two { grid-template-columns: 1fr 1fr; }
+  .ud-stats { grid-template-columns: 1.4fr 1fr 1fr; }
+  .ud-stats .stat:first-child { grid-column: auto; }
+  .ud-stats .stat-value { font-size: 1.6rem; }
+}
+
+/* ---------------- QR poster ---------------- */
+.qr-page { padding-bottom: 0; }
+.qr-layout { display: grid; gap: 20px; padding-top: 20px; padding-bottom: 32px; align-items: start; }
+.qr-form .field { margin-bottom: 12px; }
+.qr-themes { border: 0; padding: 0; margin: 0 0 12px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.qr-themes legend { margin-bottom: 6px; }
+.qr-themes label { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; font-weight: 600; }
+.qr-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.qr-btns .btn { flex: 1 1 160px; }
+.qr-stage { display: flex; justify-content: center; min-width: 0; }
+
+/* The poster is laid out in mm so it prints exactly on A4 */
+.poster {
+  --p-main: #14532d; --p-dark: #0d361e; --p-accent: #f59e0b;
+  width: 210mm; height: 297mm; flex: none; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  background: #fffdf7; color: #17231c; border-radius: 4mm; box-shadow: var(--shadow-lg);
+  transform-origin: top center;
+  zoom: 0.42;
+}
+.poster.theme-maroon { --p-main: #7f1d1d; --p-dark: #4c0d0d; }
+.poster.theme-brown { --p-main: #7c2d12; --p-dark: #4a1a0a; }
+.poster-top { width: 100%; padding: 12mm 12mm 9mm; background: linear-gradient(140deg, var(--p-main), var(--p-dark)); color: #fff; border-bottom: 3mm solid var(--p-accent); }
+.poster-shop { margin: 0; font-size: 17mm; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+.poster-line { margin: 3mm 0 0; font-size: 7mm; font-weight: 700; color: #fde68a; }
+.poster-head { margin: 9mm 8mm 2mm; font-size: 12.5mm; line-height: 1.1; color: var(--p-main); }
+.poster-head-hi { margin: 0 0 6mm; font-size: 8mm; font-weight: 700; color: #3f4a43; }
+.poster-qr-wrap { padding: 6mm; border-radius: 6mm; background: #fff; border: 2.5mm solid var(--p-main); box-shadow: 0 2mm 0 var(--p-accent); }
+.poster-qr { width: 100mm; height: 100mm; }
+.poster-qr svg { display: block; width: 100%; height: 100%; }
+.poster-url { margin: 5mm 10mm 0; font-size: 6.2mm; font-weight: 700; color: #3f4a43; overflow-wrap: anywhere; }
+.poster-steps { list-style: none; margin: 8mm 0 0; padding: 0 8mm; display: flex; gap: 5mm; justify-content: center; }
+.poster-steps li { display: flex; align-items: center; gap: 2.5mm; text-align: left; font-size: 5.2mm; white-space: nowrap; font-weight: 800; line-height: 1.15; }
+.poster-steps small { font-size: 4.6mm; font-weight: 600; color: #55645b; }
+.ps-n { flex: none; width: 11mm; height: 11mm; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--p-accent); color: #2b1a00; font-size: 6mm; }
+.poster-foot { margin: auto 0 9mm; padding-top: 5mm; font-size: 4.6mm; color: #55645b; font-weight: 600; }
+
+@media (min-width: 900px) {
+  .qr-layout { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); }
+  .poster { zoom: 0.6; }
+}
+@media (max-width: 360px) { .poster { zoom: 0.38; } }
+
+@page { size: A4; margin: 0; }
+@media print {
+  html, body { background: #fff !important; margin: 0 !important; padding: 0 !important; min-height: 0 !important; display: block !important; }
+  .no-print, .lp-sticky, .toasts, .wa-notice { display: none !important; }
+  main, .lp-wrap, .qr-layout, .qr-stage { display: block !important; margin: 0 !important; padding: 0 !important; max-width: none !important; width: auto !important; }
+  html { overflow: hidden; }
+  .poster { zoom: 1 !important; height: 296mm; border-radius: 0; box-shadow: none; margin: 0; page-break-after: avoid; break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

@@ -8,7 +8,9 @@
   "use strict";
 
   var KS = (global.KS = global.KS || {});
-  var CFG = global.KS_CONFIG || {};
+  /* Shop settings come from store/shops/<id>.json (see KS.applyShop).
+     Read lazily so the JSON can arrive after this file has loaded. */
+  function cfg() { return global.KS_CONFIG || {}; }
   var doc = global.document;
 
   var KEYS = {
@@ -19,6 +21,7 @@
     lang: "ks_lang_v1"
   };
   KS.KEYS = KEYS;
+  /* Default (kirana) categories. A shop JSON replaces these in place. */
   KS.CATEGORIES = ["atta", "rice", "dal", "oil", "dairy", "snacks", "beverages", "personal", "cleaning"];
   KS.ORDER_STATUSES = ["Pending", "Accepted", "Ready", "Completed", "Cancelled"];
 
@@ -88,7 +91,7 @@
 
   KS.money = function (n) {
     n = Number(n) || 0;
-    var sym = CFG.currency || "₹";
+    var sym = cfg().currency || "₹";
     var whole = Math.abs(n - Math.round(n)) < 0.000001;
     var txt = whole
       ? Math.round(n).toLocaleString("en-IN")
@@ -104,6 +107,14 @@
     return "";
   }
   KS.safeImageUrl = safeImageUrl;
+
+  /* Pages inside a sub-folder (store/) set <html data-base="../"> so
+     shared assets/... paths still resolve. */
+  KS.asset = function (u) {
+    var base = (doc && doc.documentElement && doc.documentElement.getAttribute && doc.documentElement.getAttribute("data-base")) || "";
+    if (!/^(\.\.\/)*$/.test(base)) base = "";
+    return /^assets\//.test(u) ? base + u : u;
+  };
 
   /* ---------------------------------------------------------
      Products
@@ -213,14 +224,14 @@
   }
   KS.defaultSettings = function () {
     return {
-      storeName: cleanText(CFG.storeName, 60) || "My Kirana Store",
-      storeLocation: cleanText(CFG.storeLocation, 100),
-      whatsappNumber: cleanText(CFG.whatsappNumber, 30),
-      deliveryFee: numOr(CFG.deliveryFee, 0, 0, 1000),
-      freeDeliveryAbove: numOr(CFG.freeDeliveryAbove, 0, 0, 100000),
-      lowStockThreshold: Math.floor(numOr(CFG.lowStockThreshold, 5, 0, 1000)),
-      deliveryNote: cleanText(CFG.deliveryNote, 120),
-      pickupNote: cleanText(CFG.pickupNote, 120)
+      storeName: cleanText(cfg().storeName, 60) || "My Kirana Store",
+      storeLocation: cleanText(cfg().storeLocation, 100),
+      whatsappNumber: cleanText(cfg().whatsappNumber, 30),
+      deliveryFee: numOr(cfg().deliveryFee, 0, 0, 1000),
+      freeDeliveryAbove: numOr(cfg().freeDeliveryAbove, 0, 0, 100000),
+      lowStockThreshold: Math.floor(numOr(cfg().lowStockThreshold, 5, 0, 1000)),
+      deliveryNote: cleanText(cfg().deliveryNote, 120),
+      pickupNote: cleanText(cfg().pickupNote, 120)
     };
   };
   KS.getSettings = function () {
@@ -610,7 +621,7 @@
   };
   KS.initLang = function () {
     var saved = lsGet(KEYS.lang);
-    lang = saved === "hi" || saved === "en" ? saved : (CFG.defaultLanguage === "hi" ? "hi" : "en");
+    lang = saved === "hi" || saved === "en" ? saved : (cfg().defaultLanguage === "hi" ? "hi" : "en");
     doc.documentElement.lang = lang;
   };
   KS.applyI18n = function (root) {
@@ -701,6 +712,34 @@
       body = '<path d="M40 36 h80 l-4 10 4 10 v68 l-4 0 4 12 h-80 l4 -12 -4 0 v-68 l4 -10 z" fill="' + fg + '"/>' +
         '<rect x="40" y="36" width="80" height="10" fill="#ffffff" fill-opacity="0.3"/>' +
         '<rect x="48" y="58" width="8" height="66" rx="4" fill="#ffffff" fill-opacity="0.22"/>';
+    } else if (art.shape === "sweet") {
+      body = '<ellipse cx="80" cy="126" rx="48" ry="9" fill="' + fg + '" fill-opacity="0.35"/>' +
+        '<circle cx="56" cy="112" r="17" fill="' + fg + '"/><circle cx="104" cy="112" r="17" fill="' + fg + '"/>' +
+        '<circle cx="80" cy="114" r="18" fill="' + fg + '" fill-opacity="0.85"/>' +
+        '<circle cx="68" cy="56" r="17" fill="' + fg + '"/><circle cx="92" cy="56" r="17" fill="' + fg + '" fill-opacity="0.85"/>' +
+        '<circle cx="62" cy="50" r="4" fill="#ffffff" fill-opacity="0.4"/><circle cx="86" cy="50" r="4" fill="#ffffff" fill-opacity="0.4"/>';
+    } else if (art.shape === "box") {
+      body = '<rect x="34" y="50" width="92" height="86" rx="8" fill="' + fg + '"/>' +
+        '<rect x="30" y="40" width="100" height="22" rx="6" fill="' + fg + '" fill-opacity="0.8"/>' +
+        '<rect x="74" y="40" width="12" height="96" fill="#ffffff" fill-opacity="0.45"/>' +
+        '<path d="M80 40 C64 22 52 30 66 40 M80 40 C96 22 108 30 94 40" stroke="' + fg + '" stroke-width="6" fill="none" stroke-linecap="round"/>';
+    } else if (art.shape === "cake") {
+      body = '<rect x="78" y="18" width="4" height="16" rx="2" fill="' + fg + '"/><ellipse cx="80" cy="16" rx="4" ry="6" fill="#f59e0b"/>' +
+        '<rect x="40" y="36" width="80" height="34" rx="8" fill="' + fg + '" fill-opacity="0.75"/>' +
+        '<rect x="30" y="66" width="100" height="70" rx="10" fill="' + fg + '"/>' +
+        '<path d="M30 76 q12 12 25 0 t25 0 t25 0 t25 0" stroke="#ffffff" stroke-opacity="0.5" stroke-width="6" fill="none"/>';
+    } else if (art.shape === "bread") {
+      body = '<path d="M36 70 Q36 34 80 34 Q124 34 124 70 L118 70 L118 136 L42 136 L42 70 Z" fill="' + fg + '"/>' +
+        '<path d="M60 52 l10 12 M80 48 l10 12 M100 52 l8 10" stroke="#ffffff" stroke-opacity="0.45" stroke-width="5" stroke-linecap="round"/>';
+    } else if (art.shape === "bowl") {
+      body = '<path d="M66 38 q-8 -10 0 -20 M80 38 q-8 -10 0 -20 M94 38 q-8 -10 0 -20" stroke="' + fg + '" stroke-opacity="0.6" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<ellipse cx="80" cy="60" rx="54" ry="12" fill="' + fg + '" fill-opacity="0.55"/>' +
+        '<path d="M26 60 Q30 132 80 132 Q130 132 134 60 Z" fill="' + fg + '"/>' +
+        '<rect x="56" y="132" width="48" height="6" rx="3" fill="' + fg + '"/>';
+    } else if (art.shape === "cup") {
+      body = '<path d="M46 34 h68 l-8 102 h-52 z" fill="' + fg + '"/>' +
+        '<rect x="42" y="28" width="76" height="10" rx="5" fill="' + fg + '" fill-opacity="0.8"/>' +
+        '<rect x="58" y="46" width="7" height="76" rx="3.5" fill="#ffffff" fill-opacity="0.3"/>';
     } else {
       body = '<rect x="42" y="42" width="76" height="18" rx="8" fill="' + fg + '" fill-opacity="0.8"/>' +
         '<rect x="46" y="58" width="68" height="78" rx="14" fill="' + fg + '"/>' +
@@ -718,7 +757,7 @@
   KS.productImg = function (p, cls) {
     var img = h("img", {
       class: cls || "",
-      src: p.image || KS.placeholderImage(p),
+      src: p.image ? KS.asset(p.image) : KS.placeholderImage(p),
       alt: KS.displayName(p),
       loading: "lazy",
       width: "160",
@@ -728,7 +767,7 @@
     img.addEventListener("error", function () {
       stage += 1;
       if (stage === 1) img.src = KS.placeholderImage(p);
-      else if (stage === 2) img.src = "assets/images/placeholder.svg";
+      else if (stage === 2) img.src = KS.asset("assets/images/placeholder.svg");
     });
     return img;
   };
@@ -825,13 +864,161 @@
      Branding
      --------------------------------------------------------- */
   KS.applyBranding = function () {
-    var c = CFG.brandColor;
+    var c = cfg().brandColor;
+    var root = doc.documentElement;
     if (typeof c === "string" && /^#[0-9a-fA-F]{6}$/.test(c)) {
-      doc.documentElement.style.setProperty("--brand", c);
+      root.style.setProperty("--brand", c);
+      if (cfg().shopColors) { root.style.setProperty("--brand-700", c); root.style.setProperty("--brand-600", c); }
       var meta = doc.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute("content", c);
     }
+    var a = cfg().accentColor;
+    if (typeof a === "string" && /^#[0-9a-fA-F]{6}$/.test(a)) root.style.setProperty("--accent", a);
+    /* A shop's own name is the brand on its pages; the kirana demo keeps "Kirana Smart" */
+    if (cfg().shopColors && root.classList) root.classList.add("has-shop-colors");
+    var brand = KS.usesShopName() ? KS.getSettings().storeName : (cfg().brandName || "Kirana Smart");
     var nm = doc.querySelectorAll("[data-brand-name]");
-    for (var i = 0; i < nm.length; i++) nm[i].textContent = CFG.brandName || "Kirana Smart";
+    for (var i = 0; i < nm.length; i++) nm[i].textContent = brand;
+    /* Shop monogram (logoText) replaces the generic logo in the header */
+    var mono = cleanText(cfg().logoText, 3);
+    if (mono) {
+      var logos = doc.querySelectorAll("img.brand-logo");
+      for (var j = 0; j < logos.length; j++) {
+        var span = h("span", { class: "brand-logo brand-mono", "aria-hidden": "true", text: mono });
+        logos[j].parentNode.replaceChild(span, logos[j]);
+      }
+    }
+    if (cfg().demo === false && root.classList) root.classList.add("is-live-shop");
+    var hero = cfg().heroImage ? safeImageUrl(cfg().heroImage) : "";
+    var heroImg = hero && doc.querySelector(".hero-art img");
+    if (heroImg) heroImg.setAttribute("src", KS.asset(hero));
+  };
+
+  KS.usesShopName = function () { return !!(KS.shop && KS.shop.id !== KS.DEFAULT_SHOP); };
+
+  /* ---------------------------------------------------------
+     Shops: one JSON file per shop in store/shops/<id>.json
+     --------------------------------------------------------- */
+  var BASE_KEYS = { products: "ks_products_v1", orders: "ks_orders_v1", settings: "ks_settings_v1", cart: "ks_cart_v1" };
+  var ART_SHAPES = ["sack", "bottle", "carton", "packet", "tub", "sweet", "box", "cake", "bread", "bowl", "cup"];
+  KS.DEFAULT_SHOP = "kirana";
+  KS.isValidShopId = function (id) { return typeof id === "string" && /^[a-z0-9][a-z0-9-]{0,39}$/.test(id); };
+  /* Reads ?shop=<id>. Returns the id, the default when absent, or null when invalid. */
+  KS.shopIdFromSearch = function (search) {
+    var m = /[?&]shop=([^&#]*)/.exec(search || "");
+    if (!m) return KS.DEFAULT_SHOP;
+    var id;
+    try { id = decodeURIComponent(m[1]).toLowerCase(); } catch (e) { return null; }
+    return KS.isValidShopId(id) ? id : null;
+  };
+  /* Storage keys: the kirana demo keeps the original keys, other shops get their own. */
+  KS.keysForShop = function (id) {
+    var out = {};
+    Object.keys(BASE_KEYS).forEach(function (k) {
+      out[k] = !id || id === KS.DEFAULT_SHOP ? BASE_KEYS[k] : BASE_KEYS[k].replace(/^ks_/, "ks_" + id + "_");
+    });
+    out.lang = "ks_lang_v1";
+    return out;
+  };
+  function hexOr(v, d) { return typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v) ? v : d; }
+
+  /* Validates a shop JSON object and installs it: settings, categories,
+     labels, products, sample orders and storage keys. Throws on bad data. */
+  KS.applyShop = function (shop) {
+    if (!shop || typeof shop !== "object") throw new Error("Shop file is empty or not valid JSON.");
+    var id = cleanText(shop.id, 40).toLowerCase();
+    if (!KS.isValidShopId(id)) throw new Error("Shop file needs a valid \"id\" (lowercase letters, numbers, dashes).");
+    if (!cleanText(shop.storeName, 60)) throw new Error("Shop file needs a \"storeName\".");
+    if (!Array.isArray(shop.products) || !shop.products.length) throw new Error("Shop file needs a \"products\" list.");
+    var colors = shop.colors || {};
+    var dicts = global.KS_I18N = global.KS_I18N || { en: {}, hi: {} };
+    dicts.en = dicts.en || {}; dicts.hi = dicts.hi || {};
+    function label(key, val) {
+      if (!val) return;
+      var en = typeof val === "string" ? val : cleanText(val.en, 300);
+      var hi = typeof val === "string" ? val : cleanText(val.hi, 300) || en;
+      if (!en) return;
+      dicts.en[key] = cleanText(en, 300);
+      dicts.hi[key] = cleanText(hi, 300);
+    }
+    if (Array.isArray(shop.categories) && shop.categories.length) {
+      var cats = [];
+      shop.categories.forEach(function (c) {
+        if (!c || !KS.isValidShopId(c.id) || cats.indexOf(c.id) >= 0 || !cleanText(c.en, 40)) return;
+        cats.push(c.id);
+        label("cat." + c.id, { en: c.en, hi: c.hi });
+        ART[c.id] = {
+          shape: ART_SHAPES.indexOf(c.art) >= 0 ? c.art : "packet",
+          bg: hexOr(c.bg, "#fef3c7"),
+          fg: hexOr(c.fg, "#b45309")
+        };
+      });
+      if (!cats.length) throw new Error("Shop file has no valid categories.");
+      KS.CATEGORIES.length = 0;
+      cats.forEach(function (c) { KS.CATEGORIES.push(c); });
+    }
+    if (shop.hours) label("footer.hours", shop.hours);
+    ["en", "hi"].forEach(function (l) {
+      var t = shop.text && shop.text[l];
+      if (!t || typeof t !== "object") return;
+      Object.keys(t).forEach(function (k) {
+        if (!/^[a-zA-Z0-9.]+$/.test(k) || typeof t[k] !== "string") return;
+        dicts[l][k] = cleanText(t[k], 300);
+        if (dicts[l === "en" ? "hi" : "en"][k] === undefined) dicts[l === "en" ? "hi" : "en"][k] = dicts[l][k];
+      });
+    });
+    global.KS_CONFIG = {
+      brandName: cleanText(shop.brandName, 40) || "Kirana Smart",
+      brandColor: hexOr(colors.brand, "#14532d"),
+      accentColor: hexOr(colors.accent, ""),
+      shopColors: id !== KS.DEFAULT_SHOP,
+      currency: "₹",
+      storeName: cleanText(shop.storeName, 60),
+      storeLocation: cleanText(shop.storeLocation, 100),
+      whatsappNumber: cleanText(shop.whatsappNumber, 30),
+      deliveryFee: shop.deliveryFee,
+      freeDeliveryAbove: shop.freeDeliveryAbove,
+      deliveryNote: cleanText(shop.deliveryNote, 120),
+      pickupNote: cleanText(shop.pickupNote, 120),
+      lowStockThreshold: shop.lowStockThreshold,
+      defaultLanguage: shop.defaultLanguage === "hi" ? "hi" : "en",
+      logoText: cleanText(shop.logoText, 3),
+      heroImage: safeImageUrl(shop.heroImage),
+      demo: shop.demo !== false
+    };
+    global.KS_DEFAULT_PRODUCTS = shop.products;
+    global.KS_SAMPLE_ORDER_DEFS = Array.isArray(shop.sampleOrders) ? shop.sampleOrders : [];
+    var keys = KS.keysForShop(id);
+    Object.keys(keys).forEach(function (k) { KEYS[k] = keys[k]; });
+    KS.invalidateCaches();
+    if (!defaultProducts().length) throw new Error("No product in the shop file passed the checks (price, category).");
+    KS.shop = { id: id, demo: shop.demo !== false, niche: cleanText(shop.niche, 30) || id };
+    return KS.shop;
+  };
+
+  /* Adds ?shop=<id> to links marked data-keep-shop (store <-> dashboard). */
+  KS.applyShopLinks = function (root) {
+    if (!KS.shop || KS.shop.id === KS.DEFAULT_SHOP) return;
+    var els = (root || doc).querySelectorAll("a[data-keep-shop]");
+    for (var i = 0; i < els.length; i++) {
+      var href = (els[i].getAttribute("href") || "").split("?")[0].split("#");
+      els[i].setAttribute("href", href[0] + "?shop=" + encodeURIComponent(KS.shop.id) + (href[1] ? "#" + href[1] : ""));
+    }
+  };
+
+  /* Runs init once the DOM and the shop JSON (started by shop-loader.js)
+     are both ready. Without a loader it runs init straight away. */
+  KS.boot = function (init, onFail) {
+    function go() {
+      var p = global.KS_SHOP_PROMISE;
+      if (!p) { init(); return; }
+      p.then(function (shop) {
+        try { KS.applyShop(shop); } catch (e) { onFail(e); return; }
+        KS.applyShopLinks();
+        init();
+      }, function (err) { onFail(err); });
+    }
+    if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", go);
+    else go();
   };
 })(window);

@@ -474,6 +474,15 @@
   /* ---------------------------------------------------------
      Init
      --------------------------------------------------------- */
+  /* Links to the shop tools carry the shop name / store address along */
+  function setToolLinks() {
+    var name = KS.getSettings().storeName;
+    var loc = global.location;
+    var storeUrl = loc && /^https?:$/.test(loc.protocol) ? loc.href.split("#")[0].replace(/admin\.html/, "index.html") : "";
+    $("udhaarLink").setAttribute("href", "../udhaar.html?name=" + encodeURIComponent(name));
+    $("qrLink").setAttribute("href", "../qr-poster.html?name=" + encodeURIComponent(name) + (storeUrl ? "&url=" + encodeURIComponent(storeUrl) : ""));
+  }
+
   function updateLangBtn() {
     var btn = $("langBtn");
     btn.textContent = KS.getLang() === "en" ? "हिंदी" : "English";
@@ -520,6 +529,13 @@
     });
   }
 
+  function fail(err) {
+    try { KS.applyI18n(doc); } catch (e2) { /* ignore */ }
+    $("appError").hidden = false;
+    $("appErrorDetail").textContent = String(err && err.message ? err.message : err);
+    $("adminApp").hidden = true;
+  }
+
   function init() {
     try {
       KS.initLang();
@@ -531,18 +547,15 @@
       buildCategoryFilter();
       buildOrderFilter();
       updateLangBtn();
+      setToolLinks();
       var hash = (global.location && global.location.hash || "").replace("#", "");
       showTab(TABS.indexOf(hash) >= 0 ? hash : "overview");
     } catch (err) {
-      try { KS.applyI18n(doc); } catch (e2) { /* ignore */ }
-      $("appError").hidden = false;
-      $("appErrorDetail").textContent = String(err && err.message ? err.message : err);
-      $("adminApp").hidden = true;
+      fail(err);
     }
   }
 
   KS.admin = { state: state, showTab: showTab, init: init };
 
-  if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", init);
-  else init();
+  KS.boot(init, fail);
 })(window);

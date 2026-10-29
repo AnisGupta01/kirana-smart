@@ -5,243 +5,396 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#14532d">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <meta name="description" content="Kirana Smart - a demo online grocery store for neighbourhood kirana shops. Order on WhatsApp.">
-  <title data-i18n="page.title.store">Kirana Smart - Neighbourhood Grocery (Demo)</title>
+  <title>Dukaan ki website 1 din mein, WhatsApp pe order, koi commission nahi | Kirana Smart</title>
+  <meta name="description" content="Apni dukaan ki website, 1 din mein. Customers WhatsApp pe order karte hain, koi commission nahi. Kirana, mithai, bakery, cloud kitchen. ₹999 setup + ₹149/month, pehla mahina free. Lucknow, Kanpur, Varanasi.">
+  <link rel="canonical" href="https://anisgupta01.github.io/kirana-smart/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kirana Smart">
+  <meta property="og:title" content="Apni dukaan ki website, 1 din mein. WhatsApp pe order. Koi commission nahi.">
+  <meta property="og:description" content="Website for kirana, mithai, bakery and cloud kitchen shops. Orders on WhatsApp, Digital Udhaar Khata, Hindi + English. ₹999 setup, first month free.">
+  <meta property="og:url" content="https://anisgupta01.github.io/kirana-smart/">
+  <meta property="og:image" content="https://anisgupta01.github.io/kirana-smart/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+  <link rel="apple-touch-icon" href="assets/images/icon-180.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://anisgupta01.github.io/kirana-smart/#business",
+        "name": "Kirana Smart",
+        "description": "Websites for local shops (kirana, mithai, bakery, cloud kitchen) with WhatsApp ordering, no commission, Hindi and English, and a Digital Udhaar Khata.",
+        "url": "https://anisgupta01.github.io/kirana-smart/",
+        "image": "https://anisgupta01.github.io/kirana-smart/assets/images/og-image.png",
+        "logo": "https://anisgupta01.github.io/kirana-smart/assets/images/icon-512.png",
+        "priceRange": "₹149-₹2999",
+        "areaServed": [
+          { "@type": "City", "name": "Lucknow" },
+          { "@type": "City", "name": "Kanpur" },
+          { "@type": "City", "name": "Varanasi" },
+          { "@type": "State", "name": "Uttar Pradesh" }
+        ],
+        "availableLanguage": ["Hindi", "English"],
+        "makesOffer": [
+          { "@type": "Offer", "name": "Starter shop website (one-time setup)", "price": "999", "priceCurrency": "INR" },
+          { "@type": "Offer", "name": "Starter monthly plan (first month free)", "price": "149", "priceCurrency": "INR" },
+          { "@type": "Offer", "name": "Udhaar Khata Pro add-on (monthly)", "price": "99", "priceCurrency": "INR" },
+          { "@type": "Offer", "name": "Festival poster set", "price": "199", "priceCurrency": "INR" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Computer nahi aata, kya main chala paunga?", "acceptedAnswer": { "@type": "Answer", "text": "Haan. Sab kuch hum set karte hain. Orders aapke WhatsApp pe aate hain, aur price ya product badalna ho to bas WhatsApp pe bata dijiye." } },
+          { "@type": "Question", "name": "Kya har order pe commission lagta hai?", "acceptedAnswer": { "@type": "Answer", "text": "Nahi. Koi commission nahi. Sirf ₹999 ek baar ka setup aur ₹149 mahina (pehla mahina free)." } },
+          { "@type": "Question", "name": "Order kaise aayega?", "acceptedAnswer": { "@type": "Answer", "text": "Customer website pe saamaan chunta hai aur order seedha aapke WhatsApp pe list ke saath aata hai. Aap reply karke confirm karte hain." } },
+          { "@type": "Question", "name": "Customer payment kaise karega?", "acceptedAnswer": { "@type": "Answer", "text": "Seedha aapko: cash, ya aapke apne UPI pe. Paisa hamare through nahi aata." } },
+          { "@type": "Question", "name": "Kya apna domain (.in / .com) mil sakta hai?", "acceptedAnswer": { "@type": "Answer", "text": "Haan. Free link ke saath website live hoti hai. Apna domain chahiye to domain ka kharcha (lagbhag ₹500-1,000 saal) aapka, setup hum kar dete hain." } }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
-<body class="store-page">
+<body class="lp">
   <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to main content</a>
 
-  <header class="site-header" id="top">
-    <div class="header-row">
-      <button id="menuBtn" class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="siteNav" data-i18n-aria="nav.menu" aria-label="Menu"><span class="burger" aria-hidden="true"></span></button>
+  <header class="lp-header">
+    <div class="lp-wrap lp-header-row">
       <a class="brand" href="index.html">
         <img class="brand-logo" src="assets/images/logo.svg" alt="" width="40" height="40">
-        <span class="brand-text">
-          <strong data-brand-name>Kirana Smart</strong>
-          <small id="storeLine" class="store-line"></small>
-        </span>
+        <span class="brand-text"><strong>Kirana Smart</strong><small class="store-line" data-i18n="l.brandLine">Shop websites · WhatsApp orders</small></span>
       </a>
-      <div class="header-search">
-        <div class="search-wrap">
-          <label class="sr-only" for="searchInput" data-i18n="search.label">Search products</label>
-          <input id="searchInput" class="search-input" type="search" autocomplete="off" enterkeyhint="search" maxlength="60" data-i18n-placeholder="search.placeholder" placeholder="Search products (e.g. atta, dal, oil)">
-          <button id="searchClear" class="search-clear" type="button" data-i18n-aria="search.clear" aria-label="Clear search" hidden>&#10005;</button>
-        </div>
-      </div>
-      <div class="header-actions">
-        <button id="langBtn" class="btn btn-ghost btn-sm lang-btn" type="button"></button>
-        <button id="cartBtn" class="btn btn-cart" type="button" aria-haspopup="dialog">
-          <span class="cart-ico" aria-hidden="true"></span>
-          <span class="cart-label" data-i18n="nav.cart">Cart</span>
-          <span id="cartCount" class="cart-count">0</span>
-        </button>
-      </div>
+      <nav class="lp-nav" aria-label="Main">
+        <a href="#demos" data-i18n="l.nav.demos">Demos</a>
+        <a href="#pricing" data-i18n="l.nav.pricing">Pricing</a>
+        <a href="#faq" data-i18n="l.nav.faq">FAQ</a>
+      </nav>
+      <button id="langBtn" class="btn btn-ghost btn-sm lang-btn" type="button">हिंदी</button>
     </div>
-    <nav id="siteNav" class="site-nav" aria-label="Main" hidden>
-      <div class="site-nav-inner">
-        <a href="#top" data-goto="top" data-i18n="nav.home">Home</a>
-        <a href="#offers" data-goto="offers" data-i18n="nav.offers">Offers</a>
-        <a href="#shop" data-goto="shop" data-i18n="nav.shop">All products</a>
-        <a href="admin.html" class="nav-demo" data-i18n="nav.dashboard">Shopkeeper Demo Dashboard</a>
-      </div>
-    </nav>
   </header>
 
   <main id="main" tabindex="-1">
-    <div class="container">
-      <div class="demo-banner" role="note">
-        <strong data-i18n="demo.label">DEMO</strong>
-        <span data-i18n="demo.banner">This is a demo store. Products and prices are sample data that the shop owner must verify before real use.</span>
-      </div>
+    <!-- HERO -->
+    <section class="lp-hero" aria-labelledby="heroTitle">
+      <div class="lp-wrap lp-hero-grid">
+        <div class="lp-hero-text">
+          <p class="lp-eyebrow" data-i18n="l.hero.eyebrow">For kirana, mithai, bakery &amp; cloud kitchens in UP</p>
+          <h1 id="heroTitle" data-i18n="l.hero.title">Apni dukaan ki website, 1 din mein. WhatsApp pe order. Koi commission nahi.</h1>
+          <p class="lp-hero-sub" data-i18n="l.hero.sub">Your customers pick items on your own website and the order lands on your WhatsApp. No app, no commission, no computer needed.</p>
+          <div class="lp-ctas">
+            <a class="btn btn-whatsapp btn-lg" href="#contact" data-wa="demo" data-i18n="l.cta.demo">Free demo maango</a>
+            <a class="btn btn-outline-light btn-lg" href="#demos" data-i18n="l.cta.see">See live demos</a>
+          </div>
+          <ul class="lp-proof">
+            <li data-i18n="l.hero.p1">₹999 setup · first month free</li>
+            <li data-i18n="l.hero.p2">0% commission on orders</li>
+            <li data-i18n="l.hero.p3">Hindi + English</li>
+            <li data-i18n="l.hero.p4">Live in 1 day</li>
+          </ul>
+        </div>
 
-      <div id="appError" class="state-panel state-error" role="alert" hidden>
-        <h2 data-i18n="err.generic">Something went wrong while loading the store.</h2>
-        <p id="appErrorDetail" class="muted"></p>
-        <div class="state-actions">
-          <button id="errReload" class="btn btn-primary" type="button" data-i18n="err.retry">Reload</button>
-          <button id="errReset" class="btn btn-ghost" type="button" data-i18n="err.reset">Reset demo data</button>
+        <div class="lp-preview" id="preview">
+          <div class="lp-preview-tabs" role="tablist" aria-label="Choose a demo shop" data-i18n-aria="l.preview.tabs">
+            <button class="lp-ptab" type="button" role="tab" aria-selected="true" data-shop="kirana" data-i18n="l.niche.kirana">Kirana</button>
+            <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="mithai" data-i18n="l.niche.mithai">Mithai</button>
+            <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="bakery" data-i18n="l.niche.bakery">Bakery</button>
+            <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="cloud-kitchen" data-i18n="l.niche.cloud">Cloud kitchen</button>
+          </div>
+          <div class="phone" aria-label="Live preview of a demo shop website" data-i18n-aria="l.preview.label">
+            <div class="phone-notch" aria-hidden="true"></div>
+            <div class="phone-screen">
+              <iframe id="previewFrame" title="Demo shop website" src="store/index.html?shop=kirana" loading="lazy" tabindex="-1"></iframe>
+            </div>
+          </div>
+          <p class="lp-preview-note"><a id="previewOpen" href="store/index.html?shop=kirana" data-i18n="l.preview.open">Open this demo full screen</a></p>
         </div>
       </div>
+    </section>
 
-      <div id="homeSections">
-        <section id="home" class="hero" aria-labelledby="heroTitle">
-          <div class="hero-text">
-            <p class="hero-eyebrow" data-i18n="hero.eyebrow">Fresh groceries from your local shop</p>
-            <h1 id="heroTitle" data-i18n="hero.title">Your neighbourhood kirana, now on your phone</h1>
-            <p class="hero-sub" data-i18n="hero.sub">Pick your groceries and send your order to the shop on WhatsApp.</p>
-            <div class="hero-ctas">
-              <a class="btn btn-accent btn-lg" href="#shop" data-goto="shop" data-i18n="hero.cta">Start shopping</a>
-              <a class="btn btn-outline-light btn-lg" href="#offers" data-goto="offers" data-i18n="hero.cta2">See offers</a>
-            </div>
-            <ul class="hero-points">
-              <li data-i18n="hero.p1">No online payment - pay the shop directly</li>
-              <li data-i18n="hero.p2">Order goes to the shop's WhatsApp</li>
-              <li data-i18n="hero.p3">Works in English and Hindi</li>
+    <!-- DEMOS -->
+    <section id="demos" class="lp-sec" aria-labelledby="demosTitle">
+      <div class="lp-wrap">
+        <p class="lp-kicker" data-i18n="l.demos.kicker">Live demos</p>
+        <h2 id="demosTitle" class="lp-h2" data-i18n="l.demos.title">See a website like yours, right now</h2>
+        <p class="lp-lead" data-i18n="l.demos.lead">Tap a demo, add items to the cart and press "Order on WhatsApp". This is exactly what your customers will see, with your shop's name.</p>
+        <div class="niche-grid">
+          <a class="niche-card" href="store/index.html?shop=kirana">
+            <span class="niche-art niche-kirana"><img src="assets/images/hero-basket.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-body">
+              <strong class="niche-title" data-i18n="l.niche.kirana">Kirana</strong>
+              <span class="niche-text" data-i18n="l.niche.kirana.d">Atta, dal, oil, daily needs. Offers, stock, home delivery.</span>
+              <span class="niche-go" data-i18n="l.demos.open">Open demo</span>
+            </span>
+          </a>
+          <a class="niche-card" href="store/index.html?shop=mithai">
+            <span class="niche-art niche-mithai"><img src="assets/images/hero-mithai.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-body">
+              <strong class="niche-title" data-i18n="l.niche.mithai">Mithai</strong>
+              <span class="niche-text" data-i18n="l.niche.mithai.d">Sweets by the kilo, gift boxes for festivals and weddings.</span>
+              <span class="niche-go" data-i18n="l.demos.open">Open demo</span>
+            </span>
+          </a>
+          <a class="niche-card" href="store/index.html?shop=bakery">
+            <span class="niche-art niche-bakery"><img src="assets/images/hero-bakery.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-body">
+              <strong class="niche-title" data-i18n="l.niche.bakery">Bakery</strong>
+              <span class="niche-text" data-i18n="l.niche.bakery.d">Birthday cakes, pastries, bread and puffs, with order notes.</span>
+              <span class="niche-go" data-i18n="l.demos.open">Open demo</span>
+            </span>
+          </a>
+          <a class="niche-card" href="store/index.html?shop=cloud-kitchen">
+            <span class="niche-art niche-cloud"><img src="assets/images/hero-kitchen.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-body">
+              <strong class="niche-title" data-i18n="l.niche.cloud">Cloud kitchen</strong>
+              <span class="niche-text" data-i18n="l.niche.cloud.d">Thalis, biryani, rolls. Direct orders without app commission.</span>
+              <span class="niche-go" data-i18n="l.demos.open">Open demo</span>
+            </span>
+          </a>
+        </div>
+        <div class="lp-tools-row">
+          <a class="tool-chip" href="udhaar.html" data-i18n="l.demos.udhaar">Try the Digital Udhaar Khata demo</a>
+          <a class="tool-chip" href="store/admin.html" data-i18n="l.demos.admin">See the shopkeeper dashboard</a>
+          <a class="tool-chip" href="qr-poster.html" data-i18n="l.demos.qr">Make a QR poster for your counter</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section id="why" class="lp-sec lp-sec-alt" aria-labelledby="whyTitle">
+      <div class="lp-wrap">
+        <p class="lp-kicker" data-i18n="l.why.kicker">Why your own website</p>
+        <h2 id="whyTitle" class="lp-h2" data-i18n="l.why.title">Your shop, your customers, your profit</h2>
+        <p class="lp-lead" data-i18n="l.why.lead">Quick-commerce apps and marketplaces are built for their own business. Your own website is built for yours.</p>
+        <div class="table-wrap cmp-wrap">
+          <table class="cmp">
+            <caption class="sr-only" data-i18n="l.why.caption">Comparison of Kirana Smart with quick-commerce apps and marketplaces</caption>
+            <thead>
+              <tr>
+                <th scope="col"><span class="sr-only" data-i18n="l.why.feature">Feature</span></th>
+                <th scope="col" class="cmp-us" data-i18n="l.why.us">Kirana Smart</th>
+                <th scope="col" data-i18n="l.why.qc">Quick-commerce apps (Blinkit, Zepto)</th>
+                <th scope="col" data-i18n="l.why.mp">Marketplaces &amp; food apps</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row" data-i18n="l.why.r1">Commission on your orders</th><td class="yes" data-i18n="l.why.r1a">0%, never</td><td class="no" data-i18n="l.why.r1b">They sell their own stock, not yours</td><td class="no" data-i18n="l.why.r1c">Commission or fees on orders</td></tr>
+              <tr><th scope="row" data-i18n="l.why.r2">Customers stay yours</th><td class="yes" data-i18n="l.why.r2a">Yes, every order comes to your WhatsApp</td><td class="no" data-i18n="l.why.r2b">No, they are the app's customers</td><td class="no" data-i18n="l.why.r2c">Mostly the platform's</td></tr>
+              <tr><th scope="row" data-i18n="l.why.r3">Udhaar for regular customers</th><td class="yes" data-i18n="l.why.r3a">Yes, Digital Udhaar Khata</td><td class="no" data-i18n="l.why.r3b">No</td><td class="no" data-i18n="l.why.r3c">No</td></tr>
+              <tr><th scope="row" data-i18n="l.why.r4">Your prices, your offers</th><td class="yes" data-i18n="l.why.r4a">Yes, you decide</td><td class="no" data-i18n="l.why.r4b">No</td><td class="mid" data-i18n="l.why.r4c">Within platform rules</td></tr>
+              <tr><th scope="row" data-i18n="l.why.r5">Hindi for you and your customers</th><td class="yes" data-i18n="l.why.r5a">Hindi + English, one tap</td><td class="mid" data-i18n="l.why.r5b">Their app, their language</td><td class="mid" data-i18n="l.why.r5c">Their app, their language</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="lp-fine" data-i18n="l.why.note">Brand names belong to their owners. Kirana Smart is not linked to them. This is a general comparison of how these services usually work for a local shop.</p>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="lp-sec" aria-labelledby="featTitle">
+      <div class="lp-wrap">
+        <p class="lp-kicker" data-i18n="l.feat.kicker">What you get</p>
+        <h2 id="featTitle" class="lp-h2" data-i18n="l.feat.title">Everything a local shop needs, nothing it doesn't</h2>
+        <ul class="feat-grid">
+          <li class="feat"><span class="feat-ico" aria-hidden="true"><img src="assets/images/f-chat.svg" alt="" width="24" height="24"></span><h3 data-i18n="l.feat.f1">Orders on WhatsApp</h3><p data-i18n="l.feat.f1d">Customers send a neat order list with name, address and total straight to your WhatsApp.</p></li>
+          <li class="feat feat-hl"><span class="feat-ico" aria-hidden="true"><img src="assets/images/f-ledger.svg" alt="" width="24" height="24"></span><h3 data-i18n="l.feat.f2">Digital Udhaar Khata</h3><p data-i18n="l.feat.f2d">Write udhaar and payments per customer, see who owes what, and send a polite Hindi reminder on WhatsApp.</p></li>
+          <li class="feat"><span class="feat-ico" aria-hidden="true"><img src="assets/images/f-lang.svg" alt="" width="24" height="24"></span><h3 data-i18n="l.feat.f3">Hindi + English</h3><p data-i18n="l.feat.f3d">One tap switches the whole website. Your customers read in the language they like.</p></li>
+          <li class="feat"><span class="feat-ico" aria-hidden="true"><img src="assets/images/f-tag.svg" alt="" width="24" height="24"></span><h3 data-i18n="l.feat.f4">Offers &amp; stock</h3><p data-i18n="l.feat.f4d">Show MRP and your price, mark items out of stock, highlight festival offers.</p></li>
+          <li class="feat"><span class="feat-ico" aria-hidden="true"><img src="assets/images/f-qr.svg" alt="" width="24" height="24"></span><h3 data-i18n="l.feat.f5">QR poster for the counter</h3><p data-i18n="l.feat.f5d">Print an A4 poster: "Scan karo, WhatsApp pe order karo". Customers order again from home.</p></li>
+          <li class="feat"><span class="feat-ico" aria-hidden="true"><img src="assets/images/f-bolt.svg" alt="" width="24" height="24"></span><h3 data-i18n="l.feat.f6">Fast on any phone</h3><p data-i18n="l.feat.f6d">Light website that opens quickly on cheap Android phones and slow internet, and can be added to the home screen.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="lp-sec lp-sec-alt" aria-labelledby="howTitle">
+      <div class="lp-wrap">
+        <p class="lp-kicker" data-i18n="l.how.kicker">How it works</p>
+        <h2 id="howTitle" class="lp-h2" data-i18n="l.how.title">From WhatsApp message to live website in 1 day</h2>
+        <ol class="steps">
+          <li class="step"><span class="step-n" aria-hidden="true">1</span><h3 data-i18n="l.how.s1">Send "DEMO" on WhatsApp</h3><p data-i18n="l.how.s1d">Tell us your shop's name and what you sell. No visit, no meeting needed.</p></li>
+          <li class="step"><span class="step-n" aria-hidden="true">2</span><h3 data-i18n="l.how.s2">Get a demo in your shop's name</h3><p data-i18n="l.how.s2d">We send you a free demo link with your name and items. Check it on your own phone.</p></li>
+          <li class="step"><span class="step-n" aria-hidden="true">3</span><h3 data-i18n="l.how.s3">Like it? Pay by UPI</h3><p data-i18n="l.how.s3d">₹999 one-time setup. The monthly ₹149 starts only after the first free month.</p></li>
+          <li class="step"><span class="step-n" aria-hidden="true">4</span><h3 data-i18n="l.how.s4">Live in 1 day</h3><p data-i18n="l.how.s4d">Your website goes live with your QR poster. Share the link in your WhatsApp groups and status.</p></li>
+        </ol>
+        <div class="lp-center">
+          <a class="btn btn-whatsapp btn-lg" href="#contact" data-wa="demo" data-i18n="l.cta.demo">Free demo maango</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="lp-sec" aria-labelledby="priceTitle">
+      <div class="lp-wrap">
+        <p class="lp-kicker" data-i18n="l.price.kicker">Simple pricing</p>
+        <h2 id="priceTitle" class="lp-h2" data-i18n="l.price.title">Less than one day's sale. No commission, ever.</h2>
+        <div class="price-grid">
+          <article class="price-card price-main">
+            <p class="price-badge" data-i18n="l.price.popular">Most shops choose this</p>
+            <h3 data-i18n="l.price.starter">Starter</h3>
+            <p class="price-amt"><strong>₹999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
+            <p class="price-amt2"><strong>+ ₹149</strong> <span data-i18n="l.price.month">per month</span></p>
+            <p class="price-free" data-i18n="l.price.free">First month free</p>
+            <ul class="tick-list">
+              <li data-i18n="l.price.i1">Website in your shop's name and colours</li>
+              <li data-i18n="l.price.i2">Your products and prices added by us</li>
+              <li data-i18n="l.price.i3">Orders on your WhatsApp, 0% commission</li>
+              <li data-i18n="l.price.i4">Hindi + English, works on every phone</li>
+              <li data-i18n="l.price.i5">Printable QR poster for your counter</li>
+              <li data-i18n="l.price.i6">Price and item changes: just send them on WhatsApp</li>
             </ul>
-          </div>
-          <div class="hero-art" aria-hidden="true">
-            <img src="assets/images/hero-basket.svg" alt="" width="420" height="340">
-          </div>
-        </section>
-
-        <section class="block" aria-labelledby="catTitle">
-          <div class="block-head">
-            <h2 id="catTitle" class="block-title" data-i18n="sec.categories">Shop by category</h2>
-          </div>
-          <div id="catGrid" class="cat-grid"></div>
-        </section>
-
-        <section id="featuredSec" class="block" aria-labelledby="featuredTitle">
-          <div class="block-head">
-            <h2 id="featuredTitle" class="block-title" data-i18n="sec.featured">Featured products</h2>
-            <a class="see-all" href="#shop" data-goto="shop" data-i18n="sec.seeAll">See all</a>
-          </div>
-          <div id="featuredGrid" class="product-grid product-rail"></div>
-        </section>
-
-        <section class="how" aria-labelledby="howTitle">
-          <h2 id="howTitle" class="block-title" data-i18n="how.title">How ordering works</h2>
-          <ol class="how-steps">
-            <li class="how-step">
-              <span class="how-num" aria-hidden="true">1</span>
-              <div>
-                <h3 data-i18n="how.s1.t">Pick your items</h3>
-                <p data-i18n="how.s1.d">Add groceries to your cart. No sign-up needed.</p>
-              </div>
-            </li>
-            <li class="how-step">
-              <span class="how-num" aria-hidden="true">2</span>
-              <div>
-                <h3 data-i18n="how.s2.t">Send on WhatsApp</h3>
-                <p data-i18n="how.s2.d">Your order list opens in WhatsApp. Press Send to share it with the shop.</p>
-              </div>
-            </li>
-            <li class="how-step">
-              <span class="how-num" aria-hidden="true">3</span>
-              <div>
-                <h3 data-i18n="how.s3.t">Pay at the shop</h3>
-                <p data-i18n="how.s3.d">The shop replies on WhatsApp. Pay them directly when you get your order.</p>
-              </div>
-            </li>
-          </ol>
-        </section>
-
-        <section id="popularSec" class="block" aria-labelledby="popularTitle">
-          <div class="block-head">
-            <h2 id="popularTitle" class="block-title" data-i18n="sec.popular">Popular products</h2>
-            <a class="see-all" href="#shop" data-goto="shop" data-i18n="sec.seeAll">See all</a>
-          </div>
-          <div id="popularGrid" class="product-grid product-rail"></div>
-        </section>
-
-        <section id="offers" class="block offers-block" aria-labelledby="offersTitle">
-          <div class="block-head">
-            <div>
-              <h2 id="offersTitle" class="block-title" data-i18n="sec.offers">Special offers</h2>
-              <p class="muted block-note" data-i18n="sec.offers.note">Demo offers - sample discounts for demonstration only.</p>
-            </div>
-          </div>
-          <div id="offersGrid" class="product-grid product-rail"></div>
-        </section>
+            <a class="btn btn-whatsapp btn-lg btn-block" href="#contact" data-wa="starter" data-i18n="l.cta.demo">Free demo maango</a>
+          </article>
+          <article class="price-card">
+            <h3 data-i18n="l.price.udhaar">Udhaar Khata Pro</h3>
+            <p class="price-amt"><strong>+ ₹99</strong> <span data-i18n="l.price.month">per month</span></p>
+            <ul class="tick-list">
+              <li data-i18n="l.price.u1">Digital Udhaar Khata with your shop's name</li>
+              <li data-i18n="l.price.u2">One-tap Hindi WhatsApp reminders</li>
+              <li data-i18n="l.price.u3">Download the full hisaab as CSV (Excel)</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="udhaar.html" data-i18n="l.price.tryUdhaar">Try the demo</a>
+          </article>
+          <article class="price-card">
+            <h3 data-i18n="l.price.posters">Festival posters</h3>
+            <p class="price-amt"><strong>₹199</strong> <span data-i18n="l.price.perSet">per festival set</span></p>
+            <ul class="tick-list">
+              <li data-i18n="l.price.p1">Diwali, Holi, Eid, Raksha Bandhan and more</li>
+              <li data-i18n="l.price.p2">Your shop name, offer and QR code</li>
+              <li data-i18n="l.price.p3">Ready for WhatsApp status and printing</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="#contact" data-wa="posters" data-i18n="l.price.askPosters">Ask on WhatsApp</a>
+          </article>
+        </div>
+        <p class="lp-fine" data-i18n="l.price.note">Prices in Indian rupees. Pay by UPI. Stop the monthly plan anytime. A custom domain (like yourshop.in) is optional and its yearly fee is paid separately.</p>
       </div>
+    </section>
 
-      <section id="shop" class="block shop-block" aria-labelledby="shopTitle">
-        <div class="block-head">
-          <h2 id="shopTitle" class="block-title" data-i18n="sec.all">All products</h2>
-          <p id="resultCount" class="muted result-count" aria-live="polite"></p>
+    <!-- AGENCY -->
+    <section id="agency" class="lp-sec lp-sec-dark" aria-labelledby="agencyTitle">
+      <div class="lp-wrap agency-grid">
+        <div>
+          <p class="lp-kicker lp-kicker-light" data-i18n="l.ag.kicker">For freelancers &amp; agencies</p>
+          <h2 id="agencyTitle" class="lp-h2" data-i18n="l.ag.title">Sell shop websites in your own city</h2>
+          <p class="lp-lead" data-i18n="l.ag.lead">Use the same ready template, fill one settings file per shop, and go live in about 30 minutes. Static website, free hosting, no server bills.</p>
         </div>
-        <div class="filters">
-          <div class="field">
-            <label for="catFilter" data-i18n="filter.category">Category</label>
-            <select id="catFilter"></select>
+        <div class="agency-cards">
+          <div class="agency-card">
+            <h3 data-i18n="l.ag.lic">Template licence</h3>
+            <p class="price-amt"><strong>₹1,499 – ₹2,999</strong></p>
+            <p data-i18n="l.ag.licd">One-time. ₹1,499 for a single-shop licence, ₹2,999 for unlimited shops. Includes the setup guide.</p>
           </div>
-          <div class="field">
-            <label for="sortSelect" data-i18n="filter.sort">Sort by</label>
-            <select id="sortSelect">
-              <option value="default" data-i18n="sort.default">Default</option>
-              <option value="priceAsc" data-i18n="sort.priceAsc">Price: low to high</option>
-              <option value="priceDesc" data-i18n="sort.priceDesc">Price: high to low</option>
-              <option value="name" data-i18n="sort.name">Name: A to Z</option>
-            </select>
+          <div class="agency-card">
+            <h3 data-i18n="l.ag.res">Reseller plan</h3>
+            <p class="price-amt"><strong>₹499</strong> <span data-i18n="l.price.month">per month</span></p>
+            <p data-i18n="l.ag.resd">We build and host the shops you sell. You set your price and keep the margin.</p>
           </div>
-          <button id="clearFilters" class="btn btn-ghost" type="button" data-i18n="filter.clear">Clear filters</button>
+          <a class="btn btn-accent btn-lg btn-block" href="#contact" data-wa="agency" data-i18n="l.ag.cta">Talk on WhatsApp</a>
         </div>
-        <div id="productGrid" class="product-grid" aria-busy="true">
-          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
-          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (SAMPLE) -->
+    <section id="reviews" class="lp-sec" aria-labelledby="revTitle">
+      <div class="lp-wrap">
+        <p class="lp-kicker" data-i18n="l.rev.kicker">What shopkeepers say</p>
+        <h2 id="revTitle" class="lp-h2" data-i18n="l.rev.title">Reviews</h2>
+        <p class="sample-note" role="note"><strong data-i18n="l.rev.sampleTag">SAMPLE</strong> <span data-i18n="l.rev.sampleNote">These are placeholder examples, not real customers. Real reviews will replace them after the first shops go live.</span></p>
+        <div class="rev-grid">
+          <figure class="rev"><span class="rev-tag" data-i18n="l.rev.sampleTag">SAMPLE</span><blockquote data-i18n="l.rev.q1">"Regular customers now send their monthly list on WhatsApp. No more writing it on paper over the phone."</blockquote><figcaption data-i18n="l.rev.a1">Sample kirana shop owner</figcaption></figure>
+          <figure class="rev"><span class="rev-tag" data-i18n="l.rev.sampleTag">SAMPLE</span><blockquote data-i18n="l.rev.q2">"Gift box orders for Diwali came straight to my phone, with the address and the total."</blockquote><figcaption data-i18n="l.rev.a2">Sample sweet shop owner</figcaption></figure>
+          <figure class="rev"><span class="rev-tag" data-i18n="l.rev.sampleTag">SAMPLE</span><blockquote data-i18n="l.rev.q3">"Udhaar reminders in Hindi are polite, so customers don't feel bad and pay on time."</blockquote><figcaption data-i18n="l.rev.a3">Sample general store owner</figcaption></figure>
         </div>
-        <div id="noResults" class="state-panel" hidden>
-          <div class="state-icon" aria-hidden="true">&#128269;</div>
-          <h3 data-i18n="noresults.title">No products found</h3>
-          <p class="muted" data-i18n="noresults.text">Try a different word or clear the filters.</p>
-          <button id="noResultsClear" class="btn btn-primary" type="button" data-i18n="filter.clear">Clear filters</button>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="lp-sec lp-sec-alt" aria-labelledby="faqTitle">
+      <div class="lp-wrap lp-narrow">
+        <p class="lp-kicker" data-i18n="l.faq.kicker">Questions</p>
+        <h2 id="faqTitle" class="lp-h2" data-i18n="l.faq.title">Sawaal-jawaab (FAQ)</h2>
+        <div class="faq">
+          <details><summary data-i18n="l.faq.q1">Computer nahi aata. Can I still use it?</summary><p data-i18n="l.faq.a1">Yes. We set up everything. Orders come on your WhatsApp, which you already use. To change a price or add an item, just send it to us on WhatsApp.</p></details>
+          <details><summary data-i18n="l.faq.q2">Is there a commission on orders?</summary><p data-i18n="l.faq.a2">No. Zero commission, on every order. You pay only ₹999 once for setup and ₹149 a month, and the first month is free.</p></details>
+          <details><summary data-i18n="l.faq.q3">Order kaise aayega? How will I get orders?</summary><p data-i18n="l.faq.a3">The customer picks items on your website and taps "Order on WhatsApp". A neat list with items, total, name and address opens in WhatsApp and comes to your number. You reply to confirm.</p></details>
+          <details><summary data-i18n="l.faq.q4">How do customers pay?</summary><p data-i18n="l.faq.a4">Directly to you: cash, or your own UPI. Money never goes through us. You pay us only the setup and monthly fee, by UPI.</p></details>
+          <details><summary data-i18n="l.faq.q5">Can I get my own domain (.in / .com)?</summary><p data-i18n="l.faq.a5">Yes. Your website goes live on a free link first. If you want your own domain, you buy it (usually ₹500–1,000 a year) and we connect it for you.</p></details>
+          <details><summary data-i18n="l.faq.q6">Is the Udhaar Khata a loan service?</summary><p data-i18n="l.faq.a6">No. It is only a digital record book, like your paper khata. We never lend money or collect payments. In the demo, data stays on your own phone.</p></details>
+          <details><summary data-i18n="l.faq.q7">Do I need GST or FSSAI for this?</summary><p data-i18n="l.faq.a7">The website does not change your licences. Your shop's GST, FSSAI and other registrations remain your own responsibility, the same as in your shop today.</p></details>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section id="contact" class="lp-final" aria-labelledby="finalTitle">
+      <div class="lp-wrap lp-center">
+        <h2 id="finalTitle" class="lp-h2" data-i18n="l.final.title">See your own shop online today</h2>
+        <p class="lp-lead" data-i18n="l.final.lead">Send "DEMO" on WhatsApp with your shop's name. We reply with a free demo in your name. No visit, no obligation.</p>
+        <a class="btn btn-whatsapp btn-lg" href="#contact" data-wa="demo" data-i18n="l.cta.demo">Free demo maango</a>
+        <p id="waNotice" class="wa-notice" role="status" hidden></p>
+        <p class="lp-cities"><span data-i18n="l.final.cities">Serving shops in</span> <a href="shop-website-lucknow.html">Lucknow</a> · <a href="shop-website-kanpur.html">Kanpur</a> · <a href="shop-website-varanasi.html">Varanasi</a></p>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col footer-brand">
-          <a class="brand brand-footer" href="index.html">
-            <img class="brand-logo" src="assets/images/logo.svg" alt="" width="40" height="40">
-            <strong data-brand-name>Kirana Smart</strong>
-          </a>
-          <p data-i18n="footer.about">Your neighbourhood kirana shop, now online. Order on WhatsApp and pay the shop directly.</p>
+  <footer class="site-footer lp-footer">
+    <div class="lp-wrap">
+      <div class="lp-foot-grid">
+        <div>
+          <a class="brand brand-footer" href="index.html"><img class="brand-logo" src="assets/images/logo.svg" alt="" width="40" height="40"><strong>Kirana Smart</strong></a>
+          <p data-i18n="l.foot.about">Websites for local shops in Uttar Pradesh. Orders on WhatsApp, no commission.</p>
+          <p><a id="igLink" href="index.html" hidden rel="noopener noreferrer" target="_blank">Instagram</a></p>
         </div>
-        <div class="footer-col">
-          <h2 class="footer-title" data-i18n="footer.storeTitle">The shop</h2>
-          <p id="footStore" class="footer-strong"></p>
-          <p id="footLoc"></p>
+        <div>
+          <h2 class="footer-title" data-i18n="l.foot.demos">Demos &amp; tools</h2>
+          <ul class="foot-links">
+            <li><a href="store/index.html?shop=kirana" data-i18n="l.niche.kirana">Kirana</a></li>
+            <li><a href="store/index.html?shop=mithai" data-i18n="l.niche.mithai">Mithai</a></li>
+            <li><a href="store/index.html?shop=bakery" data-i18n="l.niche.bakery">Bakery</a></li>
+            <li><a href="store/index.html?shop=cloud-kitchen" data-i18n="l.niche.cloud">Cloud kitchen</a></li>
+            <li><a href="udhaar.html" data-i18n="tools.udhaar">Digital Udhaar Khata</a></li>
+            <li><a href="qr-poster.html" data-i18n="l.foot.qr">QR poster maker</a></li>
+          </ul>
         </div>
-        <div class="footer-col">
-          <h2 class="footer-title" data-i18n="footer.hoursTitle">Opening hours</h2>
-          <p data-i18n="footer.hours">Every day, 7 AM to 10 PM (sample hours)</p>
+        <div>
+          <h2 class="footer-title" data-i18n="l.foot.cities">Cities</h2>
+          <ul class="foot-links">
+            <li><a href="shop-website-lucknow.html" data-i18n="l.foot.lko">Shop website in Lucknow</a></li>
+            <li><a href="shop-website-kanpur.html" data-i18n="l.foot.knp">Shop website in Kanpur</a></li>
+            <li><a href="shop-website-varanasi.html" data-i18n="l.foot.vns">Shop website in Varanasi</a></li>
+          </ul>
         </div>
-        <div class="footer-col">
-          <h2 class="footer-title" data-i18n="footer.waTitle">Ordering on WhatsApp</h2>
-          <p data-i18n="footer.waText">At checkout, WhatsApp opens with your order typed in. Nothing is sent until you press Send, and the shop replies to confirm.</p>
+        <div>
+          <h2 class="footer-title" data-i18n="l.foot.legal">Legal</h2>
+          <ul class="foot-links">
+            <li><a href="privacy.html" data-i18n="legal.privacy">Privacy</a></li>
+            <li><a href="terms.html" data-i18n="l.foot.terms">Terms</a></li>
+            <li><a href="refund.html" data-i18n="l.foot.refund">Refund policy</a></li>
+          </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p><strong data-brand-name>Kirana Smart</strong> &middot; <span data-i18n="footer.demo">Demo only. Sample products, sample prices, no online payments, no delivery tracking. Orders are sent only when the customer presses Send in WhatsApp.</span></p>
-        <p><a href="admin.html" data-i18n="nav.dashboard">Shopkeeper Demo Dashboard</a></p>
+        <p data-i18n="l.foot.bottom">© Kirana Smart. Demo shops on this site are fictional, with sample products and prices.</p>
       </div>
     </div>
   </footer>
 
-  <button id="cartBar" class="cart-bar" type="button" aria-haspopup="dialog" hidden>
-    <span class="cart-bar-ico" aria-hidden="true"></span>
-    <span class="cart-bar-info">
-      <span id="cartBarCount" class="cart-bar-count"></span>
-      <strong id="cartBarTotal" class="cart-bar-total"></strong>
-    </span>
-    <span class="cart-bar-cta" data-i18n="cartbar.view">View cart</span>
-  </button>
+  <div class="lp-sticky">
+    <a class="btn btn-whatsapp btn-lg" href="#contact" data-wa="demo" data-i18n="l.cta.demo">Free demo maango</a>
+  </div>
 
-  <div id="drawerOverlay" class="overlay" hidden></div>
-  <aside id="cartDrawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
-    <div class="drawer-head">
-      <h2 id="drawerTitle"></h2>
-      <button id="drawerClose" class="icon-btn" type="button" data-i18n-aria="common.close" aria-label="Close">&#10005;</button>
-    </div>
-    <div id="drawerBody" class="drawer-body"></div>
-  </aside>
-
-  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
-
-  <noscript>
-    <div class="demo-banner">JavaScript is required to use this store. Please enable JavaScript in your browser.</div>
-  </noscript>
-
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/products.js"></script>
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/common.js"></script>
-  <script src="assets/js/cart.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/site-i18n.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/pwa.js"></script>
 </body>
 </html>

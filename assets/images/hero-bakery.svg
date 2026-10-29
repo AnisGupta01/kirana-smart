@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 340" width="420" height="340" role="img" aria-label="A cake, bread and cupcakes">
+  <circle cx="210" cy="176" r="150" fill="#ffffff" fill-opacity="0.10"/>
+  <circle cx="210" cy="176" r="112" fill="#ffffff" fill-opacity="0.08"/>
+  <ellipse cx="210" cy="312" rx="160" ry="14" fill="#2a0e04" fill-opacity="0.25"/>
+  <!-- cake stand -->
+  <rect x="196" y="270" width="28" height="34" fill="#e7e5e4"/>
+  <ellipse cx="210" cy="304" rx="56" ry="9" fill="#d6d3d1"/>
+  <ellipse cx="210" cy="270" rx="120" ry="14" fill="#f5f5f4"/>
+  <!-- cake -->
+  <rect x="110" y="170" width="200" height="96" rx="14" fill="#7c2d12"/>
+  <path d="M110 192 q16 18 33 0 t33 0 t33 0 t33 0 t34 0 t34 0 V176 a14 14 0 0 0 -14 -14 h-172 a14 14 0 0 0 -14 14z" fill="#fce7f3"/>
+  <rect x="110" y="222" width="200" height="10" fill="#fbcfe8"/>
+  <circle cx="150" cy="158" r="10" fill="#dc2626"/><circle cx="210" cy="154" r="10" fill="#dc2626"/><circle cx="270" cy="158" r="10" fill="#dc2626"/>
+  <rect x="207" y="104" width="6" height="40" rx="3" fill="#fde68a"/>
+  <path d="M210 82 q10 12 0 22 q-10 -10 0 -22z" fill="#f59e0b"/>
+  <!-- bread loaf -->
+  <path d="M30 230 Q30 186 76 186 Q122 186 122 230 L116 230 L116 290 L36 290 L36 230 Z" fill="#d97706"/>
+  <path d="M54 206 l10 12 M76 200 l10 12 M98 206 l8 10" stroke="#fde68a" stroke-width="5" stroke-linecap="round"/>
+  <!-- cupcake -->
+  <path d="M312 240 h76 l-10 52 h-56 z" fill="#f59e0b"/>
+  <path d="M312 240 q0 -36 38 -36 q38 0 38 36 z" fill="#fbcfe8"/>
+  <circle cx="350" cy="198" r="8" fill="#dc2626"/>
+  <path d="M330 248 v40 M350 248 v40 M370 248 v40" stroke="#b45309" stroke-width="3"/>
+  <path d="M60 70 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6z" fill="#fde68a"/>
+</svg>

@@ -1,0 +1,25 @@
+{
+  "name": "Kirana Smart - Shop websites with WhatsApp orders",
+  "short_name": "Kirana Smart",
+  "description": "Websites for local shops: orders on WhatsApp, no commission, Hindi + English, Digital Udhaar Khata.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf8f2",
+  "theme_color": "#14532d",
+  "lang": "en-IN",
+  "categories": ["business", "shopping", "productivity"],
+  "icons": [
+    { "src": "assets/images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/images/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/images/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Udhaar Khata", "short_name": "Udhaar", "url": "./udhaar.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Shop dashboard (demo)", "short_name": "Dashboard", "url": "./store/admin.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] },
+    { "name": "QR poster", "short_name": "QR poster", "url": "./qr-poster.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
