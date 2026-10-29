@@ -45,7 +45,8 @@ module.exports = async function sellkit(t) {
     { const pcfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace(/917266042235/g, "91XXXXXXXXXX");
       await ctx.route("**/assets/js/site-config.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: pcfg })); }
     await page.goto(base + "/");
-    ok((await page.textContent("h1")).trim() === "Apni dukaan ki website, 1 din mein. WhatsApp pe order. Koi commission nahi.", "hero headline");
+    ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni dukaan ki website, itni sundar ki customer ruk jaaye.", "hero headline");
+    ok((await page.textContent(".lph-promise")).trim() === "1 din mein live. WhatsApp pe order. Koi commission nahi.", "hero promise line (1 day, WhatsApp, no commission)");
     ok((await page.title()).includes("Kirana Smart"), "landing title");
     const sections = ["demos", "why", "features", "how", "pricing", "agency", "reviews", "faq", "contact"];
     const have = await page.evaluate((ids) => ids.filter((i) => document.getElementById(i)), sections);
@@ -107,6 +108,102 @@ module.exports = async function sellkit(t) {
     ok(await page.locator(".lp-nav").isVisible(), "desktop nav visible");
     const cols = await page.evaluate(() => getComputedStyle(document.querySelector(".niche-grid")).gridTemplateColumns.split(" ").length);
     ok(cols === 4, "desktop niche grid has 4 columns");
+    await ctx.close();
+  }
+
+  /* ---------------- Cinematic premium demo ---------------- */
+  console.log("Cinematic premium demo (demo/chai)");
+  {
+    const OWNER = "917266042235";
+    const { ctx, page } = await newPage(browser, base, { width: 390, height: 844 }, problems, NOSW);
+    await page.goto(base + "/demo/chai/index.html");
+    await page.waitForSelector(".scene");
+    ok((await page.locator(".scene").count()) === 6, "6 full-screen product sections");
+    const names = await page.locator(".s-name").evaluateAll((a) => a.map((x) => x.textContent.replace(/\s+/g, " ").trim()));
+    ok(["Kulhad Chai", "Kesar Rasmalai", "Kaju Katli", "Garam Samosa", "Bun Maska", "Malai Lassi"].every((n, i) => names[i] === n), "products in order: " + names.join(", "));
+    const nums = await page.locator(".s-k-n").evaluateAll((a) => a.map((x) => x.textContent));
+    ok(nums.join(",") === "01,02,03,04,05,06", "numbered 01 to 06");
+    ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Subah ki pehli chai. Shaam ki meethi yaadein.", "hero line");
+    ok((await page.locator(".scene .s-piece").count()) >= 6 * 10, "ingredient cut-outs around every product");
+    const heights = await page.evaluate(() => [...document.querySelectorAll(".scene")].map((s) => s.offsetHeight / innerHeight));
+    ok(heights.every((h) => h >= 1.5), "each scene is taller than the screen (pinned scroll scene)");
+    /* scroll-driven burst */
+    const midY = await page.evaluate(() => { const s = document.querySelectorAll(".scene")[2]; return s.getBoundingClientRect().top + scrollY + (s.offsetHeight - innerHeight) * 0.4; });
+    await page.evaluate((y) => window.scrollTo({ top: y, behavior: "instant" }), midY);
+    await page.waitForTimeout(500);
+    const st = await page.evaluate(() => { const s = document.querySelectorAll(".scene")[2]; const op = [...s.querySelectorAll(".s-piece")].map((x) => parseFloat(x.style.opacity || "0")); return { inn: s.classList.contains("is-in"), vis: op.filter((o) => o > 0.6).length, tf: s.querySelector(".s-piece").style.transform, rail: document.getElementById("railNum").textContent, onlyTransform: !s.querySelector(".s-piece").style.left }; });
+    ok(st.inn && st.vis >= 6, "scrolling into a scene reveals the text and bursts the ingredients (" + st.vis + " pieces visible)");
+    ok(/translate3d/.test(st.tf) && st.onlyTransform, "pieces move with transform only (no layout properties)");
+    ok(st.rail === "03", "bottom rail shows the current item number");
+    const posA = await page.evaluate(() => document.querySelectorAll(".scene")[2].querySelector(".s-piece").style.transform);
+    await page.evaluate((y) => window.scrollTo({ top: y + 220, behavior: "instant" }), midY);
+    await page.waitForTimeout(250);
+    const posB = await page.evaluate(() => document.querySelectorAll(".scene")[2].querySelector(".s-piece").style.transform);
+    ok(posA !== posB, "ingredient positions follow the scroll");
+    /* cart */
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await page.click('[data-add="kulhad-chai"]');
+    await page.click('[data-inc="kulhad-chai"]');
+    await page.click('[data-add="samosa"]');
+    ok((await page.textContent("#cartCount")) === "3", "add-to-cart and + update the cart count");
+    ok((await page.textContent("#pillTotal")) === "₹70", "mini cart total ₹70 (2 × ₹20 + ₹30)");
+    await page.evaluate(() => window.scrollTo({ top: innerHeight * 2, behavior: "instant" }));
+    await page.waitForTimeout(400);
+    ok(await page.locator("#cartPill").isVisible(), "sticky mini cart visible after the hero");
+    await page.click("#cartPill");
+    ok(await page.locator("#sheet").isVisible(), "order sheet opens");
+    ok((await page.locator("#cartLines .cin-line").count()) === 2, "order sheet lists 2 lines");
+    let href = await page.getAttribute("#waSend", "href");
+    let msg = decodeURIComponent(href.split("?text=")[1] || "");
+    ok(href.startsWith("https://wa.me/" + OWNER + "?text="), "WhatsApp order goes to the shop number from the config (" + OWNER + ")");
+    ok(msg.includes("Sharma Chai & Mithai (Demo)") && msg.includes("Kulhad Chai (per kulhad) x 2 = ₹40") && msg.includes("Garam Samosa") && msg.includes("Total: ₹70"), "WhatsApp message lists items, quantities and total");
+    ok((await page.getAttribute("#waSend", "target")) === "_blank" && /noopener/.test(await page.getAttribute("#waSend", "rel")), "WhatsApp link opens safely in a new tab");
+    await page.check('input[name="mode"][value="delivery"]');
+    let popups = 0; ctx.on("page", () => { popups++; });
+    await page.click("#waSend");
+    await page.waitForTimeout(150);
+    ok(await page.locator("#addrErr").isVisible() && popups === 0, "home delivery without an address is blocked with a message");
+    await page.fill("#fName", "Test Customer");
+    await page.fill("#fAddress", "House 5, Test Lane");
+    msg = decodeURIComponent((await page.getAttribute("#waSend", "href")).split("?text=")[1] || "");
+    ok(msg.includes("Name: Test Customer") && msg.includes("Address: House 5, Test Lane") && msg.includes("Home delivery"), "name, delivery mode and address go into the message");
+    await page.keyboard.press("Escape");
+    ok(await page.locator("#sheet").isHidden(), "Escape closes the order sheet");
+    await page.click('[data-dec="samosa"]');
+    ok((await page.textContent("#cartCount")) === "2", "− removes an item");
+    /* language */
+    await page.click("#langBtn");
+    ok((await page.getAttribute("html", "lang")) === "hi" && (await page.locator(".s-name").first().textContent()).includes("कुल्हड़"), "Hindi toggle switches the whole menu");
+    ok(decodeURIComponent((await page.getAttribute("#waSend", "href")).split("?text=")[1] || "").includes("नमस्ते"), "WhatsApp message in Hindi after switching");
+    await page.reload();
+    await page.waitForSelector(".scene");
+    ok((await page.getAttribute("html", "lang")) === "hi" && (await page.textContent("#cartCount")) === "2", "language and cart are remembered after reload");
+    await page.click("#langBtn");
+    ok((await page.getAttribute("#helloBtn", "href")).startsWith("https://wa.me/" + OWNER + "?text="), "'Say hello' button opens WhatsApp to the shop");
+    const imgs = await page.evaluate(() => [...document.images].filter((i) => !i.getAttribute("width") || !i.getAttribute("height")).length);
+    ok(imgs === 0, "every image has width/height (no layout shift)");
+    await noOverflow(ok, page, overflowX, "cinematic demo");
+    await ctx.close();
+  }
+  {
+    const { ctx, page } = await newPage(browser, base, { width: 390, height: 844 }, problems, Object.assign({ reducedMotion: "reduce" }, NOSW));
+    await page.goto(base + "/demo/chai/index.html");
+    await page.waitForSelector(".scene");
+    await page.waitForTimeout(300);
+    const r = await page.evaluate(() => ({ reduce: document.documentElement.classList.contains("reduce"), allIn: [...document.querySelectorAll(".scene")].every((s) => s.classList.contains("is-in")), h: document.querySelector(".scene").offsetHeight / innerHeight }));
+    ok(r.reduce && r.allIn && r.h < 1.3, "reduced motion: no pinned scroll scenes, all text shown");
+    await ctx.close();
+  }
+  {
+    const { ctx, page } = await newPage(browser, base, { width: 1280, height: 800 }, problems, NOSW);
+    await page.goto(base + "/");
+    ok((await page.getAttribute("#heroFrame", "src")).startsWith("demo/chai/"), "landing hero phone plays the cinematic demo");
+    ok((await page.getAttribute(".premium-demo", "href")) === "demo/chai/index.html" && /premium/i.test(await page.textContent(".premium-demo .pd-badge")), "first demo card is the Premium cinematic demo");
+    const prem = await page.textContent(".price-premium");
+    ok(/₹2,999/.test(prem) && /₹199/.test(prem), "Premium tier ₹2,999 setup + ₹199/month");
+    const starter = await page.textContent(".price-main");
+    ok(/₹999/.test(starter) && /₹149/.test(starter), "Starter tier still ₹999 + ₹149");
+    ok((await page.getAttribute('.price-premium [data-wa="premium"]', "href")).startsWith("https://wa.me/917266042235?text=PREMIUM"), "Premium button opens WhatsApp to the owner");
     await ctx.close();
   }
 
@@ -372,7 +469,7 @@ if (require.main === module) {
   let chromium;
   try { ({ chromium } = require("playwright")); } catch (e) { ({ chromium } = require("/opt/npm-tools/node_modules/playwright")); }
   const root = path.join(__dirname, "..");
-  const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".json": "application/json", ".png": "image/png", ".webmanifest": "application/manifest+json", ".xml": "application/xml", ".txt": "text/plain; charset=utf-8" };
+  const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".json": "application/json", ".png": "image/png", ".webmanifest": "application/manifest+json", ".xml": "application/xml", ".txt": "text/plain; charset=utf-8", ".webp": "image/webp", ".woff2": "font/woff2" };
   let passed = 0, failed = 0;
   const ok = (c, n, extra) => { if (c) { passed++; console.log("  PASS  " + n); } else { failed++; console.log("  FAIL  " + n + (extra ? "  -> " + extra : "")); } };
   const srv = http.createServer((req, res) => {

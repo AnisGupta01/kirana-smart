@@ -7,7 +7,7 @@
    Bump CACHE when you change files so phones pick up the update.
    ============================================================ */
 "use strict";
-var CACHE = "ks-shell-v1";
+var CACHE = "ks-shell-v2";
 var SHELL = [
   "./", "./index.html", "./udhaar.html", "./qr-poster.html",
   "./privacy.html", "./terms.html", "./refund.html",
@@ -23,7 +23,11 @@ var SHELL = [
   "./assets/images/logo.svg", "./assets/images/placeholder.svg", "./assets/images/check.svg",
   "./assets/images/cart.svg", "./assets/images/chat.svg", "./assets/images/search.svg", "./assets/images/chevron.svg",
   "./assets/images/hero-basket.svg", "./assets/images/hero-mithai.svg", "./assets/images/hero-bakery.svg", "./assets/images/hero-kitchen.svg",
-  "./assets/images/icon-192.png"
+  "./assets/images/icon-192.png",
+  "./demo/chai/", "./demo/chai/index.html", "./assets/css/cinema.css",
+  "./assets/js/cinema-boot.js", "./assets/js/chai-config.js", "./assets/js/cinema.js",
+  "./assets/fonts/cormorant.woff2", "./assets/fonts/cormorant-italic.woff2", "./assets/fonts/inter.woff2",
+  "./assets/images/chai/hero-burst.webp", "./assets/images/chai/chai.webp", "./assets/images/chai/grain.webp"
 ];
 
 self.addEventListener("install", function (event) {

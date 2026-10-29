@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0908">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Sharma Chai &amp; Mithai (Demo) · Kulhad chai, mithai &amp; samosa in Lucknow</title>
+  <meta name="description" content="A cinematic demo shop website by Kirana Smart: kulhad chai, kesar rasmalai, kaju katli, samosa, bun maska and lassi. Order on WhatsApp. Sample products and prices.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="../../assets/images/logo.svg">
+  <link rel="preload" href="../../assets/fonts/cormorant.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/cormorant-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/images/chai/hero-burst.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="../../assets/css/cinema.css">
+  <script src="../../assets/js/cinema-boot.js"></script>
+</head>
+<body class="cin">
+  <a class="cin-skip" href="#menu">Skip to menu</a>
+  <div class="cin-grain" aria-hidden="true"></div>
+
+  <header class="cin-top" id="top">
+    <a class="cin-brand" href="#hero" aria-label="Sharma Chai &amp; Mithai, top of page">
+      <span class="cin-brand-mark" aria-hidden="true">S</span>
+      <span class="cin-brand-text"><strong id="brandName">Sharma</strong><small id="brandLine">Chai &amp; Mithai</small></span>
+    </a>
+    <nav class="cin-nav" aria-label="Main">
+      <a href="#menu" data-t="nav.menu">Menu</a>
+      <a href="#visit" data-t="nav.visit">Visit</a>
+    </nav>
+    <div class="cin-top-actions">
+      <button class="cin-lang" id="langBtn" type="button" lang="hi">हिंदी</button>
+      <button class="cin-cartbtn" id="cartBtn" type="button" aria-label="Your order, 0 items">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 7h12l-1.2 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 9V6a3 3 0 0 1 6 0v3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span class="cin-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="cin-hero" id="hero" aria-labelledby="heroTitle">
+      <div class="cin-hero-media" aria-hidden="true">
+        <img class="cin-hero-img" id="heroImg" src="../../assets/images/chai/hero-burst.webp" alt="" width="720" height="1290" fetchpriority="high" decoding="async">
+        <div class="cin-hero-floats" id="heroFloats"></div>
+      </div>
+      <div class="cin-hero-copy">
+        <p class="cin-eyebrow" data-t="hero.eyebrow">Since 1987 · Aminabad, Lucknow</p>
+        <h1 id="heroTitle" class="cin-hero-title">
+          <span class="ln"><span class="ln-in" data-t="hero.l1">Subah ki pehli chai.</span></span>
+          <span class="ln ln-it"><span class="ln-in" data-t="hero.l2">Shaam ki meethi yaadein.</span></span>
+        </h1>
+        <p class="cin-hero-sub" data-t="hero.sub">Kulhad chai on a slow flame, mithai made every morning, samosas straight from the kadhai. Pick what you love and order on WhatsApp.</p>
+        <div class="cin-hero-row">
+          <a class="cin-btn cin-btn-gold" href="#menu" data-t="hero.cta">See the menu</a>
+          <p class="cin-hours"><span class="cin-hours-t" data-t="hero.hours">6:00 AM — 11:00 PM</span><small data-t="hero.hoursNote">Open every day</small></p>
+        </div>
+      </div>
+      <div class="cin-scrollcue" aria-hidden="true"><span data-t="hero.scroll">Scroll</span><i></i></div>
+    </section>
+
+    <div id="menu" class="cin-menu" aria-label="Menu">
+      <noscript><p class="cin-noscript">Please turn on JavaScript to see the menu and order on WhatsApp.</p></noscript>
+    </div>
+
+    <section class="cin-visit" id="visit" aria-labelledby="visitTitle">
+      <p class="cin-eyebrow" data-t="visit.kicker">Visit us</p>
+      <h2 id="visitTitle" class="cin-visit-title"><span data-t="visit.l1">Aminabad,</span> <em data-t="visit.l2">Lucknow.</em></h2>
+      <p class="cin-visit-addr" data-t="visit.addr">Shop 12, Sample Lane, Aminabad, Lucknow (demo address)</p>
+      <p class="cin-visit-hours" data-t="visit.hours">Every day · 6:00 AM — 11:00 PM</p>
+      <a class="cin-btn cin-btn-wa" id="helloBtn" href="#visit" target="_blank" rel="noopener noreferrer" data-t="visit.cta">Say hello on WhatsApp</a>
+    </section>
+
+    <footer class="cin-made">
+      <p data-t="made.text">This is a demo website by Kirana Smart. Products, prices and address are samples.</p>
+      <a href="../../index.html#pricing" data-t="made.cta">Get a website like this for your shop</a>
+    </footer>
+  </main>
+
+  <nav class="cin-rail" id="rail" aria-label="Menu items">
+    <span class="cin-rail-n"><b id="railNum">01</b><i>/</i><span id="railTotal">06</span></span>
+    <span class="cin-rail-bar" aria-hidden="true"><i id="railFill"></i></span>
+    <span class="cin-rail-tabs" id="railTabs"></span>
+  </nav>
+
+  <button class="cin-pill" id="cartPill" type="button" hidden>
+    <span class="cin-pill-l"><b id="pillCount">1 item</b><span id="pillTotal">₹0</span></span>
+    <span class="cin-pill-r" data-t="cart.view">View order</span>
+  </button>
+
+  <div class="cin-sheet-bg" id="sheetBg" hidden></div>
+  <div class="cin-sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+    <div class="cin-sheet-head">
+      <h2 id="sheetTitle" data-t="cart.title">Your order</h2>
+      <button class="cin-x" id="sheetClose" type="button" aria-label="Close">×</button>
+    </div>
+    <ul class="cin-lines" id="cartLines"></ul>
+    <p class="cin-empty" id="cartEmpty" data-t="cart.empty">Your order is empty. Add something tasty.</p>
+    <div class="cin-form" id="cartForm">
+      <label class="cin-field"><span data-t="f.name">Your name (optional)</span><input id="fName" type="text" autocomplete="name" maxlength="60"></label>
+      <fieldset class="cin-seg">
+        <legend data-t="f.mode">How do you want it?</legend>
+        <label><input type="radio" name="mode" value="pickup" checked><span data-t="f.pickup">Pickup from shop</span></label>
+        <label><input type="radio" name="mode" value="delivery"><span data-t="f.delivery">Home delivery</span></label>
+      </fieldset>
+      <label class="cin-field" id="addrWrap" hidden><span data-t="f.address">Delivery address</span><textarea id="fAddress" rows="2" maxlength="240" autocomplete="street-address"></textarea></label>
+      <p class="cin-err" id="addrErr" role="alert" hidden data-t="f.addressErr">Please write your delivery address.</p>
+      <label class="cin-field"><span data-t="f.note">Note for the shop (optional)</span><input id="fNote" type="text" maxlength="120"></label>
+      <div class="cin-total"><span data-t="cart.total">Total</span><strong id="cartTotal">₹0</strong></div>
+      <a class="cin-btn cin-btn-wa cin-btn-block" id="waSend" href="#" target="_blank" rel="noopener noreferrer" data-t="send">Order on WhatsApp</a>
+      <p class="cin-fine" data-t="send.note">Opens WhatsApp with your order. Pay the shop directly: cash or UPI.</p>
+    </div>
+  </div>
+
+  <div class="cin-toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../../assets/js/chai-config.js"></script>
+  <script src="../../assets/js/cinema.js"></script>
+</body>
+</html>
