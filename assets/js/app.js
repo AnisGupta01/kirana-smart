@@ -127,7 +127,7 @@
      --------------------------------------------------------- */
   function renderStoreLine() {
     var s = KS.getSettings();
-    $("storeLine").textContent = s.storeName + (s.storeLocation ? " · " + s.storeLocation : "");
+    $("storeLine").textContent = KS.usesShopName() ? s.storeLocation : s.storeName + (s.storeLocation ? " · " + s.storeLocation : "");
     $("footStore").textContent = s.storeName;
     $("footLoc").textContent = s.storeLocation;
     $("footLoc").hidden = !s.storeLocation;
@@ -179,7 +179,9 @@
         class: "cat-tile", type: "button", "data-cat": c,
         onclick: function () { setCategory(c); goTo("shop"); }
       }, [
-        h("span", { class: "cat-icon cat-icon-" + c, "aria-hidden": "true", text: CAT_ICONS[c] }),
+        CAT_ICONS[c] && !KS.usesShopName()
+          ? h("span", { class: "cat-icon cat-icon-" + c, "aria-hidden": "true", text: CAT_ICONS[c] })
+          : h("span", { class: "cat-icon cat-icon-art", "aria-hidden": "true" }, h("img", { src: KS.placeholderImage({ category: c, name: "" }), alt: "", width: "36", height: "36" })),
         h("span", { class: "cat-name", text: KS.categoryLabel(c) }),
         h("span", { class: "cat-count muted", text: t("results.count", { n: n }) })
       ]));
@@ -678,6 +680,7 @@
 
   function init() {
     try {
+      KS.cart.load();
       KS.initLang();
       KS.applyBranding();
       KS.applyI18n(doc);
@@ -698,6 +701,5 @@
 
   KS.app = { state: state, renderAll: renderAll, openDrawer: openDrawer, closeDrawer: closeDrawer, goTo: goTo, filteredProducts: filteredProducts, init: init };
 
-  if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", init);
-  else init();
+  KS.boot(init, showFatal);
 })(window);

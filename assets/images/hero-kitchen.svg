@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 340" width="420" height="340" role="img" aria-label="A veg thali with roti, dal and rice">
+  <circle cx="210" cy="176" r="150" fill="#ffffff" fill-opacity="0.10"/>
+  <circle cx="210" cy="176" r="112" fill="#ffffff" fill-opacity="0.08"/>
+  <ellipse cx="210" cy="312" rx="160" ry="14" fill="#2a0e04" fill-opacity="0.25"/>
+  <!-- thali plate -->
+  <ellipse cx="210" cy="206" rx="170" ry="96" fill="#d6d3d1"/>
+  <ellipse cx="210" cy="200" rx="160" ry="88" fill="#f5f5f4"/>
+  <!-- katoris -->
+  <ellipse cx="120" cy="164" rx="42" ry="22" fill="#a8a29e"/><ellipse cx="120" cy="160" rx="36" ry="17" fill="#ca8a04"/>
+  <ellipse cx="210" cy="140" rx="42" ry="22" fill="#a8a29e"/><ellipse cx="210" cy="136" rx="36" ry="17" fill="#dc2626"/>
+  <ellipse cx="300" cy="164" rx="42" ry="22" fill="#a8a29e"/><ellipse cx="300" cy="160" rx="36" ry="17" fill="#65a30d"/>
+  <!-- rice -->
+  <ellipse cx="270" cy="232" rx="56" ry="30" fill="#ffffff"/>
+  <circle cx="256" cy="224" r="3" fill="#e7e5e4"/><circle cx="276" cy="236" r="3" fill="#e7e5e4"/><circle cx="292" cy="224" r="3" fill="#e7e5e4"/>
+  <!-- rotis -->
+  <ellipse cx="150" cy="236" rx="58" ry="30" fill="#d97706"/>
+  <ellipse cx="146" cy="230" rx="58" ry="30" fill="#f59e0b"/>
+  <circle cx="130" cy="226" r="5" fill="#b45309" fill-opacity="0.5"/><circle cx="160" cy="236" r="4" fill="#b45309" fill-opacity="0.5"/>
+  <!-- steam -->
+  <path d="M190 100 q-10 -16 0 -32 M210 96 q-10 -16 0 -32 M230 100 q-10 -16 0 -32" stroke="#ffffff" stroke-opacity="0.7" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M60 70 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6z" fill="#fde68a"/>
+</svg>

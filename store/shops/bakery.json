@@ -1,0 +1,73 @@
+{
+  "_readme": "BAKERY DEMO SHOP. Fictional shop. All products, prices and stock are SAMPLE data. Copy this file to make a new shop - see docs/NEW-SHOP.md.",
+  "id": "bakery",
+  "demo": true,
+  "niche": "bakery",
+  "brandName": "Kirana Smart",
+  "storeName": "Fresh Oven Bakery (Demo)",
+  "storeLocation": "Sample Market Road, Demo City (fictional address)",
+  "whatsappNumber": "91XXXXXXXXXX",
+  "hours": {"en":"Every day, 9 AM to 10 PM (sample hours)","hi":"रोज़, सुबह 9 से रात 10 बजे तक (नमूना समय)"},
+  "colors": {"brand":"#7c2d12","accent":"#f59e0b"},
+  "logoText": "FO",
+  "heroImage": "assets/images/hero-bakery.svg",
+  "deliveryFee": 25,
+  "freeDeliveryAbove": 600,
+  "deliveryNote": "Cakes need 4 hours notice. Delivery within 3 km (sample terms).",
+  "pickupNote": "Collect from the bakery counter.",
+  "lowStockThreshold": 5,
+  "defaultLanguage": "en",
+  "categories": [
+    {"id":"cakes","en":"Cakes","hi":"केक","art":"cake","bg":"#fce7f3","fg":"#be185d"},
+    {"id":"pastries","en":"Pastries","hi":"पेस्ट्री","art":"cake","bg":"#ede9fe","fg":"#6d28d9"},
+    {"id":"breads","en":"Breads & Buns","hi":"ब्रेड और बन","art":"bread","bg":"#fef3c7","fg":"#b45309"},
+    {"id":"cookies","en":"Cookies & Rusk","hi":"कुकीज़ और रस्क","art":"sweet","bg":"#ffedd5","fg":"#9a3412"},
+    {"id":"snacks","en":"Puffs & Snacks","hi":"पफ़ और स्नैक्स","art":"packet","bg":"#ecfccb","fg":"#4d7c0f"}
+  ],
+  "text": {
+    "en": {
+      "page.title.store": "Fresh Oven Bakery (Demo) - Order cakes on WhatsApp",
+      "hero.eyebrow": "Baked fresh every day",
+      "hero.title": "Cakes, breads and puffs on WhatsApp",
+      "hero.sub": "Order a birthday cake or today's fresh bread. The bakery confirms on WhatsApp.",
+      "hero.cta": "See the menu",
+      "search.placeholder": "Search (e.g. cake, pav, cookies)",
+      "footer.about": "Your neighbourhood bakery, now online. Order on WhatsApp and pay the shop directly.",
+      "how.s1.d": "Add cakes, breads and snacks to your cart. No sign-up needed."
+    },
+    "hi": {
+      "page.title.store": "फ़्रेश ओवन बेकरी (डेमो) - WhatsApp पर केक ऑर्डर करें",
+      "hero.eyebrow": "रोज़ ताज़ा बेक",
+      "hero.title": "केक, ब्रेड और पफ़, WhatsApp पर",
+      "hero.sub": "बर्थडे केक या आज की ताज़ा ब्रेड ऑर्डर करें। बेकरी WhatsApp पर कन्फ़र्म करेगी।",
+      "hero.cta": "मेन्यू देखें",
+      "search.placeholder": "खोजें (जैसे केक, पाव, कुकीज़)",
+      "footer.about": "आपके मोहल्ले की बेकरी, अब ऑनलाइन। WhatsApp पर ऑर्डर करें और भुगतान सीधे दुकान को करें।",
+      "how.s1.d": "केक, ब्रेड और स्नैक्स कार्ट में डालें। साइन-अप की ज़रूरत नहीं।"
+    }
+  },
+  "products": [
+    {"id":"b001","name":"Black Forest Cake","nameHi":"ब्लैक फ़ॉरेस्ट केक","category":"cakes","price":450,"mrp":null,"unit":"500 g","stock":6,"available":true,"featured":true,"popular":true,"image":""},
+    {"id":"b002","name":"Pineapple Cake","nameHi":"पाइनएप्पल केक","category":"cakes","price":400,"mrp":null,"unit":"500 g","stock":6,"available":true,"popular":true,"image":""},
+    {"id":"b003","name":"Chocolate Truffle Cake","nameHi":"चॉकलेट ट्रफ़ल केक","category":"cakes","price":950,"mrp":1050,"unit":"1 kg","stock":4,"available":true,"featured":true,"image":""},
+    {"id":"b004","name":"Eggless Butterscotch Cake","nameHi":"एगलेस बटरस्कॉच केक","category":"cakes","price":480,"mrp":null,"unit":"500 g","stock":5,"available":true,"image":""},
+    {"id":"b005","name":"Chocolate Pastry","nameHi":"चॉकलेट पेस्ट्री","category":"pastries","price":70,"mrp":null,"unit":"1 pc","stock":20,"available":true,"featured":true,"popular":true,"image":""},
+    {"id":"b006","name":"Pineapple Pastry","nameHi":"पाइनएप्पल पेस्ट्री","category":"pastries","price":60,"mrp":null,"unit":"1 pc","stock":20,"available":true,"image":""},
+    {"id":"b007","name":"Red Velvet Pastry","nameHi":"रेड वेलवेट पेस्ट्री","category":"pastries","price":90,"mrp":null,"unit":"1 pc","stock":3,"available":true,"image":""},
+    {"id":"b008","name":"White Bread","nameHi":"व्हाइट ब्रेड","category":"breads","price":40,"mrp":null,"unit":"400 g","stock":30,"available":true,"popular":true,"image":""},
+    {"id":"b009","name":"Brown Bread","nameHi":"ब्राउन ब्रेड","category":"breads","price":50,"mrp":null,"unit":"400 g","stock":20,"available":true,"image":""},
+    {"id":"b010","name":"Pav","nameHi":"पाव","category":"breads","price":35,"mrp":null,"unit":"6 pcs","stock":25,"available":true,"popular":true,"image":""},
+    {"id":"b011","name":"Sweet Bun","nameHi":"मीठा बन","category":"breads","price":40,"mrp":null,"unit":"4 pcs","stock":0,"available":true,"image":""},
+    {"id":"b012","name":"Atta Biscuits","nameHi":"आटा बिस्कुट","category":"cookies","price":160,"mrp":180,"unit":"400 g","stock":15,"available":true,"featured":true,"image":""},
+    {"id":"b013","name":"Nankhatai","nameHi":"नानख़टाई","category":"cookies","price":120,"mrp":null,"unit":"250 g","stock":15,"available":true,"popular":true,"image":""},
+    {"id":"b014","name":"Rusk","nameHi":"रस्क","category":"cookies","price":80,"mrp":null,"unit":"300 g","stock":25,"available":true,"image":""},
+    {"id":"b015","name":"Veg Puff","nameHi":"वेज पफ़","category":"snacks","price":25,"mrp":null,"unit":"1 pc","stock":30,"available":true,"popular":true,"image":""},
+    {"id":"b016","name":"Paneer Puff","nameHi":"पनीर पफ़","category":"snacks","price":35,"mrp":null,"unit":"1 pc","stock":20,"available":true,"image":""},
+    {"id":"b017","name":"Cream Roll","nameHi":"क्रीम रोल","category":"snacks","price":30,"mrp":null,"unit":"1 pc","stock":18,"available":true,"image":""}
+  ],
+  "sampleOrders": [
+    {"n":1,"minsAgo":25,"status":"Pending","name":"Demo Customer A","phone":"98XXXXXX21","type":"delivery","address":"House 0, Sample Colony, Demo City (fictional address)","notes":"Write 'Happy Birthday' on the cake (sample note).","items":[["b001",1],["b005",4]]},
+    {"n":2,"minsAgo":90,"status":"Ready","name":"Demo Customer B","phone":"97XXXXXX22","type":"pickup","address":"","notes":"","items":[["b008",2],["b010",2],["b015",4]]},
+    {"n":3,"minsAgo":300,"status":"Completed","name":"Demo Customer C","phone":"96XXXXXX23","type":"pickup","address":"","notes":"","items":[["b012",1],["b013",1]]}
+  ]
+}
