@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#14532d">
+  <meta name="theme-color" content="#0a0908">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>Dukaan ki website 1 din mein, WhatsApp pe order, koi commission nahi | Kirana Smart</title>
   <meta name="description" content="Apni dukaan ki website, 1 din mein. Customers WhatsApp pe order karte hain, koi commission nahi. Kirana, mithai, bakery, cloud kitchen. ₹999 setup + ₹149/month, pehla mahina free. Lucknow, Kanpur, Varanasi.">
@@ -24,6 +24,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="preload" href="assets/fonts/cormorant-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -47,6 +48,8 @@
         "makesOffer": [
           { "@type": "Offer", "name": "Starter shop website (one-time setup)", "price": "999", "priceCurrency": "INR" },
           { "@type": "Offer", "name": "Starter monthly plan (first month free)", "price": "149", "priceCurrency": "INR" },
+          { "@type": "Offer", "name": "Premium cinematic shop website (one-time setup)", "price": "2999", "priceCurrency": "INR" },
+          { "@type": "Offer", "name": "Premium cinematic monthly plan", "price": "199", "priceCurrency": "INR" },
           { "@type": "Offer", "name": "Udhaar Khata Pro add-on (monthly)", "price": "99", "priceCurrency": "INR" },
           { "@type": "Offer", "name": "Festival poster set", "price": "199", "priceCurrency": "INR" }
         ]
@@ -85,12 +88,22 @@
 
   <main id="main" tabindex="-1">
     <!-- HERO -->
-    <section class="lp-hero" aria-labelledby="heroTitle">
+    <section class="lp-hero lp-hero-cine" aria-labelledby="heroTitle">
+      <div class="lph-bg" aria-hidden="true">
+        <img class="lph-burst" src="assets/images/chai/hero-burst.webp" alt="" width="720" height="1290" fetchpriority="high">
+        <span class="lph-f lph-f1"><img src="assets/images/chai/ing-cardamom.webp" alt="" width="200" height="183"></span>
+        <span class="lph-f lph-f2"><img src="assets/images/chai/ing-cinnamon.webp" alt="" width="200" height="199"></span>
+        <span class="lph-f lph-f3"><img src="assets/images/chai/ing-rose.webp" alt="" width="185" height="181"></span>
+        <span class="lph-f lph-f4"><img src="assets/images/chai/ing-staranise.webp" alt="" width="182" height="112"></span>
+        <span class="lph-f lph-f5"><img src="assets/images/chai/ing-pistachio.webp" alt="" width="116" height="172"></span>
+        <span class="lph-f lph-f6"><img src="assets/images/chai/ing-saffron.webp" alt="" width="172" height="169"></span>
+      </div>
       <div class="lp-wrap lp-hero-grid">
         <div class="lp-hero-text">
           <p class="lp-eyebrow" data-i18n="l.hero.eyebrow">For kirana, mithai, bakery &amp; cloud kitchens in UP</p>
-          <h1 id="heroTitle" data-i18n="l.hero.title">Apni dukaan ki website, 1 din mein. WhatsApp pe order. Koi commission nahi.</h1>
-          <p class="lp-hero-sub" data-i18n="l.hero.sub">Your customers pick items on your own website and the order lands on your WhatsApp. No app, no commission, no computer needed.</p>
+          <h1 id="heroTitle" class="lph-title"><span class="lph-l1" data-i18n="l.hero.t1">Apni dukaan ki website,</span> <em class="lph-l2" data-i18n="l.hero.t2">itni sundar ki customer ruk jaaye.</em></h1>
+          <p class="lph-promise" data-i18n="l.hero.promise">1 din mein live. WhatsApp pe order. Koi commission nahi.</p>
+          <p class="lp-hero-sub" data-i18n="l.hero.sub">Real product photos, cinematic scrolling and orders straight on your WhatsApp. No app, no commission, live in 1 day.</p>
           <div class="lp-ctas">
             <a class="btn btn-whatsapp btn-lg" href="#contact" data-wa="demo" data-i18n="l.cta.demo">Free demo maango</a>
             <a class="btn btn-outline-light btn-lg" href="#demos" data-i18n="l.cta.see">See live demos</a>
@@ -103,20 +116,16 @@
           </ul>
         </div>
 
-        <div class="lp-preview" id="preview">
-          <div class="lp-preview-tabs" role="tablist" aria-label="Choose a demo shop" data-i18n-aria="l.preview.tabs">
-            <button class="lp-ptab" type="button" role="tab" aria-selected="true" data-shop="kirana" data-i18n="l.niche.kirana">Kirana</button>
-            <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="mithai" data-i18n="l.niche.mithai">Mithai</button>
-            <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="bakery" data-i18n="l.niche.bakery">Bakery</button>
-            <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="cloud-kitchen" data-i18n="l.niche.cloud">Cloud kitchen</button>
-          </div>
-          <div class="phone" aria-label="Live preview of a demo shop website" data-i18n-aria="l.preview.label">
+        <div class="lph-show">
+          <div class="lph-glow" aria-hidden="true"></div>
+          <div class="phone phone-cine" aria-label="Premium demo: Sharma Chai &amp; Mithai, playing live" data-i18n-aria="l.hero.cineLabel">
             <div class="phone-notch" aria-hidden="true"></div>
             <div class="phone-screen">
-              <iframe id="previewFrame" title="Demo shop website" src="store/index.html?shop=kirana" loading="lazy" tabindex="-1"></iframe>
+              <iframe id="heroFrame" title="Premium cinematic demo shop" src="demo/chai/index.html?autoplay=1" tabindex="-1"></iframe>
             </div>
           </div>
-          <p class="lp-preview-note"><a id="previewOpen" href="store/index.html?shop=kirana" data-i18n="l.preview.open">Open this demo full screen</a></p>
+          <p class="lph-tag"><span class="lph-dot" aria-hidden="true"></span><span data-i18n="l.hero.cineTag">Premium · live demo</span></p>
+          <a class="lph-open" href="demo/chai/index.html" data-i18n="l.hero.cineOpen">Open the cinematic demo</a>
         </div>
       </div>
     </section>
@@ -127,9 +136,24 @@
         <p class="lp-kicker" data-i18n="l.demos.kicker">Live demos</p>
         <h2 id="demosTitle" class="lp-h2" data-i18n="l.demos.title">See a website like yours, right now</h2>
         <p class="lp-lead" data-i18n="l.demos.lead">Tap a demo, add items to the cart and press "Order on WhatsApp". This is exactly what your customers will see, with your shop's name.</p>
+        <a class="premium-demo" href="demo/chai/index.html">
+          <span class="pd-media" aria-hidden="true">
+            <img class="pd-img" src="assets/images/chai/chai.webp" alt="" width="860" height="860" loading="lazy">
+            <img class="pd-f pd-f1" src="assets/images/chai/ing-cinnamon.webp" alt="" width="200" height="199" loading="lazy">
+            <img class="pd-f pd-f2" src="assets/images/chai/ing-cardamom.webp" alt="" width="200" height="183" loading="lazy">
+            <img class="pd-f pd-f3" src="assets/images/chai/ing-staranise.webp" alt="" width="182" height="112" loading="lazy">
+            <img class="pd-f pd-f4" src="assets/images/chai/ing-ginger.webp" alt="" width="200" height="183" loading="lazy">
+          </span>
+          <span class="pd-body">
+            <span class="pd-badges"><span class="pd-badge" data-i18n="l.demos.premiumBadge">Premium</span><span class="pd-tag" data-i18n="l.demos.premiumTag">Cinematic website</span></span>
+            <strong class="pd-title" data-i18n="l.demos.premiumTitle">Sharma Chai &amp; Mithai</strong>
+            <span class="pd-text" data-i18n="l.demos.premiumText">One dish per screen, ingredients flying around real product photos as you scroll. Made to stop thumbs on Instagram. Perfect for chai, sweets, cafés and restaurants.</span>
+            <span class="pd-go" data-i18n="l.demos.premiumGo">Open premium demo</span>
+          </span>
+        </a>
         <div class="niche-grid">
           <a class="niche-card" href="store/index.html?shop=kirana">
-            <span class="niche-art niche-kirana"><img src="assets/images/hero-basket.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-art niche-kirana"><img src="assets/images/products/hero-kirana.webp" alt="" width="480" height="480" loading="lazy"></span>
             <span class="niche-body">
               <strong class="niche-title" data-i18n="l.niche.kirana">Kirana</strong>
               <span class="niche-text" data-i18n="l.niche.kirana.d">Atta, dal, oil, daily needs. Offers, stock, home delivery.</span>
@@ -137,7 +161,7 @@
             </span>
           </a>
           <a class="niche-card" href="store/index.html?shop=mithai">
-            <span class="niche-art niche-mithai"><img src="assets/images/hero-mithai.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-art niche-mithai"><img src="assets/images/products/hero-mithai.webp" alt="" width="480" height="480" loading="lazy"></span>
             <span class="niche-body">
               <strong class="niche-title" data-i18n="l.niche.mithai">Mithai</strong>
               <span class="niche-text" data-i18n="l.niche.mithai.d">Sweets by the kilo, gift boxes for festivals and weddings.</span>
@@ -145,7 +169,7 @@
             </span>
           </a>
           <a class="niche-card" href="store/index.html?shop=bakery">
-            <span class="niche-art niche-bakery"><img src="assets/images/hero-bakery.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-art niche-bakery"><img src="assets/images/products/hero-bakery.webp" alt="" width="480" height="480" loading="lazy"></span>
             <span class="niche-body">
               <strong class="niche-title" data-i18n="l.niche.bakery">Bakery</strong>
               <span class="niche-text" data-i18n="l.niche.bakery.d">Birthday cakes, pastries, bread and puffs, with order notes.</span>
@@ -153,13 +177,31 @@
             </span>
           </a>
           <a class="niche-card" href="store/index.html?shop=cloud-kitchen">
-            <span class="niche-art niche-cloud"><img src="assets/images/hero-kitchen.svg" alt="" width="210" height="170" loading="lazy"></span>
+            <span class="niche-art niche-cloud"><img src="assets/images/products/hero-cloud-kitchen.webp" alt="" width="480" height="480" loading="lazy"></span>
             <span class="niche-body">
               <strong class="niche-title" data-i18n="l.niche.cloud">Cloud kitchen</strong>
               <span class="niche-text" data-i18n="l.niche.cloud.d">Thalis, biryani, rolls. Direct orders without app commission.</span>
               <span class="niche-go" data-i18n="l.demos.open">Open demo</span>
             </span>
           </a>
+        </div>
+        <div class="lp-classic">
+          <p class="lp-classic-title" data-i18n="l.demos.tryAll">Or try a classic shop demo live</p>
+          <div class="lp-preview" id="preview">
+            <div class="lp-preview-tabs" role="tablist" aria-label="Choose a demo shop" data-i18n-aria="l.preview.tabs">
+              <button class="lp-ptab" type="button" role="tab" aria-selected="true" data-shop="kirana" data-i18n="l.niche.kirana">Kirana</button>
+              <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="mithai" data-i18n="l.niche.mithai">Mithai</button>
+              <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="bakery" data-i18n="l.niche.bakery">Bakery</button>
+              <button class="lp-ptab" type="button" role="tab" aria-selected="false" data-shop="cloud-kitchen" data-i18n="l.niche.cloud">Cloud kitchen</button>
+            </div>
+            <div class="phone" aria-label="Live preview of a demo shop website" data-i18n-aria="l.preview.label">
+              <div class="phone-notch" aria-hidden="true"></div>
+              <div class="phone-screen">
+                <iframe id="previewFrame" title="Demo shop website" src="store/index.html?shop=kirana" loading="lazy" tabindex="-1"></iframe>
+              </div>
+            </div>
+            <p class="lp-preview-note"><a id="previewOpen" href="store/index.html?shop=kirana" data-i18n="l.preview.open">Open this demo full screen</a></p>
+          </div>
         </div>
         <div class="lp-tools-row">
           <a class="tool-chip" href="udhaar.html" data-i18n="l.demos.udhaar">Try the Digital Udhaar Khata demo</a>
@@ -253,6 +295,21 @@
               <li data-i18n="l.price.i6">Price and item changes: just send them on WhatsApp</li>
             </ul>
             <a class="btn btn-whatsapp btn-lg btn-block" href="#contact" data-wa="starter" data-i18n="l.cta.demo">Free demo maango</a>
+          </article>
+          <article class="price-card price-premium">
+            <p class="price-badge price-badge-dark" data-i18n="l.price.premiumBadge">Stops the scroll</p>
+            <h3 data-i18n="l.price.premium">Premium cinematic</h3>
+            <p class="price-amt"><strong>₹2,999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
+            <p class="price-amt2"><strong>+ ₹199</strong> <span data-i18n="l.price.month">per month</span></p>
+            <ul class="tick-list">
+              <li data-i18n="l.price.pm1">Everything in Starter</li>
+              <li data-i18n="l.price.pm2">Cinematic one-product-per-screen design</li>
+              <li data-i18n="l.price.pm3">Studio-style photos of your top 6 items</li>
+              <li data-i18n="l.price.pm4">A 9:16 video of your website for Instagram reels</li>
+              <li data-i18n="l.price.pm5">Hindi + English, orders on WhatsApp, 0% commission</li>
+            </ul>
+            <a class="btn btn-gold btn-lg btn-block" href="#contact" data-wa="premium" data-i18n="l.price.askPremium">Ask for a premium demo</a>
+            <a class="price-link" href="demo/chai/index.html" data-i18n="l.demos.premiumGo">Open premium demo</a>
           </article>
           <article class="price-card">
             <h3 data-i18n="l.price.udhaar">Udhaar Khata Pro</h3>
@@ -357,6 +414,7 @@
         <div>
           <h2 class="footer-title" data-i18n="l.foot.demos">Demos &amp; tools</h2>
           <ul class="foot-links">
+            <li><a href="demo/chai/index.html" data-i18n="l.demos.premiumTitle">Sharma Chai &amp; Mithai</a></li>
             <li><a href="store/index.html?shop=kirana" data-i18n="l.niche.kirana">Kirana</a></li>
             <li><a href="store/index.html?shop=mithai" data-i18n="l.niche.mithai">Mithai</a></li>
             <li><a href="store/index.html?shop=bakery" data-i18n="l.niche.bakery">Bakery</a></li>

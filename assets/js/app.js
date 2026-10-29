@@ -174,12 +174,17 @@
     KS.clear(grid);
     var products = KS.getProducts();
     KS.CATEGORIES.forEach(function (c) {
-      var n = products.filter(function (p) { return p.category === c; }).length;
+      var inCat = products.filter(function (p) { return p.category === c; });
+      var n = inCat.length;
+      /* real product photo as the category picture when the shop has one */
+      var photo = inCat.filter(function (p) { return p.image && KS.safeImageUrl(p.image); })[0];
       grid.appendChild(h("button", {
         class: "cat-tile", type: "button", "data-cat": c,
         onclick: function () { setCategory(c); goTo("shop"); }
       }, [
-        CAT_ICONS[c] && !KS.usesShopName()
+        photo
+          ? h("span", { class: "cat-icon cat-icon-photo", "aria-hidden": "true" }, h("img", { src: KS.asset(KS.safeImageUrl(photo.image)), alt: "", width: "44", height: "44", loading: "lazy" }))
+          : CAT_ICONS[c] && !KS.usesShopName()
           ? h("span", { class: "cat-icon cat-icon-" + c, "aria-hidden": "true", text: CAT_ICONS[c] })
           : h("span", { class: "cat-icon cat-icon-art", "aria-hidden": "true" }, h("img", { src: KS.placeholderImage({ category: c, name: "" }), alt: "", width: "36", height: "36" })),
         h("span", { class: "cat-name", text: KS.categoryLabel(c) }),

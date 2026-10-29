@@ -22,7 +22,8 @@ Live: https://anisgupta01.github.io/kirana-smart/
 
 | Page | What it is |
 |---|---|
-| `index.html` | Landing page for shopkeepers: hero, live phone preview, niche demos, why-us vs quick-commerce/marketplaces, features, how it works, pricing, freelancer/agency offer, sample reviews, FAQ (Hindi + English), sticky WhatsApp CTA. SEO meta, Open Graph, JSON-LD. |
+| `demo/chai/index.html` | **Premium cinematic demo** "Sharma Chai & Mithai": dark editorial design, one product per full screen (01–06), real product photos, ingredients burst around the photo as you scroll, mini cart, Hindi/English, WhatsApp order. All text, prices, photos and the shop number live in `assets/js/chai-config.js`. `?autoplay=1` plays it by itself (used in the landing-page phone). |
+| `index.html` | Landing page for shopkeepers: cinematic dark hero with the premium demo playing in a phone, niche demos, why-us vs quick-commerce/marketplaces, features, how it works, pricing, freelancer/agency offer, sample reviews, FAQ (Hindi + English), sticky WhatsApp CTA. SEO meta, Open Graph, JSON-LD. |
 | `shop-website-lucknow.html`, `-kanpur.html`, `-varanasi.html` | City SEO pages with their own Hindi/English copy. |
 | `store/index.html?shop=<id>` | The shop website (storefront + WhatsApp checkout). One app, driven by `store/shops/<id>.json`. No `?shop=` = kirana demo. |
 | `store/admin.html?shop=<id>` | Shopkeeper demo dashboard (products, stock, sample orders, settings) with links to Udhaar Khata and the QR poster. |
@@ -41,11 +42,19 @@ Live: https://anisgupta01.github.io/kirana-smart/
 | Fresh Oven Bakery | `store/shops/bakery.json` | `store/?shop=bakery` |
 | Ghar Ka Swaad Kitchen | `store/shops/cloud-kitchen.json` | `store/?shop=cloud-kitchen` |
 
+All demo products now use real-looking studio photos (`assets/images/products/<product id>.webp`, generated, no logos), set in each JSON's `"image"` field; each shop's hero is a photo too.
+
+### Premium cinematic shop
+
+- Make one: copy `assets/js/chai-config.js` (new `id`, shop name, products, `whatsappNumber`) and `demo/chai/index.html` (point it at the new config). Photos: square product shot on a black background (`assets/images/chai/<name>.webp`, ≤150 KB) plus small transparent ingredient cut-outs (`ing-<name>.webp`).
+- Motion uses only `transform` and `opacity`, respects "reduce motion", and the pages have no horizontal scroll at 360–1280 px.
+- **Instagram reel:** `node tools/record-reel.js demo/chai/index.html reel.mp4` records a ~18 s 1080×1920 MP4 of the page scrolling itself (needs Playwright + ffmpeg).
+
 **New shop in ~30 minutes:** copy one JSON file and edit it. Step-by-step in Hindi and English: [`docs/NEW-SHOP.md`](docs/NEW-SHOP.md).
 
 ## Pricing shown on the site
 
-Starter ₹999 one-time setup + ₹149/month (first month free) · Udhaar Khata Pro +₹99/month · Festival posters ₹199/set · Template licence ₹1,499–₹2,999 · Reseller ₹499/month. Change them in `index.html` and `assets/js/site-i18n.js` (both languages), and in `terms.html`.
+Starter ₹999 one-time setup + ₹149/month (first month free) · Premium cinematic ₹2,999 setup + ₹199/month · Udhaar Khata Pro +₹99/month · Festival posters ₹199/set · Template licence ₹1,499–₹2,999 · Reseller ₹499/month. Change them in `index.html` and `assets/js/site-i18n.js` (both languages), and in `terms.html`.
 
 ## Project structure
 

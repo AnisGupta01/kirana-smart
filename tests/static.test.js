@@ -23,7 +23,9 @@ const required = ["index.html", "store/index.html", "store/admin.html", "udhaar.
   "assets/js/udhaar-core.js", "assets/js/udhaar.js", "assets/js/qr-poster.js",
   "assets/vendor/qrcode-generator/qrcode.js", "assets/vendor/qrcode-generator/LICENSE",
   "assets/images/logo.svg", "assets/images/placeholder.svg", "assets/images/og-image.png",
-  "assets/images/icon-192.png", "assets/images/icon-512.png", "assets/images/icon-maskable-512.png", "assets/images/icon-180.png"];
+  "assets/images/icon-192.png", "assets/images/icon-512.png", "assets/images/icon-maskable-512.png", "assets/images/icon-180.png",
+  "demo/chai/index.html", "assets/css/cinema.css", "assets/js/cinema.js", "assets/js/cinema-boot.js", "assets/js/chai-config.js",
+  "assets/fonts/cormorant.woff2", "assets/fonts/cormorant-italic.woff2", "assets/fonts/inter.woff2", "assets/fonts/tiro-deva.woff2", "assets/fonts/tiro-deva-italic.woff2", "assets/fonts/LICENSE.md"];
 required.forEach((f) => ok(exists(f) && fs.statSync(path.join(root, f)).size > 0, "exists and non-empty: " + f));
 ok(!exists("admin.html") && !exists("assets/js/config.js") && !exists("assets/js/products.js"), "old root store files moved/removed (store now in store/, data in store/shops/)");
 
@@ -32,7 +34,8 @@ const PAGES = {
   "index.html": null, "store/index.html": "assets/js/app.js", "store/admin.html": "assets/js/admin.js",
   "udhaar.html": "assets/js/udhaar.js", "qr-poster.html": "assets/js/qr-poster.js",
   "shop-website-lucknow.html": null, "shop-website-kanpur.html": null, "shop-website-varanasi.html": null,
-  "privacy.html": null, "terms.html": null, "refund.html": null
+  "privacy.html": null, "terms.html": null, "refund.html": null,
+  "demo/chai/index.html": "assets/js/cinema.js"
 };
 const dynamic = /^(tab-|panel-|f-|err-|field-|hint-|pf-|pferr-|pfield-|s-|serr-|stat-|sum|sent|msg|reopen|copyMsg|clearAfter|keepCart|formAlert|checkoutBtn|clearCartBtn|backToCart|checkoutForm|cartSubtotal|summaryBox|sendOrderBtn)/;
 
@@ -94,6 +97,37 @@ fs.readdirSync(jsDir).filter((f) => /\.js$/.test(f)).forEach((f) => {
   const v = read("assets/vendor/qrcode-generator/qrcode.js");
   ok(!/\beval\s*\(|new Function\s*\(|document\.write/.test(v), "vendored QR library: no eval / new Function / document.write");
   ok(/MIT/.test(read("assets/vendor/qrcode-generator/LICENSE")), "vendored QR library licence included");
+}
+
+/* Cinematic demo + real product photos */
+{
+  const w = { window: {} }; w.window = w; vm.createContext(w); vm.runInContext(read("assets/js/chai-config.js"), w);
+  const C = w.KS_CINEMA;
+  ok(C && C.products.length === 6, "chai-config.js: 6 products");
+  ok(/^91[6-9]\d{9}$/.test(C.whatsappNumber) && C.whatsappNumber === "917266042235", "chai-config.js: shop WhatsApp number is the owner number");
+  ok(C.products.every((p) => Number.isInteger(p.price) && p.price > 0 && p.en.name.length === 2 && p.hi.name.length === 2 && p.en.desc && p.hi.desc && /[\u0900-\u097F]/.test(p.hi.desc)), "chai-config.js: every product has a price and English + Hindi name/description");
+  ok(Object.keys(C.text.en).every((k) => C.text.hi[k] !== undefined) && Object.keys(C.text.hi).every((k) => C.text.en[k] !== undefined), "chai-config.js: English and Hindi texts have the same keys");
+  const imgDir = "assets/images/chai/";
+  const files = new Set(["hero-burst.webp", "grain.webp"]);
+  C.products.forEach((p) => { files.add(p.image); p.pieces.forEach((n) => files.add("ing-" + n + ".webp")); });
+  const missing = [...files].filter((f) => !exists(imgDir + f));
+  ok(missing.length === 0, "cinematic demo: all " + files.size + " photos and cut-outs exist" + (missing.length ? " -> " + missing.join(", ") : ""));
+  const big = fs.readdirSync(path.join(root, imgDir)).concat(fs.readdirSync(path.join(root, "assets/images/products")).map((f) => "../products/" + f))
+    .filter((f) => fs.statSync(path.join(root, imgDir, f)).size > 150 * 1024);
+  ok(big.length === 0, "every product photo / cut-out is 150 KB or less" + (big.length ? " -> " + big.join(", ") : ""));
+  ok(fs.readdirSync(path.join(root, imgDir)).every((f) => /\.webp$/.test(f)) && fs.readdirSync(path.join(root, "assets/images/products")).every((f) => /\.webp$/.test(f)), "product photos are WebP");
+  ["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((id) => {
+    const shop = JSON.parse(read("store/shops/" + id + ".json"));
+    const noPhoto = shop.products.filter((p) => !p.image || !exists(p.image));
+    ok(noPhoto.length === 0, id + ": every product has a real photo" + (noPhoto.length ? " -> missing " + noPhoto.map((p) => p.id).join(",") : ""));
+    ok(/\.webp$/.test(shop.heroImage) && exists(shop.heroImage), id + ": hero is a real photo");
+  });
+  const css = read("assets/css/cinema.css");
+  ok(/prefers-reduced-motion/.test(css) && /\.reduce \.scene/.test(css), "cinema.css has a reduced-motion fallback");
+  ok(!/@import|url\(["']?https?:/.test(css + read("assets/css/site.css")), "fonts are self-hosted (no font CDN)");
+  const demo = read("demo/chai/index.html");
+  ok(/<meta name="robots" content="noindex/.test(demo), "demo/chai is noindex (demo shop)");
+  ok(!/(?<![\dX])[6-9]\d{9}(?!\d)/.test(demo), "demo/chai: no phone number hard-coded in the page (comes from the config)");
 }
 
 /* Placeholders the owner must fill in */

@@ -1,3 +1,4 @@
+@font-face { font-family: "Tiro Devanagari Hindi"; src: url("../fonts/tiro-deva.woff2") format("woff2"); font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+25CC, U+A830-A839, U+A8E0-A8FF; }
 /* ============================================================
    KIRANA SMART - STYLES
    Mobile-first design system: fresh greens, a warm turmeric
@@ -44,7 +45,7 @@
   --shadow: 0 1px 2px rgba(23, 35, 28, 0.06), 0 4px 14px rgba(23, 35, 28, 0.06);
   --shadow-lg: 0 10px 30px rgba(20, 50, 30, 0.14), 0 2px 6px rgba(20, 50, 30, 0.08);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", "Mangal", "Helvetica Neue", Arial, sans-serif;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", "Mangal", "Helvetica Neue", Arial, "Tiro Devanagari Hindi", sans-serif;
   --header-h: 124px;
 }
 
@@ -879,3 +880,27 @@ body.has-cartbar .toasts { bottom: calc(92px + env(safe-area-inset-bottom, 0px))
 .has-shop-colors .btn-primary:hover, .has-shop-colors .btn-cart:hover { background: var(--brand); filter: brightness(0.88); }
 .cat-icon-art { overflow: hidden; background: #fff; }
 .cat-icon-art img { width: 36px; height: 36px; }
+
+/* ============================================================
+   Real product photos (cards + shop hero)
+   ============================================================ */
+.card-media { overflow: hidden; }
+.card-img { background: #f3ece0; transition: transform 0.5s var(--ease), opacity 0.3s; }
+.product-card:hover .card-img { transform: scale(1.045); }
+.cart-thumb { object-fit: cover; background: #f3ece0; }
+.hero-art img[src$=".webp"] {
+  width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: cover; border-radius: 22px;
+  border: 3px solid rgba(255, 255, 255, 0.85); box-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.55); filter: none;
+  transform: rotate(2deg);
+}
+@media (max-width: 767px) {
+  .hero-art:has(img[src$=".webp"]) { display: block; order: -1; margin: -8px -6px 16px; }
+  .hero:has(.hero-art img[src$=".webp"]) { display: flex; flex-direction: column; }
+  .hero-art img[src$=".webp"] { aspect-ratio: 16 / 9; border-radius: 18px; border-width: 2px; transform: none; }
+}
+@media (min-width: 768px) {
+  .hero-art img[src$=".webp"] { max-width: 340px; max-height: none; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .product-card:hover .card-img { transform: none; } }
+.cat-icon-photo { padding: 0; overflow: hidden; background: #f3ece0; }
+.cat-icon-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
