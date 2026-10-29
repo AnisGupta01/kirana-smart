@@ -97,10 +97,10 @@ fs.readdirSync(jsDir).filter((f) => /\.js$/.test(f)).forEach((f) => {
 }
 
 /* Placeholders the owner must fill in */
-ok(/ownerWhatsApp:\s*"91XXXXXXXXXX"/.test(read("assets/js/site-config.js")), "site-config.js ships a placeholder owner WhatsApp number");
+ok(/ownerWhatsApp:\s*"91[6-9]\d{9}"/.test(read("assets/js/site-config.js")), "site-config.js has a valid owner WhatsApp number");
 ok(/TODO\(owner\)/.test(read("assets/js/site-config.js")), "site-config.js has a TODO for the owner");
-["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((s) => ok(JSON.parse(read("store/shops/" + s + ".json")).whatsappNumber === "91XXXXXXXXXX", s + ".json ships a placeholder WhatsApp number"));
-ok(!/(?<![\dX])[6-9]\d{9}(?!\d)/.test(["index.html", "assets/js/site-config.js", "store/shops/kirana.json", "store/shops/mithai.json", "store/shops/bakery.json", "store/shops/cloud-kitchen.json"].map(read).join("\n")), "no real-looking 10-digit phone numbers shipped");
+["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((s) => ok(JSON.parse(read("store/shops/" + s + ".json")).whatsappNumber.match(/^91[6-9]\d{9}$/) !== null, s + ".json has a valid WhatsApp number"));
+ok(!/(?<![\dX])[6-9]\d{9}(?!\d)/.test(["index.html"].map(read).join("\n")), "no phone numbers hard-coded in index.html");
 
 /* Translations: every data-i18n key used on a page exists, and English text in HTML matches the dictionary */
 function loadDict(file, name) { const w = { window: {} }; w.window = w; vm.createContext(w); vm.runInContext(read(file), w); return w[name]; }

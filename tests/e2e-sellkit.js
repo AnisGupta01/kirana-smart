@@ -23,13 +23,13 @@ async function noOverflow(ok, page, overflowX, label) {
 
 /* serve site-config.js / a shop JSON with a real number, only inside this test context */
 async function withRealNumber(ctx, root) {
-  const cfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace("91XXXXXXXXXX", REAL);
+  const cfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace(/91XXXXXXXXXX|917266042235/g, REAL);
   await ctx.route("**/assets/js/site-config.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: cfg }));
   await ctx.route(/\/store\/shops\/[a-z0-9-]+\.json$/, (r) => {
     const id = r.request().url().split("/").pop();
     const f = path.join(root, "store/shops", id);
     if (!fs.existsSync(f)) return r.fulfill({ status: 404, body: "not found" });
-    r.fulfill({ status: 200, contentType: "application/json", body: fs.readFileSync(f, "utf8").replace("91XXXXXXXXXX", REAL) });
+    r.fulfill({ status: 200, contentType: "application/json", body: fs.readFileSync(f, "utf8").replace(/91XXXXXXXXXX|917266042235/g, REAL) });
   });
 }
 
@@ -42,6 +42,8 @@ module.exports = async function sellkit(t) {
   console.log("Landing page");
   {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
+    { const pcfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace(/917266042235/g, "91XXXXXXXXXX");
+      await ctx.route("**/assets/js/site-config.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: pcfg })); }
     await page.goto(base + "/");
     ok((await page.textContent("h1")).trim() === "Apni dukaan ki website, 1 din mein. WhatsApp pe order. Koi commission nahi.", "hero headline");
     ok((await page.title()).includes("Kirana Smart"), "landing title");

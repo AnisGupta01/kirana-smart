@@ -184,6 +184,7 @@ async function overflowX(page) {
     await page.fill("#f-phone", "98765 43210");
     await page.fill("#f-address", "12 Main Road & Co, Near Park, Lucknow");
     await page.fill("#f-notes", "Please call #1 & ring bell 100%");
+    await page.evaluate(() => KS.saveSettings(Object.assign({}, KS.getSettings(), { whatsappNumber: "91XXXXXXXXXX" })));
     await page.evaluate(() => { window.__opened = []; KS.openExternal = (u) => window.__opened.push(u); });
     await page.click("#sendOrderBtn");
     ok(await page.locator("#formAlert").isVisible(), "placeholder store number blocks sending");

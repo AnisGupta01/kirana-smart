@@ -12,7 +12,7 @@
    ============================================================ */
 window.KS_SITE = {
   /* PLACEHOLDER - put your real number here (see TODO above) */
-  ownerWhatsApp: "91XXXXXXXXXX",
+  ownerWhatsApp: "917266042235",
 
   /* Public address of the site (used for links you share) */
   siteUrl: "https://anisgupta01.github.io/kirana-smart/",

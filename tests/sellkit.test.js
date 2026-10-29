@@ -54,7 +54,7 @@ SHOPS.forEach((id) => {
   let s;
   try { s = shopJson(id); ok(true, id + ".json is valid JSON"); } catch (e) { ok(false, id + ".json is valid JSON: " + e.message); return; }
   eq(s.id, id, id + ": id matches file name");
-  ok(s.whatsappNumber === "91XXXXXXXXXX", id + ": ships the placeholder WhatsApp number");
+  ok(/^91[6-9]\d{9}$/.test(s.whatsappNumber), id + ": has a valid WhatsApp number");
   ok(s.demo === true && /demo/i.test(s.storeName), id + ": marked as demo and named (Demo)");
   ok(/^#[0-9a-f]{6}$/i.test(s.colors.brand) && /^#[0-9a-f]{6}$/i.test(s.colors.accent), id + ": brand + accent colours are hex");
   ok(s.hours && s.hours.en && s.hours.hi, id + ": opening hours in English and Hindi");
@@ -221,8 +221,9 @@ function siteWindow(cfg, attrs) {
 {
   const win = siteWindow();
   const A = win.KS_SITE_API;
-  eq(win.KS_SITE.ownerWhatsApp, "91XXXXXXXXXX", "site-config ships the placeholder owner number");
-  eq(A.waUrl("demo"), null, "placeholder number -> no WhatsApp link (shows notice)");
+  ok(/^91[6-9]\d{9}$/.test(win.KS_SITE.ownerWhatsApp), "site-config has a valid owner number");
+  ok(A.waUrl("demo").indexOf("https://wa.me/" + win.KS_SITE.ownerWhatsApp + "?text=") === 0, "owner number -> wa.me link");
+  eq(siteWindow({ ownerWhatsApp: "91XXXXXXXXXX" }).KS_SITE_API.waUrl("demo"), null, "placeholder number -> no WhatsApp link (shows notice)");
   eq(A.normalizeNumber("9876543210"), "919876543210", "10-digit number gets 91");
   eq(A.normalizeNumber("+91 98765-43210"), "919876543210", "spaces, + and dashes removed");
   eq(A.normalizeNumber("911234567890"), null, "Indian number must start 6-9");
