@@ -7,7 +7,7 @@
    Bump CACHE when you change files so phones pick up the update.
    ============================================================ */
 "use strict";
-var CACHE = "ks-shell-v2";
+var CACHE = "ks-shell-v3";
 var SHELL = [
   "./", "./index.html", "./udhaar.html", "./qr-poster.html",
   "./privacy.html", "./terms.html", "./refund.html",
@@ -27,6 +27,15 @@ var SHELL = [
   "./demo/chai/", "./demo/chai/index.html", "./assets/css/cinema.css",
   "./assets/js/cinema-boot.js", "./assets/js/chai-config.js", "./assets/js/cinema.js",
   "./assets/fonts/cormorant.woff2", "./assets/fonts/cormorant-italic.woff2", "./assets/fonts/inter.woff2",
+  "./assets/css/landing.css", "./assets/js/landing.js",
+  "./assets/images/landing/shop-kirana.webp", "./assets/images/landing/shop-mithai.webp", "./assets/images/landing/shop-bakery.webp", "./assets/images/landing/shop-cloud.webp",
+  "./assets/images/chai/samosa.webp", "./assets/images/chai/kajukatli.webp", "./assets/images/chai/rasmalai.webp", "./assets/images/chai/bunmaska.webp", "./assets/images/chai/lassi.webp",
+  "./assets/images/chai/ing-cinnamon.webp", "./assets/images/chai/ing-cardamom.webp", "./assets/images/chai/ing-staranise.webp",
+  "./assets/images/products/hero-kirana.webp", "./assets/images/products/hero-mithai.webp", "./assets/images/products/hero-bakery.webp", "./assets/images/products/hero-cloud-kitchen.webp",
+  "./assets/images/products/p001.webp", "./assets/images/products/p005.webp", "./assets/images/products/p009.webp", "./assets/images/products/p013.webp", "./assets/images/products/p015.webp", "./assets/images/products/p017.webp", "./assets/images/products/p022.webp", "./assets/images/products/p024.webp",
+  "./assets/images/products/m001.webp", "./assets/images/products/m002.webp", "./assets/images/products/m007.webp", "./assets/images/products/m009.webp", "./assets/images/products/m011.webp", "./assets/images/products/m004.webp", "./assets/images/products/m012.webp", "./assets/images/products/m016.webp",
+  "./assets/images/products/b003.webp", "./assets/images/products/b001.webp", "./assets/images/products/b005.webp", "./assets/images/products/b007.webp", "./assets/images/products/b015.webp", "./assets/images/products/b013.webp", "./assets/images/products/b008.webp", "./assets/images/products/b017.webp",
+  "./assets/images/products/k002.webp", "./assets/images/products/k001.webp", "./assets/images/products/k008.webp", "./assets/images/products/k004.webp", "./assets/images/products/k005.webp", "./assets/images/products/k007.webp", "./assets/images/products/k011.webp", "./assets/images/products/k013.webp",
   "./assets/images/chai/hero-burst.webp", "./assets/images/chai/chai.webp", "./assets/images/chai/grain.webp"
 ];
 

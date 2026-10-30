@@ -446,7 +446,8 @@
     function stops() {
       var list = [{ y: 0, hold: 1400 }];
       scenes.forEach(function (s) { list.push({ y: s.top + (s.h - vh) * 0.42, hold: 650 }); });
-      list.push({ y: Math.max(0, d.documentElement.scrollHeight - vh), hold: 1600 });
+      /* ?products=1 (landing phone): loop through the dishes only, never stop on the address screen */
+      if (!/[?&]products=1/.test(w.location.search)) list.push({ y: Math.max(0, d.documentElement.scrollHeight - vh), hold: 1600 });
       return list;
     }
     var pts = stops(), seg = 0, segStart = 0, phase = "hold", t0 = 0;
