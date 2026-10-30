@@ -72,7 +72,7 @@ Object.keys(PAGES).forEach((page) => {
   ok(/<link rel="canonical" href="https:\/\/anisgupta01\.github\.io\/kirana-smart\/[^"]*"/.test(html), page + ": canonical URL");
   ok(/property="og:title"/.test(html) && /property="og:image" content="https:/.test(html), page + ": Open Graph title + image");
   ok(/application\/ld\+json/.test(html), page + ": structured data (JSON-LD)");
-  ok(/class="btn btn-whatsapp[^"]*"[^>]*data-wa=/.test(html), page + ": has a WhatsApp demo button");
+  ok(/class="[^"]*\bbtn-whatsapp\b[^"]*"[^>]*data-wa=/.test(html), page + ": has a WhatsApp demo button");
   ok(/<h1[\s>]/.test(html) && (html.match(/<h1[\s>]/g) || []).length === 1, page + ": exactly one h1");
 });
 {
@@ -81,7 +81,6 @@ Object.keys(PAGES).forEach((page) => {
   ok(/Aminabad/.test(cityText[0]) && /Swaroop Nagar/.test(cityText[1]) && /Godowlia/.test(cityText[2]), "city pages mention local areas");
 }
 ["store/admin.html"].forEach((p) => ok(/<meta name="robots" content="noindex/.test(read(p)), p + " is noindex"));
-ok(/sample/i.test(read("index.html").match(/id="reviews"[\s\S]*?<\/section>/)[0]), "testimonials clearly marked as sample");
 
 /* JavaScript safety */
 const jsDir = path.join(root, "assets/js");

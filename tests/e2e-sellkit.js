@@ -21,6 +21,26 @@ async function noOverflow(ok, page, overflowX, label) {
   ok(bad.length === 0, label + ": no horizontal overflow at 360/390/768/1280px", bad.join(" "));
 }
 
+/* every card matching `sel` has a WebP <img> that really loaded (scrolls each card into view first, so lazy images load) */
+async function cardImages(page, sel) {
+  return page.evaluate(async (sel) => {
+    const els = Array.from(document.querySelectorAll(sel));
+    const bad = [];
+    for (const e of els) {
+      e.scrollIntoView({ block: "center", behavior: "instant" });
+      const img = e.querySelector("img");
+      if (!img) { bad.push("no <img> in " + (e.getAttribute("data-id") || e.getAttribute("data-product") || e.getAttribute("href") || e.className)); continue; }
+      if (!(img.complete && img.naturalWidth > 0)) {
+        await new Promise((r) => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); setTimeout(r, 6000); });
+      }
+      const src = img.currentSrc || img.src;
+      if (!/\.webp(\?|$)/i.test(src) || img.naturalWidth === 0) bad.push(src + " (w=" + img.naturalWidth + ")");
+    }
+    window.scrollTo({ top: 0, behavior: "instant" });
+    return { n: els.length, bad };
+  }, sel);
+}
+
 /* serve site-config.js / a shop JSON with a real number, only inside this test context */
 async function withRealNumber(ctx, root) {
   const cfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace(/91XXXXXXXXXX|917266042235/g, REAL);
@@ -48,14 +68,19 @@ module.exports = async function sellkit(t) {
     ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni dukaan ki website, itni sundar ki customer ruk jaaye.", "hero headline");
     ok((await page.textContent(".lph-promise")).trim() === "1 din mein live. WhatsApp pe order. Koi commission nahi.", "hero promise line (1 day, WhatsApp, no commission)");
     ok((await page.title()).includes("Kirana Smart"), "landing title");
-    const sections = ["demos", "why", "features", "how", "pricing", "agency", "reviews", "faq", "contact"];
+    const sections = ["demos", "shop", "features", "how", "pricing", "agency", "why", "faq", "contact"];
     const have = await page.evaluate((ids) => ids.filter((i) => document.getElementById(i)), sections);
     ok(have.length === sections.length, "all sections present (" + have.join(",") + ")");
-    ok((await page.locator(".niche-card").count()) === 4, "4 niche demo cards");
+    ok((await page.locator("#reviews").count()) === 0, "no testimonials section (no fake reviews)");
+    ok((await page.locator("#demoCarousel .lx-dcard").count()) === 5 && (await page.locator("#demoCarousel .niche-card").count()) === 4, "demo carousel: premium card + 4 niche demo cards");
     const hrefs = await page.locator(".niche-card").evaluateAll((a) => a.map((x) => x.getAttribute("href")));
     ok(["kirana", "mithai", "bakery", "cloud-kitchen"].every((s, i) => hrefs[i] === "store/index.html?shop=" + s), "niche cards open their demos");
-    ok(await page.locator(".lp-sticky .btn-whatsapp").isVisible(), "sticky green demo button visible on mobile");
-    ok((await page.locator('#reviews .rev-tag').count()) === 3 && /placeholder/i.test(await page.textContent(".sample-note")), "testimonials marked SAMPLE");
+    await page.evaluate(() => window.scrollTo({ top: document.getElementById("features").offsetTop, behavior: "instant" }));
+    await page.waitForSelector(".lp-sticky.is-on", { timeout: 4000 });
+    ok(await page.locator(".lp-sticky .btn-whatsapp").isVisible(), "sticky green demo button slides in on mobile after scrolling");
+    /* hero phone: lightweight slideshow on mobile, the demo iframe is not loaded */
+    ok((await page.getAttribute("#heroFrame", "data-src")).startsWith("demo/chai/") && !(await page.getAttribute("#heroFrame", "src")), "mobile hero shows the photo slideshow (demo iframe not loaded)");
+    ok((await page.locator(".lx-slide img").count()) === 6, "hero slideshow has 6 product photos");
     ok((await page.locator('a[href="udhaar.html"]').count()) >= 2 && (await page.locator('a[href="qr-poster.html"]').count()) >= 1, "links to Udhaar Khata and QR poster");
     /* placeholder number: no WhatsApp, friendly notice */
     ok((await page.locator("[data-wa][data-wa-missing]").count()) >= 5, "with placeholder number, demo buttons are marked missing");
@@ -65,18 +90,55 @@ module.exports = async function sellkit(t) {
     /* FAQ */
     await page.locator("#faq summary").first().click();
     ok(await page.locator("#faq details").first().evaluate((d) => d.open), "FAQ opens");
-    /* live preview */
-    const frame = page.frameLocator("#previewFrame");
-    await page.locator("#preview").scrollIntoViewIfNeeded();
-    await frame.locator("#productGrid .product-card").first().waitFor({ timeout: 8000 });
-    ok((await frame.locator("#storeLine").textContent()).includes("Sharma Kirana"), "phone preview shows the kirana demo");
-    await page.click('.lp-ptab[data-shop="mithai"]');
-    await page.waitForFunction(() => document.getElementById("previewFrame").getAttribute("src").includes("mithai"));
-    await page.waitForTimeout(300);
-    await frame.locator("#productGrid .product-card").first().waitFor({ timeout: 8000 });
-    ok((await frame.locator(".brand-text strong").first().textContent()).includes("Shree Mithai Ghar"), "preview switches to the mithai demo");
-    ok((await page.getAttribute("#previewOpen", "href")) === "store/index.html?shop=mithai", "'open full screen' link follows the preview");
-    ok((await page.getAttribute('.lp-ptab[data-shop="mithai"]', "aria-selected")) === "true", "selected preview tab marked");
+    /* demos carousel */
+    {
+      const car = page.locator("#demoCarousel");
+      await car.scrollIntoViewIfNeeded();
+      ok(await car.evaluate((c) => c.scrollWidth > c.clientWidth + 50), "demo carousel scrolls sideways on mobile");
+      ok(await car.evaluate((c) => getComputedStyle(c).scrollSnapType.includes("x")), "carousel snaps card by card");
+      await car.evaluate((c) => c.scrollTo({ left: c.scrollWidth, behavior: "instant" }));
+      await page.waitForTimeout(250);
+      ok(await page.locator("#demoCarousel .lx-dcard").last().evaluate((e) => { const r = e.getBoundingClientRect(); return r.right <= innerWidth + 1 && r.left >= 0; }), "last demo card can be swiped fully into view");
+      await car.evaluate((c) => c.scrollTo({ left: 0, behavior: "instant" }));
+    }
+    /* shop tabs + product grid */
+    {
+      await page.locator("#shop").scrollIntoViewIfNeeded();
+      await page.waitForFunction(() => !document.getElementById("shopGrid").classList.contains("is-loading"));
+      ok((await page.locator("#shopGrid .lx-card").count()) === 8, "product grid shows 8 kirana products");
+      ok((await page.getAttribute('.lx-tab[data-shop="kirana"]', "aria-selected")) === "true", "kirana tab selected first");
+      await page.click('#shopGrid [data-add="p001"]');
+      await page.click('#shopGrid [data-inc="p001"]');
+      await page.click('#shopGrid [data-add="p005"]');
+      ok((await page.textContent('#shopGrid .lx-card[data-id="p001"] .lx-qty-n')) === "2", "Add then + sets quantity 2");
+      ok(await page.locator("#shopBar").isVisible() && /3/.test(await page.textContent("#shopBarTxt")) && (await page.textContent("#shopBarTxt")).includes("₹990"), "cart bar shows 3 items and ₹990 (2 × ₹235 + ₹520)");
+      await page.click('#shopGrid [data-dec="p005"]');
+      ok((await page.locator('#shopGrid [data-add="p005"]').count()) === 1, "− back to zero shows Add again");
+      await page.click('.lx-tab[data-shop="mithai"]');
+      await page.waitForFunction(() => { const c = document.querySelector("#shopGrid .lx-card"); return c && c.getAttribute("data-id") === "m001"; }, null, { timeout: 8000 });
+      ok((await page.textContent("#shopGrid .lx-card .lx-card-name")).includes("Kaju Katli"), "mithai tab loads the mithai products");
+      ok((await page.getAttribute('.lx-tab[data-shop="mithai"]', "aria-selected")) === "true" && (await page.getAttribute('.lx-tab[data-shop="kirana"]', "aria-selected")) === "false", "selected tab marked");
+      ok((await page.getAttribute("#shopOpen", "href")) === "store/index.html?shop=mithai", "'open full screen' link follows the tab");
+      ok(await page.locator("#shopBar").isHidden(), "each shop has its own cart (mithai cart empty)");
+      await page.focus('.lx-tab[data-shop="mithai"]');
+      await page.keyboard.press("ArrowRight");
+      ok((await page.getAttribute('.lx-tab[data-shop="bakery"]', "aria-selected")) === "true", "arrow keys move between tabs");
+      await page.click('.lx-tab[data-shop="kirana"]');
+      await page.waitForFunction(() => document.querySelector("#shopGrid .lx-card").getAttribute("data-id") === "p001");
+      ok((await page.textContent('#shopGrid .lx-card[data-id="p001"] .lx-qty-n')) === "2", "kirana cart kept when switching back");
+    }
+    /* every product photo is a real WebP that loads */
+    {
+      const dc = await cardImages(page, ".niche-card, .premium-demo");
+      ok(dc.n === 5 && dc.bad.length === 0, "demo cards: every card has a WebP photo that loads (" + dc.n + ")", dc.bad.join(","));
+      for (const id of ["kirana", "mithai", "bakery", "cloud-kitchen"]) {
+        await page.click('.lx-tab[data-shop="' + id + '"]');
+        await page.waitForFunction(() => !document.getElementById("shopGrid").classList.contains("is-loading") && document.querySelectorAll("#shopGrid .lx-card").length === 8, null, { timeout: 8000 });
+        const g = await cardImages(page, "#shopGrid .lx-card");
+        ok(g.n === 8 && g.bad.length === 0, "landing grid (" + id + "): every product card has a WebP photo that loads", g.bad.join(","));
+      }
+      await page.click('.lx-tab[data-shop="kirana"]');
+    }
     /* images */
     const imgs = await page.evaluate(async () => {
       const list = Array.from(document.images);
@@ -106,8 +168,18 @@ module.exports = async function sellkit(t) {
     ok((await page.getAttribute(".lp-hero .btn-whatsapp", "target")) === "_blank" && /noopener/.test(await page.getAttribute(".lp-hero .btn-whatsapp", "rel")), "WhatsApp opens in a new tab safely");
     ok(/^AGENCY/.test(decodeURIComponent((await page.getAttribute('[data-wa="agency"]', "href")).split("?text=")[1])), "agency button has its own message");
     ok(await page.locator(".lp-nav").isVisible(), "desktop nav visible");
-    const cols = await page.evaluate(() => getComputedStyle(document.querySelector(".niche-grid")).gridTemplateColumns.split(" ").length);
-    ok(cols === 4, "desktop niche grid has 4 columns");
+    const row = await page.evaluate(() => { const c = [...document.querySelectorAll("#demoCarousel .lx-dcard")].map((e) => e.getBoundingClientRect()); return { sameRow: c.slice(0, 4).every((r) => Math.abs(r.top - c[0].top) < 2), shown: c.filter((r) => r.left >= 0 && r.right <= innerWidth + 1).length }; });
+    {
+      await page.locator("#demoCarousel").scrollIntoViewIfNeeded();
+      ok(await page.locator('[data-car="prev"]').isDisabled(), "desktop carousel: 'previous' disabled at the start");
+      const x0 = await page.locator("#demoCarousel").evaluate((c) => c.scrollLeft);
+      await page.click('[data-car="next"]');
+      await page.waitForFunction((x) => document.getElementById("demoCarousel").scrollLeft > x + 50, x0, { timeout: 4000 });
+      await page.waitForTimeout(700);
+      ok(!(await page.locator('[data-car="prev"]').isDisabled()), "desktop carousel: 'next' scrolls and enables 'previous'");
+    }
+    ok(row.sameRow && row.shown >= 3, "desktop demo carousel shows at least 3 cards side by side (" + row.shown + ")");
+    ok((await page.locator("#shopGrid").evaluate((g) => getComputedStyle(g).gridTemplateColumns.split(" ").length)) === 4, "desktop product grid has 4 columns");
     await ctx.close();
   }
 
@@ -197,13 +269,27 @@ module.exports = async function sellkit(t) {
   {
     const { ctx, page } = await newPage(browser, base, { width: 1280, height: 800 }, problems, NOSW);
     await page.goto(base + "/");
-    ok((await page.getAttribute("#heroFrame", "src")).startsWith("demo/chai/"), "landing hero phone plays the cinematic demo");
+    await page.waitForFunction(() => { const f = document.getElementById("heroFrame"); return f && f.getAttribute("src"); }, null, { timeout: 8000 });
+    ok((await page.getAttribute("#heroFrame", "src")).startsWith("demo/chai/") && !(await page.locator("#heroFrame").evaluate((f) => f.hidden)), "desktop: hero phone loads the cinematic demo after page load");
+    await page.waitForFunction(() => document.querySelector(".lx-screen").classList.contains("is-live"), null, { timeout: 8000 });
+    ok(true, "desktop: hero phone swaps the slideshow for the live demo");
     ok((await page.getAttribute(".premium-demo", "href")) === "demo/chai/index.html" && /premium/i.test(await page.textContent(".premium-demo .pd-badge")), "first demo card is the Premium cinematic demo");
     const prem = await page.textContent(".price-premium");
     ok(/₹2,999/.test(prem) && /₹199/.test(prem), "Premium tier ₹2,999 setup + ₹199/month");
     const starter = await page.textContent(".price-main");
     ok(/₹999/.test(starter) && /₹149/.test(starter), "Starter tier still ₹999 + ₹149");
     ok((await page.getAttribute('.price-premium [data-wa="premium"]', "href")).startsWith("https://wa.me/917266042235?text=PREMIUM"), "Premium button opens WhatsApp to the owner");
+    await ctx.close();
+  }
+
+  /* ---------------- Demo store photos ---------------- */
+  console.log("Demo store product photos");
+  for (const id of ["kirana", "mithai", "bakery", "cloud-kitchen"]) {
+    const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
+    await page.goto(base + "/store/index.html?shop=" + id);
+    await page.waitForSelector("#productGrid .product-card", { timeout: 8000 });
+    const r = await cardImages(page, ".product-card");
+    ok(r.n >= shop(id).products.length && r.bad.length === 0, "demo store " + id + ": every product card has a WebP photo that loads (" + r.n + ")", r.bad.join(","));
     await ctx.close();
   }
 
