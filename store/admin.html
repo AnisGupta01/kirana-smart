@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#14532d">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="robots" content="noindex, nofollow">
-  <title data-i18n="page.title.admin">Shopkeeper Dashboard (Demo) - Kirana Smart</title>
+  <title data-i18n="page.title.admin">Shop setup tool (local demo) - Kirana Smart</title>
   <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="manifest" href="../manifest.webmanifest">
@@ -22,7 +22,7 @@
         <img class="brand-logo" src="../assets/images/logo.svg" alt="" width="40" height="40">
         <span class="brand-text">
           <strong data-brand-name>Kirana Smart</strong>
-          <small class="store-line" data-i18n="admin.title">Shopkeeper Dashboard (Demo)</small>
+          <small class="store-line" data-i18n="admin.title">Shop setup tool (local demo)</small>
         </span>
       </a>
       <div class="header-actions">
@@ -36,7 +36,7 @@
     <div class="container">
       <div class="demo-banner demo-banner-warn" role="note">
         <strong data-i18n="demo.label">DEMO</strong>
-        <span data-i18n="admin.banner">Demo dashboard: no login, no security, and changes are saved only in this browser on this device. They do NOT reach customers' phones.</span>
+        <span data-i18n="admin.banner">Local demo tool: no login and no security. Changes are saved only in this browser on this device and do NOT reach customers until you export the shop file and publish it. Orders shown here are samples; real orders arrive on WhatsApp.</span>
       </div>
 
       <div id="appError" class="state-panel state-error" role="alert" hidden>
@@ -55,7 +55,7 @@
 
         <!-- Overview -->
         <section id="panel-overview" class="tab-panel" role="tabpanel" aria-labelledby="tab-overview">
-          <h2 class="block-title" data-i18n="ov.title">Today at a glance (demo)</h2>
+          <h2 class="block-title" data-i18n="ov.title">Overview (sample data)</h2>
           <div id="overviewStats" class="stat-grid"></div>
           <div class="two-col">
             <div class="box">
@@ -170,6 +170,12 @@
             <button id="saveSettingsBtn" class="btn btn-primary" type="submit" data-i18n="common.save">Save</button>
           </form>
 
+          <div class="box export-box">
+            <h3 data-i18n="exp.title">Publish your changes: export the shop file</h3>
+            <p class="muted" data-i18n="exp.text">Changes made here stay in this browser only. To show them to customers, download the shop file (JSON) and send it to Kirana Smart on WhatsApp, or replace store/shops/&lt;shop&gt;.json in the website and publish.</p>
+            <button id="exportShopBtn" class="btn btn-primary" type="button" data-i18n="exp.btn">Download shop file (JSON)</button>
+          </div>
+
           <div class="box danger-zone">
             <h3 data-i18n="set.resetTitle">Reset demo data</h3>
             <p class="muted" data-i18n="set.resetText">Restores the original sample products, sample orders and settings in this browser. Your shopping cart is not touched.</p>
@@ -183,7 +189,7 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-bottom footer-bottom-solo">
-        <p><strong data-brand-name>Kirana Smart</strong> &middot; <span data-i18n="admin.footer">Demo dashboard: LocalStorage only, no login, no cloud sync. Not a secure production admin system.</span></p>
+        <p><strong data-brand-name>Kirana Smart</strong> &middot; <span data-i18n="admin.footer">Local demo tool: LocalStorage only, no login, no cloud sync. Not a secure production admin system.</span></p>
         <p><a href="index.html" data-keep-shop data-i18n="admin.backToStore">Back to store</a></p>
       </div>
     </div>

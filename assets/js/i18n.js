@@ -9,7 +9,7 @@
 window.KS_I18N = {
   en: {
     "page.title.store": "Kirana Smart - Neighbourhood Grocery (Demo)",
-    "page.title.admin": "Shopkeeper Dashboard (Demo) - Kirana Smart",
+    "page.title.admin": "Shop setup tool (local demo) - Kirana Smart",
     "a11y.skip": "Skip to main content",
     "lang.switch": "Switch language",
 
@@ -18,7 +18,7 @@ window.KS_I18N = {
     "nav.shop": "All products",
     "nav.menu": "Menu",
     "nav.cart": "Cart",
-    "nav.dashboard": "Shopkeeper Demo Dashboard",
+    "nav.dashboard": "Shop setup tool (local demo)",
 
     "demo.label": "DEMO",
     "demo.banner": "This is a demo store. Products and prices are sample data that the shop owner must verify before real use.",
@@ -116,8 +116,8 @@ window.KS_I18N = {
     "checkout.title": "Checkout",
     "checkout.back": "Back to cart",
     "checkout.name": "Your name",
-    "checkout.phone": "Mobile number",
-    "checkout.phone.hint": "10-digit Indian mobile number",
+    "checkout.phone": "Mobile number (optional)",
+    "checkout.phone.hint": "Optional. 10-digit Indian mobile number, so the shop can call you",
     "checkout.type": "Order type",
     "checkout.delivery": "Home delivery",
     "checkout.pickup": "Store pickup",
@@ -159,9 +159,9 @@ window.KS_I18N = {
     "common.confirm": "Confirm",
     "common.save": "Save",
 
-    "admin.title": "Shopkeeper Dashboard (Demo)",
-    "admin.banner": "Demo dashboard: no login, no security, and changes are saved only in this browser on this device. They do NOT reach customers' phones.",
-    "admin.footer": "Demo dashboard: LocalStorage only, no login, no cloud sync. Not a secure production admin system.",
+    "admin.title": "Shop setup tool (local demo)",
+    "admin.banner": "Local demo tool: no login and no security. Changes are saved only in this browser on this device and do NOT reach customers until you export the shop file and publish it. Orders shown here are samples; real orders arrive on WhatsApp.",
+    "admin.footer": "Local demo tool: LocalStorage only, no login, no cloud sync. Not a secure production admin system.",
     "admin.backToStore": "Back to store",
     "admin.tabs": "Dashboard sections",
 
@@ -170,7 +170,7 @@ window.KS_I18N = {
     "tab.orders": "Orders",
     "tab.settings": "Settings",
 
-    "ov.title": "Today at a glance (demo)",
+    "ov.title": "Overview (sample data)",
     "ov.ordersToday": "Orders today",
     "ov.pending": "Pending orders",
     "ov.salesToday": "Sales today (completed)",
@@ -349,12 +349,16 @@ window.KS_I18N = {
     "ud.err.note": "Note can be at most 80 characters.",
     "ud.err.type": "Choose Udhaar diya or Paisa mila.",
     "ud.err.noCustomer": "Customer not found.",
-    "legal.privacy": "Privacy"
+    "legal.privacy": "Privacy",
+    "exp.title": "Publish your changes: export the shop file",
+    "exp.text": "Changes made here stay in this browser only. To show them to customers, download the shop file (JSON) and send it to Kirana Smart on WhatsApp, or replace store/shops/<shop>.json in the website and publish.",
+    "exp.btn": "Download shop file (JSON)",
+    "exp.done": "Downloaded {file}. Publish it to update the live shop."
   },
 
   hi: {
     "page.title.store": "किराना स्मार्ट - मोहल्ले की किराना दुकान (डेमो)",
-    "page.title.admin": "दुकानदार डैशबोर्ड (डेमो) - किराना स्मार्ट",
+    "page.title.admin": "दुकान सेटअप टूल (लोकल डेमो) - किराना स्मार्ट",
     "a11y.skip": "मुख्य सामग्री पर जाएँ",
     "lang.switch": "भाषा बदलें",
 
@@ -363,7 +367,7 @@ window.KS_I18N = {
     "nav.shop": "सभी सामान",
     "nav.menu": "मेनू",
     "nav.cart": "कार्ट",
-    "nav.dashboard": "दुकानदार डेमो डैशबोर्ड",
+    "nav.dashboard": "दुकान सेटअप टूल (लोकल डेमो)",
 
     "demo.label": "डेमो",
     "demo.banner": "यह डेमो स्टोर है। सामान और दाम सिर्फ़ नमूने हैं - असली इस्तेमाल से पहले दुकानदार हर सामान और दाम जाँच लें।",
@@ -461,8 +465,8 @@ window.KS_I18N = {
     "checkout.title": "चेकआउट",
     "checkout.back": "कार्ट पर वापस",
     "checkout.name": "आपका नाम",
-    "checkout.phone": "मोबाइल नंबर",
-    "checkout.phone.hint": "10 अंकों का भारतीय मोबाइल नंबर",
+    "checkout.phone": "मोबाइल नंबर (ज़रूरी नहीं)",
+    "checkout.phone.hint": "ज़रूरी नहीं। 10 अंकों का भारतीय मोबाइल नंबर, ताकि दुकान आपको कॉल कर सके",
     "checkout.type": "ऑर्डर का तरीका",
     "checkout.delivery": "होम डिलीवरी",
     "checkout.pickup": "दुकान से ले जाना",
@@ -504,9 +508,9 @@ window.KS_I18N = {
     "common.confirm": "पुष्टि करें",
     "common.save": "सेव करें",
 
-    "admin.title": "दुकानदार डैशबोर्ड (डेमो)",
-    "admin.banner": "डेमो डैशबोर्ड: इसमें लॉगिन या सुरक्षा नहीं है और बदलाव सिर्फ़ इसी फ़ोन के इसी ब्राउज़र में सेव होते हैं। ये ग्राहकों के फ़ोन तक नहीं पहुँचते।",
-    "admin.footer": "डेमो डैशबोर्ड: सिर्फ़ LocalStorage, कोई लॉगिन या क्लाउड सिंक नहीं। यह सुरक्षित प्रोडक्शन एडमिन सिस्टम नहीं है।",
+    "admin.title": "दुकान सेटअप टूल (लोकल डेमो)",
+    "admin.banner": "लोकल डेमो टूल: कोई लॉगिन या सुरक्षा नहीं। बदलाव सिर्फ़ इसी फ़ोन के इसी ब्राउज़र में सेव होते हैं और जब तक आप दुकान की फ़ाइल एक्सपोर्ट करके पब्लिश नहीं करते, ग्राहकों तक नहीं पहुँचते। यहाँ दिखे ऑर्डर नमूने हैं; असली ऑर्डर WhatsApp पर आते हैं।",
+    "admin.footer": "लोकल डेमो टूल: सिर्फ़ LocalStorage, कोई लॉगिन या क्लाउड सिंक नहीं। यह सुरक्षित प्रोडक्शन एडमिन सिस्टम नहीं है।",
     "admin.backToStore": "स्टोर पर वापस",
     "admin.tabs": "डैशबोर्ड के हिस्से",
 
@@ -515,7 +519,7 @@ window.KS_I18N = {
     "tab.orders": "ऑर्डर",
     "tab.settings": "सेटिंग",
 
-    "ov.title": "आज की झलक (डेमो)",
+    "ov.title": "झलक (नमूना डेटा)",
     "ov.ordersToday": "आज के ऑर्डर",
     "ov.pending": "लंबित ऑर्डर",
     "ov.salesToday": "आज की बिक्री (पूरे हुए)",
@@ -694,6 +698,10 @@ window.KS_I18N = {
     "ud.err.note": "नोट 80 अक्षरों से ज़्यादा नहीं हो सकता।",
     "ud.err.type": "उधार दिया या पैसा मिला चुनें।",
     "ud.err.noCustomer": "ग्राहक नहीं मिला।",
-    "legal.privacy": "प्राइवेसी"
+    "legal.privacy": "प्राइवेसी",
+    "exp.title": "बदलाव पब्लिश करें: दुकान की फ़ाइल एक्सपोर्ट करें",
+    "exp.text": "यहाँ किए बदलाव सिर्फ़ इसी ब्राउज़र में रहते हैं। ग्राहकों को दिखाने के लिए दुकान की फ़ाइल (JSON) डाउनलोड करके WhatsApp पर Kirana Smart को भेजें, या वेबसाइट में store/shops/<shop>.json बदलकर पब्लिश करें।",
+    "exp.btn": "दुकान की फ़ाइल डाउनलोड करें (JSON)",
+    "exp.done": "{file} डाउनलोड हुई। लाइव दुकान अपडेट करने के लिए इसे पब्लिश करें।"
   }
 };

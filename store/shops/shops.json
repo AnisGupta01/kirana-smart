@@ -1,0 +1,9 @@
+{
+  "_readme": "Registry of every shop on this site. Add one line per shop when you add store/shops/<id>.json (see docs/NEW-SHOP.md). The QR tool and the tests read this list.",
+  "shops": [
+    { "id": "kirana", "demo": true },
+    { "id": "mithai", "demo": true },
+    { "id": "bakery", "demo": true },
+    { "id": "cloud-kitchen", "demo": true }
+  ]
+}
