@@ -5,7 +5,7 @@
      saved-language key as the store, so the choice carries over)
    - Builds every "Free demo maango" WhatsApp link from the ONE
      number in assets/js/site-config.js
-   - Live demo preview switcher on the landing page
+   - Fills contact details ([data-contact]) from site-config.js
    Text is only ever set with textContent.
    ============================================================ */
 (function (global) {
@@ -64,6 +64,7 @@
     apply(doc);
     updateLangBtn();
     buildWaLinks();
+    fillContacts();
     listeners.forEach(function (fn) { fn(l); });
   }
 
@@ -134,35 +135,19 @@
     showNotice(t("l.wa.notSet") || "WhatsApp number not set yet.");
   });
 
-  /* ---------------- Landing: live preview ---------------- */
-  function bindPreview() {
-    var frame = doc.getElementById("previewFrame");
-    if (!frame) return;
-    var open = doc.getElementById("previewOpen");
-    var tabs = doc.querySelectorAll(".lp-ptab");
-    function select(btn) {
-      var shop = btn.getAttribute("data-shop");
-      if (!/^[a-z0-9-]+$/.test(shop)) return;
-      for (var i = 0; i < tabs.length; i++) {
-        var on = tabs[i] === btn;
-        tabs[i].setAttribute("aria-selected", on ? "true" : "false");
-        tabs[i].tabIndex = on ? 0 : -1;
+  /* ---------------- Contact details from site-config.js ---------------- */
+  function prettyNumber(d) { return d && d.length === 12 ? "+" + d.slice(0, 2) + " " + d.slice(2, 7) + " " + d.slice(7) : ""; }
+  function fillContacts() {
+    var num = normalizeNumber(SITE.ownerWhatsApp);
+    var els = doc.querySelectorAll("[data-contact]");
+    for (var i = 0; i < els.length; i++) {
+      var kind = els[i].getAttribute("data-contact");
+      if (kind === "wa-text" && num) els[i].textContent = (t("l.contact.waLabel", { num: prettyNumber(num) }) || ("WhatsApp " + prettyNumber(num)));
+      else if (kind === "wa-number" && num) els[i].textContent = prettyNumber(num);
+      else if (kind === "email" && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(SITE.contactEmail || "")) {
+        els[i].textContent = SITE.contactEmail;
+        if (els[i].tagName === "A") els[i].setAttribute("href", "mailto:" + SITE.contactEmail);
       }
-      var url = "store/index.html?shop=" + shop;
-      frame.setAttribute("src", url);
-      if (open) open.setAttribute("href", url);
-    }
-    for (var i = 0; i < tabs.length; i++) {
-      tabs[i].tabIndex = tabs[i].getAttribute("aria-selected") === "true" ? 0 : -1;
-      tabs[i].addEventListener("click", function () { select(this); });
-      tabs[i].addEventListener("keydown", function (e) {
-        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-        var list = Array.prototype.slice.call(tabs);
-        var idx = list.indexOf(this) + (e.key === "ArrowRight" ? 1 : -1);
-        var next = list[(idx + list.length) % list.length];
-        next.focus();
-        select(next);
-      });
     }
   }
 
@@ -172,7 +157,7 @@
     apply(doc);
     updateLangBtn();
     buildWaLinks();
-    bindPreview();
+    fillContacts();
     var btn = doc.getElementById("langBtn");
     if (btn) btn.addEventListener("click", function () { setLang(lang === "en" ? "hi" : "en"); });
     /* desktop: the floating demo button appears once the hero has scrolled away */

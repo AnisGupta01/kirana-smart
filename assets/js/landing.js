@@ -337,7 +337,7 @@
   /* ---------------- Reveals ---------------- */
   function initReveals() {
     if (reduceMQ.matches || !("IntersectionObserver" in global)) return;
-    var sel = ".lx-sec-head, .lx-dcard, .lx-ben, .lx-more li, .lx-step, .lx-plan, .lx-addon, .lx-agency, .lx-cmp, .lx-acc details, .lx-final-in, .lx-tools";
+    var sel = ".lx-sec-head, .lx-f, .lx-step, .lx-plan, .lx-renew, .lx-cmp";
     var els = doc.querySelectorAll(sel);
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
