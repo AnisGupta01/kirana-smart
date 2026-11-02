@@ -53,6 +53,12 @@ async function withRealNumber(ctx, root) {
   });
 }
 
+/* KS_SECTIONS=landing,cine,... runs only some sections (to split long runs) */
+function want(name) {
+  const only = (process.env.KS_SECTIONS || "").split(",").map((x) => x.trim()).filter(Boolean);
+  return !only.length || only.indexOf(name) >= 0;
+}
+
 module.exports = async function sellkit(t) {
   const { browser, base, problems, ok, newPage, overflowX, root } = t;
   const NOSW = { serviceWorkers: "block" };
@@ -60,13 +66,13 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- Landing page ---------------- */
   console.log("Landing page");
-  {
+  if (want("landing")) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     { const pcfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace(/917266042235/g, "91XXXXXXXXXX");
       await ctx.route("**/assets/js/site-config.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: pcfg })); }
     await page.goto(base + "/");
-    ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni dukaan ki website, itni sundar ki customer ruk jaaye.", "hero headline");
-    ok((await page.textContent(".lph-promise")).trim() === "1 din mein live. WhatsApp pe order. Koi commission nahi.", "hero promise line (1 day, WhatsApp, no commission)");
+    ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni Dukaan Ko Digital Banao. Orders WhatsApp Par Pao.", "hero headline (exact copy from the brief)");
+    ok((await page.textContent(".lx-sub")).trim() === "Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.", "hero subheading (exact copy from the brief)");
     ok((await page.title()).includes("Kirana Smart"), "landing title");
     const sections = ["demos", "shop", "features", "how", "pricing", "agency", "why", "faq", "contact"];
     const have = await page.evaluate((ids) => ids.filter((i) => document.getElementById(i)), sections);
@@ -149,7 +155,7 @@ module.exports = async function sellkit(t) {
     ok(imgs.broken.length === 0, "all landing images load (" + imgs.total + ")", imgs.broken.join(","));
     /* language */
     await page.click("#langBtn");
-    ok(/अपनी दुकान की वेबसाइट/.test(await page.textContent("h1")) && (await page.getAttribute("html", "lang")) === "hi", "Hindi switch translates the hero");
+    ok(/अपनी दुकान को डिजिटल बनाओ/.test(await page.textContent("h1")) && (await page.getAttribute("html", "lang")) === "hi", "Hindi switch translates the hero");
     ok(/सवाल/.test(await page.textContent("#faqTitle")), "Hindi FAQ heading");
     await page.reload();
     ok((await page.getAttribute("html", "lang")) === "hi", "language remembered on landing");
@@ -157,7 +163,7 @@ module.exports = async function sellkit(t) {
     await noOverflow(ok, page, overflowX, "landing");
     await ctx.close();
   }
-  {
+  if (want("landing")) {
     const { ctx, page } = await newPage(browser, base, { width: 1280, height: 800 }, problems, NOSW);
     await withRealNumber(ctx, root);
     await page.goto(base + "/index.html");
@@ -185,7 +191,7 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- Cinematic premium demo ---------------- */
   console.log("Cinematic premium demo (demo/chai)");
-  {
+  if (want("cine")) {
     const OWNER = "917266042235";
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 844 }, problems, NOSW);
     await page.goto(base + "/demo/chai/index.html");
@@ -257,7 +263,7 @@ module.exports = async function sellkit(t) {
     await noOverflow(ok, page, overflowX, "cinematic demo");
     await ctx.close();
   }
-  {
+  if (want("cine")) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 844 }, problems, Object.assign({ reducedMotion: "reduce" }, NOSW));
     await page.goto(base + "/demo/chai/index.html");
     await page.waitForSelector(".scene");
@@ -266,14 +272,14 @@ module.exports = async function sellkit(t) {
     ok(r.reduce && r.allIn && r.h < 1.3, "reduced motion: no pinned scroll scenes, all text shown");
     await ctx.close();
   }
-  {
+  if (want("cine")) {
     const { ctx, page } = await newPage(browser, base, { width: 1280, height: 800 }, problems, NOSW);
     await page.goto(base + "/");
     await page.waitForFunction(() => { const f = document.getElementById("heroFrame"); return f && f.getAttribute("src"); }, null, { timeout: 8000 });
     ok((await page.getAttribute("#heroFrame", "src")).startsWith("demo/chai/") && !(await page.locator("#heroFrame").evaluate((f) => f.hidden)), "desktop: hero phone loads the cinematic demo after page load");
     await page.waitForFunction(() => document.querySelector(".lx-screen").classList.contains("is-live"), null, { timeout: 8000 });
     ok(true, "desktop: hero phone swaps the slideshow for the live demo");
-    ok((await page.getAttribute(".premium-demo", "href")) === "demo/chai/index.html" && /premium/i.test(await page.textContent(".premium-demo .pd-badge")), "first demo card is the Premium cinematic demo");
+    ok((await page.getAttribute(".premium-demo", "href")) === "demo/chai/index.html" && /premium/i.test(await page.textContent(".premium-demo .pd-badge")), "Premium cinematic demo card is in the carousel");
     const prem = await page.textContent(".price-premium");
     ok(/₹2,999/.test(prem) && /₹199/.test(prem), "Premium tier ₹2,999 setup + ₹199/month");
     const starter = await page.textContent(".price-main");
@@ -284,7 +290,7 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- Demo store photos ---------------- */
   console.log("Demo store product photos");
-  for (const id of ["kirana", "mithai", "bakery", "cloud-kitchen"]) {
+  if (want("photos")) for (const id of ["kirana", "mithai", "bakery", "cloud-kitchen"]) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     await page.goto(base + "/store/index.html?shop=" + id);
     await page.waitForSelector("#productGrid .product-card", { timeout: 8000 });
@@ -295,7 +301,7 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- Niche demos ---------------- */
   console.log("Niche demos");
-  for (const id of ["mithai", "bakery", "cloud-kitchen"]) {
+  if (want("niche")) for (const id of ["mithai", "bakery", "cloud-kitchen"]) {
     const s = shop(id);
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     await withRealNumber(ctx, root);
@@ -345,7 +351,7 @@ module.exports = async function sellkit(t) {
     }
     await ctx.close();
   }
-  {
+  if (want("niche")) {
     const beforeBad = problems.length;
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     await page.goto(base + "/store/?shop=not-a-shop");
@@ -362,7 +368,7 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- Udhaar Khata ---------------- */
   console.log("Digital Udhaar Khata");
-  {
+  if (want("udhaar")) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     await page.goto(base + "/udhaar.html?name=Sharma%20Kirana");
     ok(/demo/i.test(await page.textContent(".demo-banner")) && /not lend/i.test(await page.textContent(".demo-banner")), "clearly labelled demo, no lending");
@@ -433,7 +439,7 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- QR poster ---------------- */
   console.log("QR poster");
-  {
+  if (want("qr")) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     const target = "https://anisgupta01.github.io/kirana-smart/store/?shop=mithai";
     await page.goto(base + "/qr-poster.html?name=Shree%20Mithai%20Ghar&url=" + encodeURIComponent(target));
@@ -488,7 +494,7 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- City + legal pages ---------------- */
   console.log("City and legal pages");
-  for (const [slug, city] of [["lucknow", "Lucknow"], ["kanpur", "Kanpur"], ["varanasi", "Varanasi"]]) {
+  if (want("pages")) for (const [slug, city] of [["lucknow", "Lucknow"], ["kanpur", "Kanpur"], ["varanasi", "Varanasi"]]) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     await withRealNumber(ctx, root);
     await page.goto(base + "/shop-website-" + slug + ".html");
@@ -501,7 +507,7 @@ module.exports = async function sellkit(t) {
     if (slug === "lucknow") await noOverflow(ok, page, overflowX, "Lucknow page");
     await ctx.close();
   }
-  {
+  if (want("pages")) {
     const { ctx, page } = await newPage(browser, base, { width: 360, height: 800 }, problems, NOSW);
     for (const [p, re] of [["privacy", /DPDP/], ["refund", /3 working days/], ["terms", /FSSAI/]]) {
       await page.goto(base + "/" + p + ".html");
@@ -514,7 +520,7 @@ module.exports = async function sellkit(t) {
 
   /* ---------------- PWA ---------------- */
   console.log("Installable app (PWA)");
-  {
+  if (want("pwa")) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems);
     await page.goto(base + "/index.html");
     ok((await page.getAttribute('link[rel="manifest"]', "href")) === "manifest.webmanifest", "manifest linked");

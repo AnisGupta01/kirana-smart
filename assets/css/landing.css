@@ -293,10 +293,10 @@ h3 { font-size: 1.08rem; line-height: 1.35; font-weight: 700; letter-spacing: -.
 .lx-footer { padding: var(--s7) 0 calc(var(--s6) + 76px); background: var(--bg2); border-top: 1px solid var(--line); font-size: .92rem; }
 .lx-foot-grid { display: grid; gap: var(--s5); }
 .lx-foot-about p { margin-top: var(--s3); color: var(--mute); max-width: 38ch; }
-.lx-foot-about a:not(.lx-brand) { color: var(--brand); display: inline-flex; align-items: center; min-height: 40px; }
+.lx-foot-about a:not(.lx-brand) { color: var(--brand); display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 .lx-foot-title { font-size: .76rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); margin-bottom: var(--s2); }
 .lx-foot-links { display: flex; flex-direction: column; }
-.lx-foot-links a { color: var(--ink2); text-decoration: none; display: inline-flex; align-items: center; min-height: 40px; }
+.lx-foot-links a { color: var(--ink2); text-decoration: none; display: flex; align-items: center; min-height: 44px; }
 .lx-foot-links a:hover { color: var(--brand); text-decoration: underline; }
 .lx-foot-bottom { margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line); font-size: .82rem; color: var(--mute); }
 

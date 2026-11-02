@@ -275,5 +275,38 @@ console.log("Settings validation");
   ok(KS.validateSettingsInput(Object.assign({}, good, { whatsappNumber: "" })).ok, "empty WhatsApp number allowed (shows setup error at checkout)");
 }
 
+console.log("Pro upgrade: optional phone, honest order footer, shop export, registry");
+{
+  const { win } = makeWindow();
+  const KS = win.KS;
+  ok(KS.validatePhoneOptional("").ok && KS.validatePhoneOptional("").value === "", "empty phone allowed at checkout (optional)");
+  ok(KS.validatePhoneOptional("   ").ok, "blank phone allowed at checkout");
+  eq(KS.validatePhoneOptional("+91 98765 43210").value, "9876543210", "typed phone still normalised");
+  ok(!KS.validatePhoneOptional("12345").ok, "typed but invalid phone still rejected");
+  const settings = Object.assign(KS.getSettings(), { storeName: "Sharma Kirana Store (Demo)" });
+  const order = { id: "KS-261102-AB23", createdAt: "2026-11-02T10:00:00Z", customerName: "Ravi", phone: "", type: "delivery", address: "House 12, Aminabad, Lucknow", notes: "",
+    items: [{ name: "Whole Wheat Atta", unit: "5 kg", price: 235, qty: 3 }], subtotal: 705, deliveryFee: 0, total: 705 };
+  const msg = KS.buildOrderMessage(order, settings);
+  ok(msg.indexOf("Phone:") < 0, "no phone line when the customer leaves it empty");
+  ok(msg.indexOf("Whole Wheat Atta (5 kg) x 3 = ₹705") >= 0, "item line has qty and line total");
+  ok(/demo store/i.test(msg), "demo shop: message says it came from a demo store");
+  win.KS_CONFIG.demo = false;
+  const real = KS.buildOrderMessage(order, Object.assign({}, settings, { storeName: "Gupta General Store" }));
+  ok(real.indexOf("Sent from the Gupta General Store website.") >= 0 && !/demo/i.test(real), "real shop (demo:false): no demo wording in the order");
+  win.KS_CONFIG.demo = true;
+  const orig = readShop("kirana");
+  const list = KS.getProducts(); list[0].price = 250; list[1].available = false; KS.saveProducts(list);
+  const ex = KS.buildShopExport(orig);
+  ok(ex.id === "kirana" && ex.products.length === orig.products.length, "export keeps every product");
+  ok(ex.products[0].price === 250 && ex.products[1].available === false, "export contains local edits (price, availability)");
+  ok(JSON.stringify(ex.categories) === JSON.stringify(orig.categories) && ex.colors.brand === orig.colors.brand, "export keeps categories and branding");
+  ok(orig.products[0].price !== 250, "export does not mutate the original shop object");
+  const reg = JSON.parse(fs.readFileSync(path.join(root, "store/shops/shops.json"), "utf8"));
+  const files = fs.readdirSync(path.join(root, "store/shops")).filter((f) => f.endsWith(".json") && f !== "shops.json").map((f) => f.replace(".json", "")).sort();
+  eq(reg.shops.map((x) => x.id).sort(), files, "shops.json registry lists exactly the shop files");
+  reg.shops.forEach((x) => { const j = readShop(x.id); ok(j.id === x.id && (j.demo !== false) === !!x.demo && /^91[6-9]\d{9}$/.test(j.whatsappNumber), "registry entry " + x.id + " matches its file (id, demo flag, WhatsApp number)"); });
+  reg.shops.forEach((x) => { const j = readShop(x.id); ok(j.products.every((p) => typeof p.available === "boolean" && Number.isInteger(p.stock)), x.id + ": every product has an available flag and a whole-number stock"); });
+}
+
 console.log("\n" + passed + " passed, " + failed + " failed");
 process.exit(failed ? 1 : 0);

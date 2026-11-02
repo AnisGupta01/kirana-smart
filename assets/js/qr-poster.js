@@ -130,7 +130,11 @@
     box.setAttribute("data-url", url);
     var poster = $("poster");
     var th = currentTheme();
-    poster.className = "poster theme-" + th + " fmt-" + currentFormat();
+    var fmt = currentFormat();
+    poster.className = "poster theme-" + th + " fmt-" + fmt;
+    var a6 = $("printA6");
+    if (a6 && a6.sheet) a6.sheet.disabled = fmt !== "a6";
+    else if (a6) a6.disabled = fmt !== "a6";
     if (th === "shop" && shopColour) {
       poster.style.setProperty("--p-main", shopColour.main);
       poster.style.setProperty("--p-dark", shopColour.dark);
@@ -244,6 +248,8 @@
 
   function init() {
     if (typeof global.qrcode !== "function") return;
+    var a6link = $("printA6");
+    if (a6link) a6link.addEventListener("load", function () { render(); });
     $("qrName").value = param("name").slice(0, 40);
     var u = param("url");
     $("qrUrl").value = cleanUrl(u) ? u : SITE_URL + "store/";

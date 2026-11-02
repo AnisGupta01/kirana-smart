@@ -1,0 +1,3 @@
+/* Loaded (enabled) by qr-poster.js only when "Counter card (A6)" is chosen:
+   switches the printed page from A4 to A6. */
+@page { size: 105mm 148mm; margin: 0; } /* A6 (the A6 keyword is not supported by every browser) */
