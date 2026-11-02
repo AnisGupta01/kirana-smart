@@ -19,7 +19,7 @@
   ],
   "shortcuts": [
     { "name": "Udhaar Khata", "short_name": "Udhaar", "url": "./udhaar.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Shop dashboard (demo)", "short_name": "Dashboard", "url": "./store/admin.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] },
-    { "name": "QR poster", "short_name": "QR poster", "url": "./qr-poster.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] }
+    { "name": "Shop setup tool (local demo)", "short_name": "Setup tool", "url": "./store/admin.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Shop QR code & poster", "short_name": "QR code", "url": "./qr-poster.html", "icons": [{ "src": "assets/images/icon-192.png", "sizes": "192x192" }] }
   ]
 }

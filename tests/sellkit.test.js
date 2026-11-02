@@ -244,7 +244,10 @@ function siteWindow(cfg, attrs) {
   const ph = (s) => (s.match(/\{\w+\}/g) || []).sort().join(",");
   ok(Object.keys(D.en).every((k) => ph(D.en[k]) === ph(D.hi[k])), "site texts: same {placeholders} in both languages");
   ok(Object.keys(D.hi).filter((k) => /^l\.(hero|faq|price|how)\./.test(k)).every((k) => /[\u0900-\u097F]/.test(D.hi[k]) || /^[₹\d\s.,+%·-]+$/.test(D.hi[k])), "Hindi texts are written in Devanagari");
-  ok(D.en["l.hero.title"] === "Apni dukaan ki website, 1 din mein. WhatsApp pe order. Koi commission nahi.", "hero headline exactly as briefed");
+  ok(D.en["l.hero.t1"] + " " + D.en["l.hero.t2"] === "Apni Dukaan Ko Digital Banao. Orders WhatsApp Par Pao.", "hero headline exactly as briefed");
+  ok(D.en["l.hero.sub"] === "Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.", "hero subheading exactly as briefed");
+  ok(/^STARTER PLAN\n/.test(decodeURIComponent(w3.KS_SITE_API.waUrl("starter").split("?text=")[1])) || /^STARTER PLAN\n/.test(D.en["l.wa.starter"]), "Starter plan has its own WhatsApp message");
+  ok(/₹999 setup \+ ₹149\/month/.test(D.en["l.wa.starter"]) && /₹2,999 setup \+ ₹199\/month/.test(D.en["l.wa.premium"]), "plan messages carry the plan prices");
   ["₹999", "₹149", "₹99", "₹199", "₹1,499", "₹2,999", "₹499"].forEach((p) => ok(read("index.html").indexOf(p) >= 0, "landing shows price " + p));
 }
 

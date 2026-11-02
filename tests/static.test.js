@@ -14,7 +14,7 @@ const exists = (f) => fs.existsSync(path.join(root, f));
 
 const required = ["index.html", "store/index.html", "store/admin.html", "udhaar.html", "qr-poster.html",
   "shop-website-lucknow.html", "shop-website-kanpur.html", "shop-website-varanasi.html",
-  "privacy.html", "terms.html", "refund.html", "sitemap.xml", "robots.txt", "manifest.webmanifest", "sw.js",
+  "privacy.html", "terms.html", "refund.html", "about.html", "contact.html", "faq.html", "onboarding.html", "docs/ARCHITECTURE.md", "docs/AUDIT.md", "store/shops/shops.json", "assets/css/print-a6.css", "sitemap.xml", "robots.txt", "manifest.webmanifest", "sw.js",
   "vercel.json", "README.md", "DEPLOYMENT.md", "TESTING.md", "docs/NEW-SHOP.md", ".gitignore",
   "store/shops/kirana.json", "store/shops/mithai.json", "store/shops/bakery.json", "store/shops/cloud-kitchen.json",
   "assets/css/style.css", "assets/css/site.css", "assets/css/tools.css",
@@ -176,6 +176,31 @@ if (manifest) {
   const bad = locs.filter((l) => { const p = l.replace("https://anisgupta01.github.io/kirana-smart/", "").split("?")[0] || "index.html"; return !exists(p) || /&(?!amp;)/.test(l); });
   ok(locs.length >= 10 && bad.length === 0, "sitemap: " + locs.length + " URLs, all point to real pages" + (bad.length ? " -> " + bad.join(", ") : ""));
   ok(/Sitemap: https:\/\/anisgupta01\.github\.io\/kirana-smart\/sitemap\.xml/.test(read("robots.txt")), "robots.txt points to the sitemap");
+}
+
+/* ---------------- pro upgrade: honesty, trust, contact ---------------- */
+console.log("Trust pages, honesty, contact details");
+{
+  const pages = fs.readdirSync(root).filter((f) => f.endsWith(".html")).concat(["store/index.html", "store/admin.html", "demo/chai/index.html"]);
+  const fake = pages.filter((f) => /testimonial|★|⭐|happy customers|trusted by \d|\d+\+ (shops|happy)|client logos?:/i.test(read(f).replace(/No reviews, ratings or client logos[^<]*/g, "").replace(/no testimonials[^<.]*/gi, "").replace(/will not see testimonials[^<]*/gi, "")));
+  ok(fake.length === 0, "no testimonials, star ratings, fake stats or logo walls in any page" + (fake.length ? " -> " + fake.join(",") : ""));
+  ["about.html", "contact.html", "faq.html", "onboarding.html", "privacy.html", "terms.html", "refund.html"].forEach((f) => ok(/anishgupt43@gmail\.com/.test(read(f)) && /contact\.html/.test(read(f)), f + ": shows the support email and links to Contact"));
+  ok(/\+91 72660 42235/.test(read("contact.html")) && /https:\/\/wa\.me\/917266042235/.test(read("contact.html")), "contact.html shows the WhatsApp number (works without JavaScript too)");
+  ok(/contactEmail: "anishgupt43@gmail\.com"/.test(read("assets/js/site-config.js")), "support email set once in site-config.js");
+  ok(read("index.html").indexOf("Apni Dukaan Ko Digital Banao.") >= 0 && read("index.html").indexOf("Orders WhatsApp Par Pao.") >= 0, "landing HTML carries the exact headline (no-JS / SEO)");
+  ["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((id) => ok(JSON.parse(read("store/shops/" + id + ".json")).demo === true && /\(Demo\)/.test(JSON.parse(read("store/shops/" + id + ".json")).storeName), id + " demo shop is flagged demo and named '(Demo)'"));
+  ok(/local demo/i.test(read("store/admin.html")) && /exportShopBtn/.test(read("store/admin.html")), "setup tool is labelled local demo and has a working export button");
+  ok(/Needs a backend/.test(read("docs/ARCHITECTURE.md")) || /needs a backend/i.test(read("docs/ARCHITECTURE.md")), "ARCHITECTURE.md documents what needs a backend");
+  ok(/ks-shell-v4/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v4)");
+  const htmlFiles = pages;
+  const rootAbs = htmlFiles.filter((f) => /\s(href|src)="\/(?!\/)/.test(read(f)));
+  ok(rootAbs.length === 0, "no root-absolute href/src (GitHub Pages serves under /kirana-smart/)" + (rootAbs.length ? " -> " + rootAbs.join(",") : ""));
+  const imgsNoSize = htmlFiles.filter((f) => /<img(?![^>]*\bwidth=)[^>]*>/.test(read(f)));
+  ok(imgsNoSize.length === 0, "every <img> in HTML has width/height (no layout shift)" + (imgsNoSize.length ? " -> " + imgsNoSize.join(",") : ""));
+  const imgsNoAlt = htmlFiles.filter((f) => /<img(?![^>]*\balt=)[^>]*>/.test(read(f)));
+  ok(imgsNoAlt.length === 0, "every <img> has an alt attribute" + (imgsNoAlt.length ? " -> " + imgsNoAlt.join(",") : ""));
+  const big = []; (function walk(d) { fs.readdirSync(path.join(root, d)).forEach((f) => { const p = path.join(d, f); const st = fs.statSync(path.join(root, p)); if (st.isDirectory()) walk(p); else if (/\.(webp|png|jpe?g)$/i.test(f) && st.size > 150 * 1024) big.push(p + " " + Math.round(st.size / 1024) + "KB"); }); })("assets/images");
+  ok(big.length === 0, "no image over 150 KB" + (big.length ? " -> " + big.join(",") : ""));
 }
 try { JSON.parse(read("vercel.json")); ok(true, "vercel.json is valid JSON"); } catch (e) { ok(false, "vercel.json is valid JSON"); }
 ok(!/"DENY"/.test(read("vercel.json")), "vercel.json allows same-origin framing (landing preview)");

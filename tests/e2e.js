@@ -173,7 +173,8 @@ async function overflowX(page) {
     ok((await page.textContent("#sumTotal")) === "₹470", "pickup total 470");
     await page.check('input[name="ordertype"][value="delivery"]');
     await page.click("#sendOrderBtn");
-    ok(await page.locator("#err-name").isVisible() && await page.locator("#err-phone").isVisible() && await page.locator("#err-address").isVisible(), "empty form shows name/phone/address errors");
+    ok(await page.locator("#err-name").isVisible() && await page.locator("#err-address").isVisible(), "empty form shows name/address errors");
+    ok(await page.locator("#err-phone").isHidden() && (await page.getAttribute("#f-phone", "aria-required")) === null, "phone is optional: no error when left empty");
     ok((await page.getAttribute("#f-name", "aria-invalid")) === "true", "invalid field marked aria-invalid");
     await page.fill("#f-name", "<b>X</b>");
     await page.fill("#f-phone", "12345");
@@ -436,7 +437,8 @@ async function overflowX(page) {
     ok(e2.length === 0 && (await p2.locator("#productGrid .product-card").count()) === 33 && (await p2.textContent("#cartCount")) === "0", "corrupt LocalStorage handled gracefully");
     await c2.close();
 
-    await require("./e2e-sellkit.js")({ browser, base, problems, ok, newPage, overflowX, root });
+    /* E2E_SKIP_SELLKIT=1 runs only the storefront part (run tests/e2e-sellkit.js on its own for the rest) */
+    if (!process.env.E2E_SKIP_SELLKIT) await require("./e2e-sellkit.js")({ browser, base, problems, ok, newPage, overflowX, root });
 
     const nf = await browser.newContext();
     const np = await nf.newPage();

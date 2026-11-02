@@ -11,11 +11,14 @@
    instead of opening WhatsApp.
    ============================================================ */
 window.KS_SITE = {
-  /* PLACEHOLDER - put your real number here (see TODO above) */
+  /* Owner's WhatsApp number (set) */
   ownerWhatsApp: "917266042235",
 
   /* Public address of the site (used for links you share) */
   siteUrl: "https://anisgupta01.github.io/kirana-smart/",
+
+  /* Support e-mail shown on the Contact page and footer */
+  contactEmail: "anishgupt43@gmail.com",
 
   /* Optional: your Instagram profile link, e.g. "https://www.instagram.com/yourhandle/".
      Leave "" to hide the Instagram link. */

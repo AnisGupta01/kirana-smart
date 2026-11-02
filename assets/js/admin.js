@@ -461,6 +461,22 @@
     KS.toast(t("set.saved"), "success");
   }
 
+  /* Download store/shops/<id>.json with this browser's edits (the only way changes leave this device) */
+  function onExportShop() {
+    var p = global.KS_SHOP_PROMISE || Promise.resolve({});
+    p.then(function (orig) {
+      var data = KS.buildShopExport(orig);
+      var id = (KS.shop && KS.shop.id) || "shop";
+      var blob = new Blob([JSON.stringify(data, null, 2) + "\n"], { type: "application/json" });
+      var url = global.URL.createObjectURL(blob);
+      var a = doc.createElement("a");
+      a.href = url; a.download = id + ".json";
+      doc.body.appendChild(a); a.click(); doc.body.removeChild(a);
+      global.setTimeout(function () { global.URL.revokeObjectURL(url); }, 4000);
+      KS.toast(t("exp.done", { file: id + ".json" }), "success");
+    }, function () { KS.toast(t("err.generic"), "error"); });
+  }
+
   function onResetDemo() {
     KS.confirm({ title: t("set.reset"), message: t("set.resetConfirm"), okText: t("set.reset"), danger: true }).then(function (ok) {
       if (!ok) return;
@@ -520,6 +536,7 @@
     $("ordFilter").addEventListener("change", function (e) { state.ordFilter = e.target.value; renderOrders(); });
     $("settingsForm").addEventListener("submit", onSaveSettings);
     $("resetDemoBtn").addEventListener("click", onResetDemo);
+    $("exportShopBtn").addEventListener("click", onExportShop);
     $("errReset").addEventListener("click", function () {
       KS.confirm({ title: t("err.reset"), message: t("set.resetConfirm"), okText: t("err.reset"), danger: true }).then(function (ok) {
         if (!ok) return;

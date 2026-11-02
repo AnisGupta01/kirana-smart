@@ -394,6 +394,13 @@
     return { ok: false, key: "err.phoneInvalid" };
   };
 
+  /* Phone is optional at checkout: empty is fine, anything typed must be a valid mobile. */
+  KS.validatePhoneOptional = function (v) {
+    var raw = String(v === null || v === undefined ? "" : v).trim();
+    if (!raw) return { ok: true, value: "" };
+    return KS.validatePhone(raw);
+  };
+
   KS.validateAddress = function (v) {
     var s = cleanText(v, 1000);
     if (s.length >= 10 && s.length <= 250) return { ok: true, value: s };
@@ -541,7 +548,7 @@
     L.push("");
     L.push("*Customer*");
     L.push("Name: " + order.customerName);
-    L.push("Phone: +91 " + order.phone);
+    if (order.phone) L.push("Phone: +91 " + order.phone);
     L.push("");
     L.push("*Items*");
     order.items.forEach(function (it, i) {
@@ -559,7 +566,7 @@
     L.push("Notes: " + (order.notes ? order.notes : "None"));
     L.push("");
     L.push("Payment: to be paid to the shop directly (no online payment was made).");
-    L.push("Sent from the Kirana Smart demo store.");
+    L.push(cfg().demo === false ? "Sent from the " + settings.storeName + " website." : "Sent from a Kirana Smart demo store (sample order, not a real shop).");
     return L.join("\n");
   };
 
@@ -994,6 +1001,31 @@
     if (!defaultProducts().length) throw new Error("No product in the shop file passed the checks (price, category).");
     KS.shop = { id: id, demo: shop.demo !== false, niche: cleanText(shop.niche, 30) || id };
     return KS.shop;
+  };
+
+  /* Builds the shop file (store/shops/<id>.json) from the original shop
+     JSON plus the products and settings edited in this browser. This is
+     how the local setup tool's changes get published: download, then
+     commit the file (or send it to Kirana Smart). */
+  KS.buildShopExport = function (original) {
+    var base = JSON.parse(JSON.stringify(original && typeof original === "object" ? original : {}));
+    var st = KS.getSettings();
+    base.storeName = st.storeName;
+    base.storeLocation = st.storeLocation;
+    base.whatsappNumber = st.whatsappNumber;
+    base.deliveryFee = st.deliveryFee;
+    base.freeDeliveryAbove = st.freeDeliveryAbove;
+    base.lowStockThreshold = st.lowStockThreshold;
+    base.deliveryNote = st.deliveryNote;
+    base.products = KS.getProducts().map(function (p) {
+      var o = { id: p.id, name: p.name, nameHi: p.nameHi || "", category: p.category, price: p.price, mrp: p.mrp, unit: p.unit, stock: p.stock, available: p.available };
+      if (p.featured) o.featured = true;
+      if (p.popular) o.popular = true;
+      if (p.image) o.image = p.image;
+      return o;
+    });
+    base.exportedAt = new Date().toISOString();
+    return base;
   };
 
   /* Adds ?shop=<id> to links marked data-keep-shop (store <-> dashboard). */

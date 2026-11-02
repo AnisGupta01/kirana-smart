@@ -35,8 +35,10 @@ The shop's dashboard is the same address with `admin.html`: `…/store/admin.htm
    - `image`: leave `""` for an automatic picture, or an `https://` link to a photo you have the right to use.
 5. **Texts** (optional, 3 min): `"text"` overrides any label of the store in `en` and `hi` (hero title, search hint, footer). Keys are listed in `assets/js/i18n.js`.
 6. **Remove sample orders**: for a real shop set `"sampleOrders": []`.
-7. **Check it** (3 min): commit, wait ~1 minute for GitHub Pages, open `…/store/?shop=gupta-sweets` on your phone, add an item and press *Order on WhatsApp*. If something is wrong in the file the page shows the exact problem (for example "Shop file needs a storeName").
-8. **QR poster**: open the shop's dashboard → *Make QR poster for the counter*, print on A4.
+7. **Register the shop** (1 min): add a line to `store/shops/shops.json`, e.g. `{ "id": "gupta-sweets", "demo": false }`. The QR tool lists shops from this file and the tests check it. Optional: add `"./store/shops/gupta-sweets.json"` to the list in `sw.js` and bump `CACHE` (e.g. `ks-shell-v5`) so the shop also opens offline.
+8. **Check it** (3 min): commit, wait ~1 minute for GitHub Pages, open `…/store/index.html?shop=gupta-sweets` on your phone, add an item and press *Order on WhatsApp*. If something is wrong in the file the page shows the exact problem (for example "Shop file needs a storeName").
+9. **QR code + posters**: open `…/qr-poster.html?shop=gupta-sweets` (or pick the shop in the list). Press *Download QR (PNG)* for WhatsApp status/printing, choose *A4 poster* or *Counter card (A6)* and press *Print / Save as PDF* (100% scale). The QR always points to `https://anisgupta01.github.io/kirana-smart/store/index.html?shop=gupta-sweets`.
+10. **Later price/stock changes**: either edit the JSON in GitHub, or open `…/store/admin.html?shop=gupta-sweets` (local setup tool), change products, press *Download shop file (JSON)* in Settings and replace the file in `store/shops/`.
 
 Tip: validate the JSON before saving (for example by pasting it into any "JSON validator"). A missing comma is the most common mistake.
 

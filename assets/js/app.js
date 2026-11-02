@@ -423,7 +423,7 @@
       "aria-describedby": "err-name", value: state.form.name, oninput: function (e) { state.form.name = e.target.value; }
     })));
     form.appendChild(field("phone", t("checkout.phone"), h("input", {
-      id: "f-phone", name: "phone", type: "tel", inputmode: "tel", autocomplete: "tel", maxlength: "18", "aria-required": "true",
+      id: "f-phone", name: "phone", type: "tel", inputmode: "tel", autocomplete: "tel", maxlength: "18",
       "aria-describedby": "hint-phone err-phone", value: state.form.phone, oninput: function (e) { state.form.phone = e.target.value; }
     }), t("checkout.phone.hint")));
 
@@ -498,7 +498,7 @@
     if (alertBox) alertBox.hidden = true;
 
     var vName = KS.validateName(state.form.name);
-    var vPhone = KS.validatePhone(state.form.phone);
+    var vPhone = KS.validatePhoneOptional(state.form.phone);
     var vNotes = KS.validateNotes(state.form.notes);
     var vAddr = state.type === "delivery" ? KS.validateAddress(state.form.address) : { ok: true, value: "" };
     var errs = {};
@@ -683,8 +683,20 @@
     });
   }
 
+  /* Point canonical / og:url at this shop's own address (?shop=<id>) */
+  function setShopUrls() {
+    if (!KS.shop) return;
+    var els = doc.querySelectorAll('link[rel="canonical"], meta[property="og:url"]');
+    for (var i = 0; i < els.length; i++) {
+      var attr = els[i].tagName === "LINK" ? "href" : "content";
+      var base = (els[i].getAttribute(attr) || "").split("?")[0];
+      if (base) els[i].setAttribute(attr, base + "?shop=" + encodeURIComponent(KS.shop.id));
+    }
+  }
+
   function init() {
     try {
+      setShopUrls();
       KS.cart.load();
       KS.initLang();
       KS.applyBranding();

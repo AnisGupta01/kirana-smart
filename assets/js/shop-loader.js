@@ -16,7 +16,7 @@
     try { id = decodeURIComponent(m[1]).toLowerCase(); } catch (e) { id = ""; }
   }
   global.KS_SHOP_ID = id;
-  if (!/^[a-z0-9][a-z0-9-]{0,39}$/.test(id)) {
+  if (!/^[a-z0-9][a-z0-9-]{0,39}$/.test(id) || id === "shops") {
     global.KS_SHOP_PROMISE = Promise.reject(new Error("Shop address is not valid: use letters, numbers and dashes only."));
   } else {
     global.KS_SHOP_PROMISE = global.fetch("shops/" + id + ".json", { credentials: "same-origin" }).then(function (r) {
