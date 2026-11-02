@@ -98,11 +98,21 @@
 }
 @media (max-width: 360px) { .poster { zoom: 0.38; } }
 
+/* Counter card: A6 is exactly half of A4 in both directions, so the
+   A4 layout is reused at zoom 0.5 with a bigger QR and no steps. */
+.poster.fmt-a6 .poster-qr { width: 128mm; height: 128mm; }
+.poster.fmt-a6 .poster-steps { display: none; }
+.poster.fmt-a6 .poster-head { font-size: 14mm; margin-top: 12mm; }
+.poster.fmt-a6 .poster-head-hi { font-size: 9mm; }
+.poster.fmt-a6 .poster-url { font-size: 7mm; }
+
 @page { size: A4; margin: 0; }
+@page a6card { size: A6; margin: 0; }
 @media print {
   html, body { background: #fff !important; margin: 0 !important; padding: 0 !important; min-height: 0 !important; display: block !important; }
   .no-print, .lp-sticky, .toasts, .wa-notice { display: none !important; }
   main, .lp-wrap, .qr-layout, .qr-stage { display: block !important; margin: 0 !important; padding: 0 !important; max-width: none !important; width: auto !important; }
   html { overflow: hidden; }
   .poster { zoom: 1 !important; height: 296mm; border-radius: 0; box-shadow: none; margin: 0; page-break-after: avoid; break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .poster.fmt-a6 { zoom: .5 !important; page: a6card; }
 }

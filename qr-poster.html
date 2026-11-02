@@ -5,9 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#14532d">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <title data-i18n="q.pageTitle">QR poster maker for your shop counter (free) | Kirana Smart</title>
-  <meta name="description" content="Free QR poster maker for shops: enter your shop website link and print an A4 poster - Scan karo, WhatsApp pe order karo. Works offline, nothing is uploaded.">
+  <title data-i18n="q.pageTitle">Shop QR code, A4 poster and counter card maker (free) | Kirana Smart</title>
+  <meta name="description" content="Free QR code maker for shops: download your shop QR as PNG, print an A4 poster or a small counter card - Scan karo, WhatsApp pe order karo. Works offline, nothing is uploaded.">
   <link rel="canonical" href="https://anisgupta01.github.io/kirana-smart/qr-poster.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kirana Smart">
+  <meta property="og:title" content="Shop QR code, A4 poster and counter card maker (free) | Kirana Smart">
+  <meta property="og:description" content="Free QR code maker for shops: download your shop QR as PNG, print an A4 poster or a small counter card - Scan karo, WhatsApp pe order karo. Works offline, nothing is uploaded.">
+  <meta property="og:url" content="https://anisgupta01.github.io/kirana-smart/qr-poster.html">
+  <meta property="og:image" content="https://anisgupta01.github.io/kirana-smart/assets/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shop QR code, A4 poster and counter card maker (free) | Kirana Smart">
+  <meta name="twitter:description" content="Free QR code maker for shops: download your shop QR as PNG, print an A4 poster or a small counter card - Scan karo, WhatsApp pe order karo. Works offline, nothing is uploaded.">
+  <meta name="twitter:image" content="https://anisgupta01.github.io/kirana-smart/assets/images/og-image.png">
   <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
   <link rel="apple-touch-icon" href="assets/images/icon-180.png">
   <link rel="manifest" href="manifest.webmanifest">
@@ -21,7 +31,7 @@
     <div class="lp-wrap lp-header-row">
       <a class="brand" href="index.html">
         <img class="brand-logo" src="assets/images/logo.svg" alt="" width="40" height="40">
-        <span class="brand-text"><strong>Kirana Smart</strong><small class="store-line" data-i18n="q.brandLine">QR poster maker</small></span>
+        <span class="brand-text"><strong>Kirana Smart</strong><small class="store-line" data-i18n="q.brandLine">QR code &amp; poster maker</small></span>
       </a>
       <button id="langBtn" class="btn btn-ghost btn-sm lang-btn" type="button">हिंदी</button>
     </div>
@@ -30,15 +40,21 @@
   <main id="main" tabindex="-1">
     <div class="lp-wrap qr-layout">
       <form id="qrForm" class="box qr-form no-print" novalidate>
-        <h1 class="ud-h2" data-i18n="q.title">Make your counter QR poster</h1>
-        <p class="muted small" data-i18n="q.lead">Enter your shop website link. Print the poster on A4 and stick it at the counter. Nothing is uploaded; the QR is made on this phone.</p>
+        <h1 class="ud-h2" data-i18n="q.title">Shop QR code &amp; counter poster</h1>
+        <p class="muted small" data-i18n="q.lead">Pick a shop or paste its website link. Download the QR as a PNG, or print an A4 poster or a small counter card. Everything is made on this device; nothing is uploaded and it works offline.</p>
+        <div class="field">
+          <label for="qrShop" data-i18n="q.shop">Shop</label>
+          <select id="qrShop">
+            <option value="" data-i18n="q.custom">Custom link (type below)</option>
+          </select>
+        </div>
         <div class="field">
           <label for="qrName" data-i18n="q.name">Shop name</label>
           <input id="qrName" type="text" maxlength="40" autocomplete="organization">
         </div>
         <div class="field">
           <label for="qrUrl" data-i18n="q.url">Shop website link</label>
-          <input id="qrUrl" type="url" inputmode="url" maxlength="300" autocomplete="url" placeholder="https://">
+          <input id="qrUrl" type="url" inputmode="url" maxlength="300" autocomplete="url" placeholder="https://" aria-describedby="qrUrlErr">
           <p id="qrUrlErr" class="field-error" hidden></p>
         </div>
         <div class="field">
@@ -46,16 +62,24 @@
           <input id="qrLine" type="text" maxlength="60" data-i18n-placeholder="q.linePh" placeholder="e.g. Free home delivery above ₹500">
         </div>
         <fieldset class="field qr-themes">
+          <legend data-i18n="q.format">Size</legend>
+          <label><input type="radio" name="qrFormat" value="a4" checked> <span data-i18n="q.a4">A4 poster</span></label>
+          <label><input type="radio" name="qrFormat" value="a6"> <span data-i18n="q.a6">Counter card (A6)</span></label>
+        </fieldset>
+        <fieldset class="field qr-themes">
           <legend data-i18n="q.colour">Poster colour</legend>
-          <label><input type="radio" name="qrTheme" value="green" checked> <span data-i18n="q.green">Green</span></label>
+          <label><input type="radio" name="qrTheme" value="shop" checked> <span data-i18n="q.shopColour">Shop colour</span></label>
+          <label><input type="radio" name="qrTheme" value="green"> <span data-i18n="q.green">Green</span></label>
           <label><input type="radio" name="qrTheme" value="maroon"> <span data-i18n="q.maroon">Maroon</span></label>
           <label><input type="radio" name="qrTheme" value="brown"> <span data-i18n="q.brown">Brown</span></label>
         </fieldset>
         <div class="qr-btns">
           <button class="btn btn-primary" type="submit" data-i18n="q.update">Update poster</button>
+          <button id="qrPng" class="btn btn-ghost" type="button" data-i18n="q.png">Download QR (PNG)</button>
           <button id="qrPrint" class="btn btn-accent" type="button" data-i18n="q.print">Print / Save as PDF</button>
         </div>
-        <p class="muted small" data-i18n="q.printHint">In the print window choose "Save as PDF" or your printer, paper size A4.</p>
+        <p id="qrStatus" class="muted small" role="status" aria-live="polite"></p>
+        <p class="muted small" data-i18n="q.printHint">In the print window choose "Save as PDF" or your printer. Paper size: A4 for the poster, A6 (or A4 and cut) for the counter card. Print at 100% scale.</p>
       </form>
 
       <div class="qr-stage">
@@ -85,6 +109,7 @@
     <div class="lp-wrap">
       <div class="footer-bottom">
         <p><a href="index.html" data-i18n="ud.getOwn">Get a website + Udhaar Khata for your shop</a> · <a href="privacy.html" data-i18n="legal.privacy">Privacy</a></p>
+        <p><a href="contact.html" data-i18n="l.nav.contact">Contact</a> · <a href="terms.html" data-i18n="l.foot.terms">Terms</a></p>
         <p class="small" data-i18n="q.licence">QR codes are made with the open-source qrcode-generator library (MIT licence) included in this website.</p>
       </div>
     </div>
