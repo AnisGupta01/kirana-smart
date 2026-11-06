@@ -1,4 +1,7 @@
-@font-face { font-family: "Tiro Devanagari Hindi"; src: url("../fonts/tiro-deva.woff2") format("woff2"); font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "KY Display"; src: url("../fonts/baloo2-bold-latin.woff2?v=3ae2b744") format("woff2"); font-weight: 600 800; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-00FF, U+2010-2015, U+2018-201F, U+2022, U+2026, U+20B9, U+2190-2193, U+2713, U+00D7; }
+@font-face { font-family: "KY Display"; src: url("../fonts/baloo2-bold-deva.woff2?v=38c7ac7f") format("woff2"); font-weight: 600 800; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+25CC, U+A8E0-A8FF; }
+@font-face { font-family: "KY Label"; src: url("../fonts/baloo2-bold-label.woff2?v=ddb0f290") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0900-097F; }
+@font-face { font-family: "Tiro Devanagari Hindi"; src: url("../fonts/tiro-deva.woff2?v=ba48f7ea") format("woff2"); font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+25CC, U+A830-A839, U+A8E0-A8FF; }
 /* ============================================================
    KIRANAYAP - STYLES
    Mobile-first design system: fresh greens, a warm turmeric
@@ -907,3 +910,67 @@ body.has-cartbar .toasts { bottom: calc(92px + env(safe-area-inset-bottom, 0px))
 .cart-changes { margin-bottom: 12px; }
 .cart-changes ul { margin: 6px 0 4px; padding-left: 1.2em; }
 .cart-changes li { margin: 2px 0; }
+
+
+/* ============================================================
+   v5 POLISH (KiranaYap "dukaan" look, shared with the landing)
+   Warmer cream page, Baloo 2 headings and prices, brighter
+   WhatsApp button with dark text (AA contrast), clearer cards,
+   cart bar and empty states. Shop colours (--brand from the
+   shop file) still drive the main colour of each store.
+   ============================================================ */
+:root {
+  --bg: #fff8ec;
+  --line: #ecdfc6;
+  --line-strong: #d8c7a6;
+  --wa: #25d366;
+  --wa-dark: #1ebe5a;
+  --wa-ink: #05341b;
+  --display: "KY Display", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+}
+h1, h2, .block-title, .drawer-head h2, .state-panel h2, .state-panel h3, .how .block-title { font-family: var(--display); font-weight: 700; letter-spacing: 0; }
+html[lang="hi"] h1, html[lang="hi"] h2, html[lang="hi"] .block-title { line-height: 1.3; }
+.block-title { font-size: 1.45rem; }
+.lang-btn, .lx-lang { font-family: "KY Label", var(--font); font-weight: 700; }
+.site-header { background: rgba(255, 248, 236, 0.95); }
+.brand-text strong { font-family: var(--display); font-weight: 700; font-size: 1.2rem; letter-spacing: 0; line-height: 1.1; }
+.hero h1 { font-size: clamp(2rem, 8.4vw, 3rem); line-height: 1.08; }
+html[lang="hi"] .hero h1 { line-height: 1.25; }
+.btn-whatsapp { background: var(--wa); color: var(--wa-ink); box-shadow: 0 8px 20px -8px rgba(30, 190, 90, 0.7), inset 0 -3px 0 rgba(0, 0, 0, 0.12); }
+.btn-whatsapp:hover { background: var(--wa-dark); color: var(--wa-ink); }
+.btn-lg { min-height: 54px; }
+
+/* product cards */
+.product-card { border-radius: 20px; box-shadow: 0 1px 2px rgba(60, 40, 10, 0.06); }
+.product-card:hover { box-shadow: 0 14px 30px -12px rgba(60, 40, 10, 0.28); border-color: var(--line-strong); }
+.card-media { padding: 6px 6px 0; }
+.card-img { border-radius: 15px; background: #fcefd8; }
+.card-name { font-size: 0.97rem; }
+.card-price strong { font-family: var(--display); font-weight: 700; font-size: 1.35rem; line-height: 1; }
+.card-action .btn-primary { border-width: 2px; font-weight: 800; }
+.badge-offer { box-shadow: none; }
+.product-card.is-off { background: #fbf7ef; border-style: dashed; }
+.product-card.is-off .card-img { opacity: 0.6; filter: grayscale(0.85); }
+
+/* category chips: selected one is solid */
+.cat-tile { border-width: 2px; }
+
+/* sticky cart bar and drawer */
+.cart-bar { border-radius: 18px; box-shadow: 0 18px 40px -14px rgba(8, 43, 32, 0.55); animation: ky-bar-in 0.35s var(--ease) both; }
+.cart-bar-total { font-family: var(--display); font-weight: 700; font-size: 1.3rem; }
+.cart-line { align-items: start; }
+.cart-thumb { border-radius: 14px; }
+.cart-foot .total-row strong, .sum-total { font-family: var(--display); }
+
+/* empty / no-results states: drawn icons (no emoji, so no missing-glyph boxes) */
+.state-panel { border-radius: 22px; }
+.state-icon { width: 76px; height: 76px; background: #fcefd8; border: 0; }
+.state-icon-cart { background: var(--brand) url("../images/cart.svg") center / 34px no-repeat; }
+.state-icon-search { background: #fcefd8 url("../images/search.svg") center / 34px no-repeat; }
+
+@keyframes ky-bar-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .cart-bar, .product-card { animation: none; }
+}
+.state-panel h2, .state-panel h3 { font-size: 1.35rem; }
+.drawer-head h2 { font-size: 1.45rem; }

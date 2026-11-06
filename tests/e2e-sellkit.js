@@ -44,7 +44,7 @@ async function cardImages(page, sel) {
 /* serve site-config.js / a shop JSON with a real number, only inside this test context */
 async function withRealNumber(ctx, root) {
   const cfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace(/91XXXXXXXXXX|917266042235/g, REAL);
-  await ctx.route("**/assets/js/site-config.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: cfg }));
+  await ctx.route("**/assets/js/site-config.js*", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: cfg }));
   await ctx.route(/\/store\/shops\/[a-z0-9-]+\.json$/, (r) => {
     const id = r.request().url().split("/").pop();
     const f = path.join(root, "store/shops", id);
@@ -69,25 +69,25 @@ module.exports = async function sellkit(t) {
   if (want("landing")) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
     { const pcfg = fs.readFileSync(path.join(root, "assets/js/site-config.js"), "utf8").replace(/917266042235/g, "91XXXXXXXXXX");
-      await ctx.route("**/assets/js/site-config.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: pcfg })); }
+      await ctx.route("**/assets/js/site-config.js*", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: pcfg })); }
     await page.goto(base + "/");
     ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni Dukaan Ko Digital Banao. Orders WhatsApp Par Pao.", "hero headline (exact copy from the brief)");
     ok((await page.textContent(".lx-sub")).trim() === "Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.", "hero subheading (exact copy from the brief)");
     ok((await page.title()).includes("KiranaYap"), "landing title");
-    const sections = ["demos", "shop", "features", "how", "pricing", "why", "faq", "contact"];
+    const sections = ["demos", "shop", "features", "how", "pricing", "trust", "why", "faq", "contact"];
     const have = await page.evaluate((ids) => ids.filter((i) => document.getElementById(i)), sections);
     ok(have.length === sections.length, "all sections present (" + have.join(",") + ")");
     ok((await page.locator("#reviews").count()) === 0, "no testimonials section (no fake reviews)");
     ok((await page.locator("#demoCarousel .lx-dcard").count()) === 5 && (await page.locator("#demoCarousel .niche-card").count()) === 4, "demo carousel: premium card + 4 niche demo cards");
     const hrefs = await page.locator(".niche-card").evaluateAll((a) => a.map((x) => x.getAttribute("href")));
-    ok(["kirana", "mithai", "bakery", "cloud-kitchen"].every((s, i) => hrefs[i] === "store/index.html?shop=" + s), "niche cards open their demos");
+    ok(["kirana", "mithai", "bakery", "cloud-kitchen"].every((s, i) => hrefs[i] === "store/" + s + "/"), "niche cards open their static demo pages (store/<id>/)");
     await page.evaluate(() => window.scrollTo({ top: document.getElementById("features").offsetTop, behavior: "instant" }));
     await page.waitForSelector(".lp-sticky.is-on", { timeout: 4000 });
     ok(await page.locator(".lp-sticky .btn-whatsapp").isVisible(), "sticky green demo button slides in on mobile after scrolling");
     /* hero phone: the plain kirana demo store (static picture, no iframe, no chai) */
     ok((await page.locator("#heroFrame").count()) === 0 && (await page.getAttribute(".lx-hero .lx-phone", "href")) === "store/kirana/", "hero phone shows the plain kirana demo store (no iframe)");
     ok((await page.locator(".lx-hero .lx-mini-card img").count()) === 4 && (await page.locator('.lx-hero a[href*="demo/chai"]').count()) === 0, "hero phone: 4 kirana products, no chai demo in the hero");
-    ok((await page.locator('a[href="udhaar.html"]').count()) >= 2 && (await page.locator('a[href="qr-poster.html"]').count()) >= 1, "links to Udhaar Khata and QR poster");
+    ok((await page.locator('a[href="udhaar"]').count()) >= 2 && (await page.locator('a[href="qr-poster"]').count()) >= 1, "links to Udhaar Khata and QR poster (short URLs)");
     /* placeholder number: no WhatsApp, friendly notice */
     ok((await page.locator("[data-wa][data-wa-missing]").count()) >= 5, "with placeholder number, demo buttons are marked missing");
     await page.locator(".lp-sticky .btn-whatsapp").click();
@@ -124,7 +124,7 @@ module.exports = async function sellkit(t) {
       await page.waitForFunction(() => { const c = document.querySelector("#shopGrid .lx-card"); return c && c.getAttribute("data-id") === "m001"; }, null, { timeout: 8000 });
       ok((await page.textContent("#shopGrid .lx-card .lx-card-name")).includes("Kaju Katli"), "mithai tab loads the mithai products");
       ok((await page.getAttribute('.lx-tab[data-shop="mithai"]', "aria-selected")) === "true" && (await page.getAttribute('.lx-tab[data-shop="kirana"]', "aria-selected")) === "false", "selected tab marked");
-      ok((await page.getAttribute("#shopOpen", "href")) === "store/index.html?shop=mithai", "'open full screen' link follows the tab");
+      ok((await page.getAttribute("#shopOpen", "href")) === "store/mithai/", "'open full screen' link follows the tab (store/mithai/)");
       ok(await page.locator("#shopBar").isHidden(), "each shop has its own cart (mithai cart empty)");
       await page.focus('.lx-tab[data-shop="mithai"]');
       await page.keyboard.press("ArrowRight");
@@ -153,13 +153,27 @@ module.exports = async function sellkit(t) {
       return { total: list.length, broken: list.filter((i) => i.naturalWidth === 0).map((i) => i.src) };
     });
     ok(imgs.broken.length === 0, "all landing images load (" + imgs.total + ")", imgs.broken.join(","));
+    /* v5 redesign: trust section, 3 steps, thumbnails, image sizes, Hindi strings loaded on demand */
+    ok((await page.locator("#trust .lx-t").count()) === 4 && (await page.locator("#how .lx-step").count()) === 3, "trust section has 4 facts and how-it-works has 3 steps");
+    ok(/2 working days/.test(await page.textContent("#trust")) && /own UPI/.test(await page.textContent("#trust")), "trust facts match the refund policy and payment terms");
+    const imgAttrs = await page.evaluate(() => Array.from(document.querySelectorAll("main img")).filter((i) => !i.getAttribute("width") || !i.getAttribute("height") || !i.getAttribute("decoding")).map((i) => i.getAttribute("src")));
+    ok(imgAttrs.length === 0, "every image in main has width, height and decoding=async", imgAttrs.join(","));
+    ok(await page.evaluate(() => Array.from(document.querySelectorAll("#shopGrid img")).every((i) => /assets\/images\/thumbs\//.test(i.getAttribute("src")))), "product grid uses 320 px thumbnails");
+    { const src = await (await page.request.get(base + "/")).text();
+      const below = src.slice(src.indexOf('id="demos"')).match(/<img\b[^>]*>/g) || [];
+      ok(below.length >= 20 && below.every((i) => /loading="lazy"/.test(i)), "below-the-fold images are lazy in the HTML (" + below.length + ")"); }
+    const hiReq = [];
+    page.on("request", (r) => { if (/site-i18n-hi\.js/.test(r.url())) hiReq.push(r.url()); });
+    ok(await page.evaluate(() => !window.KS_SITE_I18N.hi), "English visit does not load the Hindi strings");
     /* language */
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     ok(/अपनी दुकान को डिजिटल बनाओ/.test(await page.textContent("h1")) && (await page.getAttribute("html", "lang")) === "hi", "Hindi switch translates the hero");
     ok(/सवाल/.test(await page.textContent("#faqTitle")), "Hindi FAQ heading");
+    ok(hiReq.length === 1 && /site-i18n-hi\.js\?v=[0-9a-f]{8}$/.test(hiReq[0]), "Hindi strings fetched once, on demand, with a version", hiReq.join(","));
+    ok(/भरोसा/.test(await page.textContent("#trust")), "trust section in Hindi");
     await page.reload();
     ok((await page.getAttribute("html", "lang")) === "hi", "language remembered on landing");
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     await noOverflow(ok, page, overflowX, "landing");
     await ctx.close();
   }
@@ -250,13 +264,13 @@ module.exports = async function sellkit(t) {
     await page.click('[data-dec="samosa"]');
     ok((await page.textContent("#cartCount")) === "2", "− removes an item");
     /* language */
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     ok((await page.getAttribute("html", "lang")) === "hi" && (await page.locator(".s-name").first().textContent()).includes("कुल्हड़"), "Hindi toggle switches the whole menu");
     ok(decodeURIComponent((await page.getAttribute("#waSend", "href")).split("?text=")[1] || "").includes("नमस्ते"), "WhatsApp message in Hindi after switching");
     await page.reload();
     await page.waitForSelector(".scene");
     ok((await page.getAttribute("html", "lang")) === "hi" && (await page.textContent("#cartCount")) === "2", "language and cart are remembered after reload");
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     ok((await page.getAttribute("#helloBtn", "href")).startsWith("https://wa.me/" + OWNER + "?text="), "'Say hello' button opens WhatsApp to the shop");
     const imgs = await page.evaluate(() => [...document.images].filter((i) => !i.getAttribute("width") || !i.getAttribute("height")).length);
     ok(imgs === 0, "every image has width/height (no layout shift)");
@@ -277,7 +291,7 @@ module.exports = async function sellkit(t) {
     await page.goto(base + "/");
     await page.waitForTimeout(1500);
     ok((await page.locator("iframe").count()) === 0 && (await page.locator('.lx-hero a[href*="demo/chai"]').count()) === 0, "desktop: hero shows the plain kirana demo, no chai iframe");
-    ok((await page.getAttribute(".premium-demo", "href")) === "demo/chai/index.html" && /premium/i.test(await page.textContent(".premium-demo .pd-badge")), "Premium cinematic demo card is in the carousel");
+    ok((await page.getAttribute(".premium-demo", "href")) === "demo/chai/" && /premium/i.test(await page.textContent(".premium-demo .pd-badge")), "Premium cinematic demo card is in the carousel");
     const prem = await page.textContent(".price-premium");
     ok(/₹2,999/.test(prem) && /₹199/.test(prem), "Premium tier ₹2,999 setup + ₹199/month");
     const starter = await page.textContent(".price-main");
@@ -313,7 +327,7 @@ module.exports = async function sellkit(t) {
     ok((await page.getAttribute('meta[name="theme-color"]', "content")) === s.colors.brand, id + ": theme colour from JSON");
     ok((await page.title()) === s.text.en["page.title.store"], id + ": page title from JSON");
     ok((await page.textContent(".site-footer")).includes(s.hours.en), id + ": opening hours in footer");
-    ok((await page.getAttribute(".made-with a", "href")) === "../index.html", id + ": 'Website by KiranaYap' link back to landing");
+    ok((await page.getAttribute(".made-with a", "href")) === "../", id + ": 'Website by KiranaYap' link back to landing");
     /* order flow */
     await page.evaluate(() => { window.__opened = []; KS.openExternal = (u) => window.__opened.push(u); });
     const first = s.products.find((p) => p.stock > 5 && p.available);
@@ -333,8 +347,8 @@ module.exports = async function sellkit(t) {
     await page.goto(base + "/store/admin.html?shop=" + id);
     await page.waitForSelector("#overviewStats .stat");
     ok((await page.textContent("#stat-total .stat-value")) === String(s.products.length), id + ": dashboard counts this shop's products");
-    ok((await page.getAttribute("#backToStore", "href")) === "index.html?shop=" + id, id + ": dashboard links back to this shop");
-    ok((await page.getAttribute("#udhaarLink", "href")).startsWith("../udhaar.html?name=") && decodeURIComponent(await page.getAttribute("#udhaarLink", "href")).includes(s.storeName), id + ": Udhaar Khata link carries the shop name");
+    ok((await page.getAttribute("#backToStore", "href")) === "./?shop=" + id, id + ": dashboard links back to this shop");
+    ok((await page.getAttribute("#udhaarLink", "href")).startsWith("../udhaar?name=") && decodeURIComponent(await page.getAttribute("#udhaarLink", "href")).includes(s.storeName), id + ": Udhaar Khata link carries the shop name");
     const qr = decodeURIComponent(await page.getAttribute("#qrLink", "href"));
     ok(qr.includes("url=" + base + "/store/index.html?shop=" + id), id + ": QR poster link carries the store address");
     if (id === "mithai") {
@@ -355,7 +369,7 @@ module.exports = async function sellkit(t) {
     await page.goto(base + "/store/?shop=not-a-shop");
     await page.waitForSelector("#appError:not([hidden])");
     ok(/not found/.test(await page.textContent("#appErrorDetail")), "unknown shop shows a clear error");
-    ok((await page.locator('#appError a[href="../index.html#demos"]').count()) === 1, "error offers a link to all demos");
+    ok((await page.locator('#appError a[href="../#demos"]').count()) === 1, "error offers a link to all demos");
     await page.goto(base + "/store/?shop=%3Cimg%20src%3Dx%3E");
     await page.waitForSelector("#appError:not([hidden])");
     ok((await page.locator("#appError img").count()) === 0 && /not valid/.test(await page.textContent("#appErrorDetail")), "bad shop id rejected safely");
@@ -417,12 +431,12 @@ module.exports = async function sellkit(t) {
     /* persistence + Hindi */
     await page.reload();
     ok((await page.locator("#udList .ud-row").count()) === 4 && (await page.textContent("#udTotalDue")) === "₹2,141", "khata saved on this device after reload");
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     ok(/उधार खाता/.test(await page.textContent("#udSumTitle")) && /देने हैं/.test(await page.textContent("#udList")), "Hindi labels in the khata");
     await page.fill("#udSearch", "anil");
     ok((await page.locator("#udList .ud-row").count()) === 1, "search filters customers");
     await page.fill("#udSearch", "");
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     /* delete customer */
     await page.locator('#udList [data-open]').first().click();
     const victim = await page.textContent("#udCustName");
@@ -499,9 +513,9 @@ module.exports = async function sellkit(t) {
     ok((await page.textContent("#heroTitle")).length > 20 && (await page.title()).includes(city), city + ": page loads with its own title");
     const msg = decodeURIComponent((await page.getAttribute(".lp-hero .btn-whatsapp", "href")).split("?text=")[1]);
     ok(msg.includes("Shehar: " + city), city + ": WhatsApp message includes the city");
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     ok(/[\u0900-\u097F]/.test(await page.textContent("#heroTitle")), city + ": Hindi version");
-    await page.click("#langBtn");
+    await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
     if (slug === "lucknow") await noOverflow(ok, page, overflowX, "Lucknow page");
     await ctx.close();
   }

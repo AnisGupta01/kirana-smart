@@ -25,9 +25,13 @@ const required = ["index.html", "store/index.html", "store/admin.html", "udhaar.
   "assets/images/logo.svg", "assets/images/placeholder.svg", "assets/images/og-image.png",
   "assets/images/icon-192.png", "assets/images/icon-512.png", "assets/images/icon-maskable-512.png", "assets/images/icon-180.png",
   "demo/chai/index.html", "assets/css/cinema.css", "assets/js/cinema.js", "assets/js/cinema-boot.js", "assets/js/chai-config.js",
-  "assets/fonts/cormorant.woff2", "assets/fonts/cormorant-italic.woff2", "assets/fonts/inter.woff2", "assets/fonts/tiro-deva.woff2", "assets/fonts/tiro-deva-italic.woff2", "assets/fonts/LICENSE.md"];
+  "assets/fonts/cormorant.woff2", "assets/fonts/cormorant-italic.woff2", "assets/fonts/inter.woff2", "assets/fonts/tiro-deva.woff2", "assets/fonts/tiro-deva-italic.woff2", "assets/fonts/LICENSE.md",
+  "assets/fonts/baloo2-bold-latin.woff2", "assets/fonts/baloo2-bold-deva.woff2", "assets/fonts/baloo2-bold-label.woff2", "assets/fonts/inter-latin.woff2", "assets/js/site-i18n-hi.js", "tools/version-assets.js"];
 required.forEach((f) => ok(exists(f) && fs.statSync(path.join(root, f)).size > 0, "exists and non-empty: " + f));
 ok(!exists("admin.html") && !exists("assets/js/config.js") && !exists("assets/js/products.js"), "old root store files moved/removed (store now in store/, data in store/shops/)");
+
+/* a local link resolves to a file, a folder with index.html, or (short Cloudflare/GitHub Pages URL) "<name>.html" */
+function resolvesLocal(p) { return exists(p) || (!path.extname(p) && exists(p + ".html")); }
 
 /* page -> the JS file whose $("id") lookups must exist in that page */
 const PAGES = {
@@ -44,7 +48,7 @@ Object.keys(PAGES).forEach((page) => {
   const dir = path.dirname(page);
   const refs = [];
   html.replace(/(?:src|href)="([^"#?]+)(?:[?#][^"]*)?"/g, (m, u) => { if (!/^(https?:|mailto:|data:|tel:)/.test(u)) refs.push(u); return m; });
-  const missingRefs = refs.filter((u) => !exists(path.join(dir, u)));
+  const missingRefs = refs.filter((u) => !resolvesLocal(path.join(dir, u)));
   ok(missingRefs.length === 0, page + ": all " + refs.length + " local links resolve" + (missingRefs.length ? " -> missing " + missingRefs.join(", ") : ""));
   ok(!/<script[^>]+src="https?:|<link[^>]+rel="(stylesheet|preload|modulepreload|icon)"[^>]+href="https?:|<iframe[^>]+src="https?:/.test(html), page + ": no external scripts or stylesheets (no CDN)");
   ok(!/\son\w+=/.test(html.replace(/<noscript[\s\S]*?<\/noscript>/g, "")), page + ": no inline event handlers");
@@ -136,8 +140,8 @@ ok(/TODO\(owner\)/.test(read("assets/js/site-config.js")), "site-config.js has a
 ok(!/(?<![\dX])[6-9]\d{9}(?!\d)/.test(["index.html"].map(read).join("\n")), "no phone numbers hard-coded in index.html");
 
 /* Translations: every data-i18n key used on a page exists, and English text in HTML matches the dictionary */
-function loadDict(file, name) { const w = { window: {} }; w.window = w; vm.createContext(w); vm.runInContext(read(file), w); return w[name]; }
-const SITE = loadDict("assets/js/site-i18n.js", "KS_SITE_I18N");
+function loadDict(file, name, extra) { const w = { window: {} }; w.window = w; vm.createContext(w); vm.runInContext(read(file), w); if (extra) vm.runInContext(read(extra), w); return w[name]; }
+const SITE = loadDict("assets/js/site-i18n.js", "KS_SITE_I18N", "assets/js/site-i18n-hi.js");
 const STORE = loadDict("assets/js/i18n.js", "KS_I18N");
 const norm = (s) => s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&middot;/g, "·").replace(/&larr;/g, "←").replace(/&minus;/g, "−").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, " ").trim();
 [["index.html", SITE], ["shop-website-lucknow.html", SITE], ["shop-website-kanpur.html", SITE], ["shop-website-varanasi.html", SITE], ["qr-poster.html", SITE],
@@ -163,7 +167,7 @@ if (manifest) {
 }
 {
   const sw = read("sw.js");
-  const list = []; sw.replace(/"\.\/([^"]*)"/g, (m, u) => { list.push(u || "index.html"); return m; });
+  const list = []; sw.replace(/"\.\/([^"?]*)(?:\?v=[0-9a-f]+)?"/g, (m, u) => { list.push(u || "index.html"); return m; });
   const missing = list.filter((u) => !exists(u));
   ok(list.length > 30 && missing.length === 0, "sw.js: all " + list.length + " pre-cached files exist" + (missing.length ? " -> " + missing.join(", ") : ""));
 }
@@ -173,7 +177,7 @@ if (manifest) {
   const sm = read("sitemap.xml");
   ok(/^<\?xml version="1.0" encoding="UTF-8"\?>\s*<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/.test(sm) && /<\/urlset>\s*$/.test(sm), "sitemap.xml is a urlset");
   const locs = []; sm.replace(/<loc>([^<]+)<\/loc>/g, (m, l) => { locs.push(l); return m; });
-  const bad = locs.filter((l) => { const p = l.replace("https://kiranayap.pages.dev/", "").split("?")[0] || "index.html"; return !exists(p) || /&(?!amp;)/.test(l); });
+  const bad = locs.filter((l) => { const p = l.replace("https://kiranayap.pages.dev/", "").split("?")[0] || "index.html"; return !resolvesLocal(p) || /&(?!amp;)/.test(l); });
   ok(locs.length >= 10 && bad.length === 0, "sitemap: " + locs.length + " URLs, all point to real pages" + (bad.length ? " -> " + bad.join(", ") : ""));
   ok(/Sitemap: https:\/\/kiranayap\.pages\.dev\/sitemap\.xml/.test(read("robots.txt")), "robots.txt points to the sitemap");
 }
@@ -184,14 +188,14 @@ console.log("Trust pages, honesty, contact details");
   const pages = fs.readdirSync(root).filter((f) => f.endsWith(".html")).concat(["store/index.html", "store/admin.html", "demo/chai/index.html"]);
   const fake = pages.filter((f) => /testimonial|★|⭐|happy customers|trusted by \d|\d+\+ (shops|happy)|client logos?:/i.test(read(f).replace(/No reviews, ratings or client logos[^<]*/g, "").replace(/no testimonials[^<.]*/gi, "").replace(/will not see testimonials[^<]*/gi, "")));
   ok(fake.length === 0, "no testimonials, star ratings, fake stats or logo walls in any page" + (fake.length ? " -> " + fake.join(",") : ""));
-  ["about.html", "contact.html", "faq.html", "onboarding.html", "privacy.html", "terms.html", "refund.html"].forEach((f) => ok(/anishgupt43@gmail\.com/.test(read(f)) && /contact\.html/.test(read(f)), f + ": shows the support email and links to Contact"));
+  ["about.html", "contact.html", "faq.html", "onboarding.html", "privacy.html", "terms.html", "refund.html"].forEach((f) => ok(/anishgupt43@gmail\.com/.test(read(f)) && /href="contact"/.test(read(f)), f + ": shows the support email and links to Contact"));
   ok(/\+91 72660 42235/.test(read("contact.html")) && /https:\/\/wa\.me\/917266042235/.test(read("contact.html")), "contact.html shows the WhatsApp number (works without JavaScript too)");
   ok(/contactEmail: "anishgupt43@gmail\.com"/.test(read("assets/js/site-config.js")), "support email set once in site-config.js");
   ok(read("index.html").indexOf("Apni Dukaan Ko Digital Banao.") >= 0 && read("index.html").indexOf("Orders WhatsApp Par Pao.") >= 0, "landing HTML carries the exact headline (no-JS / SEO)");
   ["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((id) => ok(JSON.parse(read("store/shops/" + id + ".json")).demo === true && /\(Demo\)/.test(JSON.parse(read("store/shops/" + id + ".json")).storeName), id + " demo shop is flagged demo and named '(Demo)'"));
   ok(/local demo/i.test(read("store/admin.html")) && /exportShopBtn/.test(read("store/admin.html")), "setup tool is labelled local demo and has a working export button");
   ok(/Needs a backend/.test(read("docs/ARCHITECTURE.md")) || /needs a backend/i.test(read("docs/ARCHITECTURE.md")), "ARCHITECTURE.md documents what needs a backend");
-  ok(/ks-shell-v5/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v5)");
+  ok(/var CACHE = "ks-shell-v6-[0-9a-f]{8}"/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v6-<hash>)");
   const htmlFiles = pages;
   /* 404.html is the one exception: the host serves it for any missing address, at any depth */
   const rootAbs = htmlFiles.filter((f) => f !== "404.html" && /\s(href|src)="\/(?!\/)/.test(read(f)));
@@ -233,7 +237,7 @@ console.log("Per-shop static pages (store/<id>/index.html)");
     ok(img === build.SITE + "assets/images/og/" + id + ".jpg" && exists("assets/images/og/" + id + ".jpg"), f + ": og:image is the shop's own preview image (JPEG, exists)");
     ok(new RegExp('data-shop="' + id + '"').test(html) && /data-base="\.\.\/\.\.\/"/.test(html), f + ": presets the shop and the asset base");
     const refs = []; html.replace(/(?:src|href)="([^"#?]+)(?:[?#][^"]*)?"/g, (m, u) => { if (!/^(https?:|mailto:|data:|tel:)/.test(u)) refs.push(u); return m; });
-    const miss = refs.filter((u) => !exists(path.join("store/" + id, u)));
+    const miss = refs.filter((u) => !resolvesLocal(path.join("store/" + id, u)));
     ok(miss.length === 0, f + ": all " + refs.length + " local links resolve" + (miss.length ? " -> " + miss.join(",") : ""));
   });
   {
@@ -257,7 +261,7 @@ console.log("One go-live promise and one stock-update phrase everywhere");
   ok(bad.length === 0, "no conflicting go-live / update promises (1 day, 3 working days, 'we update it')" + (bad.length ? " -> " + bad.join(",") : ""));
   ["index.html", "faq.html", "terms.html", "refund.html"].forEach((f) => ok(read(f).indexOf(EN_STOCK) >= 0, f + ": exact stock-update phrase"));
   ["faq.html", "terms.html", "refund.html", "onboarding.html"].forEach((f) => ok(read(f).indexOf(HI_STOCK) >= 0, f + ": exact Devanagari stock-update phrase"));
-  const sandbox = { window: {} }; vm.createContext(sandbox); vm.runInContext(read("assets/js/site-i18n.js"), sandbox);
+  const sandbox = { window: {} }; vm.createContext(sandbox); vm.runInContext(read("assets/js/site-i18n.js"), sandbox); vm.runInContext(read("assets/js/site-i18n-hi.js"), sandbox);
   const D = sandbox.window.KS_SITE_I18N || sandbox.window.KS_I18N_SITE || null;
   const dicts = D || (function () { const w = {}; vm.runInNewContext(read("assets/js/site-i18n.js"), { window: w }); return w[Object.keys(w)[0]]; })();
   ok(dicts && dicts.en["l.faq.a8"].indexOf(EN_STOCK) >= 0 && dicts.hi["l.faq.a8"].indexOf(HI_STOCK) >= 0, "site-i18n: landing FAQ answer uses the exact phrase in EN and HI");
@@ -285,11 +289,35 @@ ok(!/"DENY"/.test(read("vercel.json")), "vercel.json allows same-origin framing 
   ok((sm.match(/<loc>https:\/\/kiranayap\.pages\.dev\//g) || []).length === (sm.match(/<loc>/g) || []).length && (sm.match(/<lastmod>2026-11-06<\/lastmod>/g) || []).length === (sm.match(/<loc>/g) || []).length, "sitemap: every URL on kiranayap.pages.dev with lastmod 2026-11-06");
   ok(/siteUrl: "https:\/\/kiranayap\.pages\.dev\/"/.test(read("assets/js/site-config.js")), "site-config.js siteUrl is https://kiranayap.pages.dev/");
   const h = read("_headers");
-  ok(/^\/assets\/\*\n\s+Cache-Control: public, max-age=86400$/m.test(h) && !/immutable/.test(h.replace(/^#.*$/gm, "")), "_headers: /assets/* cached 1 day, not immutable (file names are not versioned)");
+  ["css", "js", "fonts", "vendor"].forEach((d) => ok(new RegExp("^/assets/" + d + "/\\*\\n\\s+Cache-Control: public, max-age=31536000, immutable$", "m").test(h), "_headers: /assets/" + d + "/* immutable for a year (every reference is ?v=versioned)"));
+  ok(/^\/assets\/images\/\*\n\s+Cache-Control: public, max-age=86400$/m.test(h) && !/^\/assets\/\*$/m.test(h), "_headers: images (unversioned names) cached 1 day; no overlapping /assets/* rule");
+  const stale = require("../tools/version-assets.js").check();
+  ok(stale.length === 0, "every CSS/JS/font/vendor reference carries its current ?v=<hash> (run: node tools/version-assets.js)" + (stale.length ? " -> " + stale.slice(0, 6).join("; ") : ""));
+  ok(!/\.html<\/loc>/.test(sm) && !/index\.html/.test(sm), "sitemap: short Cloudflare URLs (no .html, no index.html)");
+  const longCanon = fs.readdirSync(root).filter((f) => f.endsWith(".html")).concat(["store/index.html"]).filter((f) => /<link rel="canonical" href="[^"]*\.html"|property="og:url" content="[^"]*\.html"/.test(read(f)));
+  ok(longCanon.length === 0, "canonical + og:url use short URLs (no .html)" + (longCanon.length ? " -> " + longCanon.join(",") : ""));
   ok(/^\/sw\.js\n\s+Cache-Control: no-cache$/m.test(h) && /^\/manifest\.webmanifest\n\s+Cache-Control: no-cache$/m.test(h) && /^\/\*\.html\n\s+Cache-Control: no-cache$/m.test(h), "_headers: no-cache for pages, sw.js and manifest");
   ok(/X-Content-Type-Options: nosniff/.test(h) && /Referrer-Policy: strict-origin-when-cross-origin/.test(h), "_headers: nosniff + strict-origin-when-cross-origin");
   const nf = read("404.html");
-  ok(/KiranaYap/.test(nf) && /href="\/"/.test(nf) && /noindex/.test(nf) && nf.replace(/<!--[\s\S]*?-->/g, "").match(/(?:href|src)="\/[^"]*"/g).every((u) => /^(href|src)="\/(assets\/[^"]+|store\/index\.html|contact\.html)?"$/.test(u) && exists(u.replace(/^(href|src)="\//, "").replace(/"$/, "") || "index.html")), "404.html: branded, noindex, links home, every root path exists");
+  ok(/KiranaYap/.test(nf) && /href="\/"/.test(nf) && /noindex/.test(nf) && nf.replace(/<!--[\s\S]*?-->/g, "").match(/(?:href|src)="\/[^"]*"/g).every((u) => /^(href|src)="\/(assets\/[^"]+|store\/kirana\/|contact)?"$/.test(u) && resolvesLocal(u.replace(/^(href|src)="\//, "").replace(/"$/, "").split("?")[0] || "index.html")), "404.html: branded, noindex, links home, every root path exists");
+}
+
+/* v5: thumbnails, fonts, Hindi split */
+{
+  const prods = fs.readdirSync(path.join(root, "assets/images/products"));
+  const noThumb = prods.filter((f) => !exists("assets/images/thumbs/" + f));
+  ok(noThumb.length === 0, "every product photo has a 320 px thumbnail (run: bash tools/make-thumbs.sh)" + (noThumb.length ? " -> " + noThumb.join(",") : ""));
+  ok(/KS\.thumbFor = function/.test(read("assets/js/common.js")) && /thumbOf\(/.test(read("assets/js/landing.js")), "store cards and landing grid use thumbnails");
+  const big = fs.readdirSync(path.join(root, "assets/images/thumbs")).filter((f) => fs.statSync(path.join(root, "assets/images/thumbs", f)).size > 80 * 1024);
+  ok(big.length === 0, "thumbnails are small (<= 80 KB)" + (big.length ? " -> " + big.join(",") : ""));
+  const css = read("assets/css/landing.css");
+  const faces = css.match(/@font-face\s*{[^}]*}/g) || [];
+  ok(faces.length >= 3 && faces.every((f) => /font-display:\s*swap/.test(f) && /unicode-range/.test(f)), "landing fonts: every @font-face uses font-display: swap and a unicode-range subset");
+  ok(fs.statSync(path.join(root, "assets/fonts/baloo2-bold-latin.woff2")).size < 30 * 1024 && fs.statSync(path.join(root, "assets/fonts/inter-latin.woff2")).size < 35 * 1024, "subset fonts are small (Baloo Latin < 30 KB, Inter Latin < 35 KB)");
+  ok(!/tiro-deva\.woff2|inter\.woff2/.test(css), "landing no longer downloads the 99 KB Tiro or the full Inter font");
+  ok(/SIL OPEN FONT LICENSE Version 1\.1/.test(read("assets/fonts/LICENSE.md")) && /Baloo 2/.test(read("assets/fonts/LICENSE.md")), "fonts/LICENSE.md carries the full OFL text and lists Baloo 2");
+  ok(!/"hi":\s*{|\bhi: {/.test(read("assets/js/site-i18n.js")) && /\.hi = {/.test(read("assets/js/site-i18n-hi.js")), "site-i18n.js holds English only; Hindi is in site-i18n-hi.js");
+  ok(!/initSlides|heroFrame|lx-slide/.test(read("assets/js/landing.js") + read("assets/css/landing.css")), "dead chai slideshow code removed");
 }
 
 console.log("\n" + passed + " passed, " + failed + " failed");

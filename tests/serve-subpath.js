@@ -4,7 +4,8 @@
    Set SERVE_BASE=/kirana-smart (or any sub-path) to serve the site under a
    project sub-path instead, which proves every link is relative and the
    site still works anywhere.
-   "/" -> index.html, directories -> index.html, unknown paths -> 404
+   "/" -> index.html, directories -> index.html, "/about" -> about.html
+   (short URLs, as on Cloudflare Pages), unknown paths -> 404
    (with 404.html as the body when it exists, like Cloudflare Pages).
    Used by tests/pro.e2e.js and tools/screens.js.
    Run on its own:  node tests/serve-subpath.js [port] */
@@ -38,6 +39,8 @@ function serve(port) {
         if (!p.endsWith("/")) { res.writeHead(301, { Location: BASE + p + "/" }); res.end(); return; }
         file = path.join(file, "index.html");
       }
+      /* Cloudflare Pages (and GitHub Pages) serve "/about" from about.html */
+      if (!fs.existsSync(file) && !path.extname(file) && fs.existsSync(file + ".html")) file += ".html";
       if (!fs.existsSync(file)) { notFound(res); return; }
       res.writeHead(200, { "Content-Type": MIME[path.extname(file)] || "application/octet-stream" });
       fs.createReadStream(file).pipe(res);

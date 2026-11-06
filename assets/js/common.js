@@ -785,19 +785,29 @@
       '</svg>';
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   };
+  /* Bundled product photos have a 320 px copy in assets/images/thumbs/
+     (tools/make-thumbs.sh). Cards and cart lines are drawn 64-200 px
+     wide, so they load the thumbnail; if it is missing, the full photo. */
+  KS.thumbFor = function (src) {
+    var m = /^assets\/images\/products\/([A-Za-z0-9_-]+)\.webp$/.exec(String(src || ""));
+    return m ? "assets/images/thumbs/" + m[1] + ".webp" : null;
+  };
   KS.productImg = function (p, cls) {
+    var thumb = p.image ? KS.thumbFor(p.image) : null;
     var img = h("img", {
       class: cls || "",
-      src: p.image ? KS.asset(p.image) : KS.placeholderImage(p),
+      src: thumb ? KS.asset(thumb) : (p.image ? KS.asset(p.image) : KS.placeholderImage(p)),
       alt: KS.displayName(p),
       loading: "lazy",
-      width: "160",
-      height: "160"
+      decoding: "async",
+      width: "320",
+      height: "320"
     });
-    var stage = 0;
+    var stage = thumb ? -1 : 0;
     img.addEventListener("error", function () {
       stage += 1;
-      if (stage === 1) img.src = KS.placeholderImage(p);
+      if (stage === 0) img.src = KS.asset(p.image);
+      else if (stage === 1) img.src = KS.placeholderImage(p);
       else if (stage === 2) img.src = KS.asset("assets/images/placeholder.svg");
     });
     return img;

@@ -497,8 +497,8 @@
     var name = KS.getSettings().storeName;
     var loc = global.location;
     var storeUrl = loc && /^https?:$/.test(loc.protocol) ? loc.href.split("#")[0].replace(/admin\.html/, "index.html") : "";
-    $("udhaarLink").setAttribute("href", "../udhaar.html?name=" + encodeURIComponent(name));
-    $("qrLink").setAttribute("href", "../qr-poster.html?name=" + encodeURIComponent(name) + (storeUrl ? "&url=" + encodeURIComponent(storeUrl) : ""));
+    $("udhaarLink").setAttribute("href", "../udhaar?name=" + encodeURIComponent(name));
+    $("qrLink").setAttribute("href", "../qr-poster?name=" + encodeURIComponent(name) + (storeUrl ? "&url=" + encodeURIComponent(storeUrl) : ""));
   }
 
   function updateLangBtn() {

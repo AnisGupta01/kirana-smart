@@ -421,7 +421,7 @@ function pdfInfo(buf) {
       {
         const { ctx, page } = await ctxPage(browser, VIEWPORTS[0], problems);
         await page.goto(base);
-        await page.click("#langBtn");
+        await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
         ok(/अपनी दुकान को डिजिटल बनाओ/.test(await page.textContent("h1")) && (await page.getAttribute("html", "lang")) === "hi", "Hindi: hero translated, <html lang=hi>");
         ok((await overflowX(page)) <= 0, "Hindi at 360px: no horizontal scroll");
         const fontOk = await page.evaluate(async () => { await document.fonts.ready; return document.fonts.check("16px 'KS Devanagari'", "अ") || document.fonts.check("16px 'Noto Sans Devanagari'", "अ"); });
@@ -430,7 +430,7 @@ function pdfInfo(buf) {
         ok(lh >= 1.5, "Hindi body line-height ≥ 1.5 for readability (" + lh.toFixed(2) + ")");
         const sp = decodeURIComponent((await page.getAttribute('.price-main [data-wa="starter"]', "href")).split("?text=")[1]);
         ok(/स्टार्टर प्लान/.test(sp), "Hindi: plan WhatsApp message in Hindi");
-        await page.click("#langBtn");
+        await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
         await ctx.close();
       }
       {
@@ -471,11 +471,11 @@ function pdfInfo(buf) {
         const bad = [];
         for (const l of locs) { const r = await page.request.get(l.replace(PAGES_DOMAIN, base)); if (r.status() !== 200) bad.push(r.status() + " " + l); }
         ok(locs.length >= 13 && locs.every((l) => l.indexOf(PAGES_DOMAIN) === 0) && bad.length === 0, "sitemap: " + locs.length + " URLs, all on the Pages domain and all 200 locally", bad.join(", "));
-        ok(["about.html", "contact.html", "faq.html", "onboarding.html"].every((p) => locs.indexOf(PAGES_DOMAIN + p) >= 0), "sitemap lists the new trust pages");
+        ok(["about", "contact", "faq", "onboarding"].every((p) => locs.indexOf(PAGES_DOMAIN + p) >= 0), "sitemap lists the trust pages (short URLs)");
         const robots = await (await page.request.get(base + "robots.txt")).text();
         ok(/Sitemap: https:\/\/kiranayap\.pages\.dev\/sitemap\.xml/.test(robots), "robots.txt points at the sitemap");
         const sw = await (await page.request.get(base + "sw.js")).text();
-        ok(/ks-shell-v5/.test(sw) && /about\.html/.test(sw) && /shops\.json/.test(sw), "service worker cache bumped to ks-shell-v5 and pre-caches new pages");
+        ok(/ks-shell-v6-[0-9a-f]{8}/.test(sw) && /about\.html/.test(sw) && /shops\.json/.test(sw) && !/images\/products\//.test(sw), "service worker cache bumped to ks-shell-v6-<hash>, pre-caches pages, no product photos");
         await ctx.close();
       }
     }

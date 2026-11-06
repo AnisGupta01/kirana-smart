@@ -1,6 +1,5 @@
 /* ============================================================
-   KIRANAYAP - LANDING PAGE INTERACTIONS (v3)
-   - Hero phone slideshow (crossfade) + desktop live demo iframe
+   KIRANAYAP - LANDING PAGE INTERACTIONS (v5)
    - Live demos carousel: prev/next + progress bar
    - Product grid: shop tabs (store/shops/<shop>.json), Add / qty,
      cart bar total, re-render on language change
@@ -15,7 +14,6 @@
   var doc = global.document;
   var API = global.KS_SITE_API || null;
   var reduceMQ = global.matchMedia ? global.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
-  var desktopMQ = global.matchMedia ? global.matchMedia("(min-width: 1024px)") : { matches: false };
 
   function t(key, vars, fallback) {
     var s = API ? API.t(key, vars) : null;
@@ -32,56 +30,6 @@
     if (cls) e.className = cls;
     if (text !== undefined && text !== null) e.textContent = text;
     return e;
-  }
-
-  /* ---------------- Hero slideshow ---------------- */
-  var slideTimer = null;
-  function initSlides() {
-    var screen = doc.querySelector(".lx-screen");
-    if (!screen) return;
-    var slides = screen.querySelectorAll(".lx-slide");
-    var dots = screen.querySelectorAll(".lx-dots i");
-    if (slides.length < 2) return;
-    var idx = 0, visible = true;
-    function show(n) {
-      idx = (n + slides.length) % slides.length;
-      for (var i = 0; i < slides.length; i++) {
-        slides[i].classList.toggle("is-on", i === idx);
-        if (dots[i]) dots[i].classList.toggle("is-on", i === idx);
-      }
-    }
-    function tick() {
-      if (!visible || doc.hidden || screen.classList.contains("is-live")) return;
-      show(idx + 1);
-    }
-    slideTimer = global.setInterval(tick, reduceMQ.matches ? 5000 : 2800);
-    if ("IntersectionObserver" in global) {
-      new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; }).observe(screen);
-    }
-  }
-
-  /* Desktop only: swap the slideshow for the real cinematic demo after load */
-  function initHeroFrame() {
-    var frame = doc.getElementById("heroFrame");
-    if (!frame) return;
-    var src = frame.getAttribute("data-src");
-    if (!src || !/^demo\/chai\/[^:]*$/.test(src)) return;
-    var conn = global.navigator && global.navigator.connection;
-    function go() {
-      if (!desktopMQ.matches || reduceMQ.matches || (conn && conn.saveData)) return;
-      if (frame.getAttribute("src")) return;
-      frame.addEventListener("load", function () {
-        global.setTimeout(function () {
-          var s = frame.closest(".lx-screen");
-          if (s) s.classList.add("is-live");
-          if (slideTimer) { global.clearInterval(slideTimer); slideTimer = null; }
-        }, 900);
-      }, { once: true });
-      frame.setAttribute("src", src);
-      frame.hidden = false;
-    }
-    if (doc.readyState === "complete") global.setTimeout(go, 300);
-    else global.addEventListener("load", function () { global.setTimeout(go, 300); }, { once: true });
   }
 
   /* ---------------- Demos carousel ---------------- */
@@ -142,6 +90,13 @@
     return typeof src === "string" && /^assets\/images\/[A-Za-z0-9_\/.-]+\.(webp|png|jpg|jpeg|svg)$/.test(src) ? src : "assets/images/placeholder.svg";
   }
 
+  /* Grid cards are drawn ~160-280 px wide: use the 320 px thumbnail of a
+     bundled product photo (tools/make-thumbs.sh), the original otherwise. */
+  function thumbOf(src) {
+    var m = /^assets\/images\/products\/([A-Za-z0-9_-]+)\.webp$/.exec(src);
+    return m ? "assets/images/thumbs/" + m[1] + ".webp" : src;
+  }
+
   function pick(json, shop) {
     var list = (json && json.products) || [];
     var byId = {};
@@ -182,9 +137,12 @@
     a.setAttribute("data-id", p.id);
     var media = el("div", "lx-card-media");
     var img = doc.createElement("img");
-    img.src = safeImg(p.image);
+    var full = safeImg(p.image);
+    var th = thumbOf(full);
+    img.src = th;
+    if (th !== full) img.addEventListener("error", function () { if (img.getAttribute("src") !== full) img.src = full; }, { once: true });
     img.alt = nameOf(p);
-    img.width = 480; img.height = 480;
+    img.width = 320; img.height = 320;
     img.loading = "lazy"; img.decoding = "async";
     media.appendChild(img);
     if (p.mrp && p.mrp > p.price) {
@@ -238,7 +196,7 @@
   }
 
   function setLinks(shop) {
-    var url = "store/index.html?shop=" + shop;
+    var url = "store/" + shop + "/";
     if (barGo) barGo.setAttribute("href", url);
     if (openLink) openLink.setAttribute("href", url);
   }
@@ -337,7 +295,7 @@
   /* ---------------- Reveals ---------------- */
   function initReveals() {
     if (reduceMQ.matches || !("IntersectionObserver" in global)) return;
-    var sel = ".lx-sec-head, .lx-f, .lx-step, .lx-plan, .lx-renew, .lx-cmp";
+    var sel = ".lx-sec-head, .lx-f, .lx-step, .lx-plan, .lx-renew, .lx-cmp, .lx-t";
     var els = doc.querySelectorAll(sel);
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -365,8 +323,6 @@
   }
 
   function init() {
-    initSlides();
-    initHeroFrame();
     initCarousel();
     initShop();
     initFaq();

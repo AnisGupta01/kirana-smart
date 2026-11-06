@@ -284,7 +284,7 @@
 /* ============================================================
    CLEAN LIGHT HEADER + SANS DISPLAY TYPE (v4, matches landing)
    ============================================================ */
-@font-face { font-family: "Tiro Devanagari Hindi"; src: url("../fonts/tiro-deva.woff2") format("woff2"); font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+@font-face { font-family: "Tiro Devanagari Hindi"; src: url("../fonts/tiro-deva.woff2?v=ba48f7ea") format("woff2"); font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+25CC, U+A830-A839, U+A8E0-A8FF; }
 .lp .lp-header { background: rgba(255, 255, 255, .97); border-bottom: 1px solid #e5e7eb; }
 .lp .lp-header .brand, .lp .lp-header .brand:hover { color: #111827; }
 .lp .lp-header .brand-text strong { color: #111827; font-weight: 750; font-size: 1.05rem; letter-spacing: -0.01em; }

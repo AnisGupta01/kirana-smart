@@ -215,6 +215,7 @@ function siteWindow(cfg, attrs) {
   vm.runInContext(read("assets/js/site-config.js"), win);
   if (cfg) Object.assign(win.KS_SITE, cfg);
   vm.runInContext(read("assets/js/site-i18n.js"), win);
+  vm.runInContext(read("assets/js/site-i18n-hi.js"), win); /* in the browser site.js loads this on demand */
   vm.runInContext(read("assets/js/site.js"), win);
   return win;
 }
@@ -251,7 +252,7 @@ function siteWindow(cfg, attrs) {
   ["₹999", "₹149", "₹99", "₹199", "₹2,999"].forEach((p) => ok(read("index.html").indexOf(p) >= 0, "landing shows price " + p));
   /* M7: template licence / reseller plan live on their own page, linked from the footer */
   ["₹1,499", "₹499"].forEach((p) => ok(read("resellers.html").indexOf(p) >= 0 && read("index.html").indexOf(p) < 0, "reseller price " + p + " only on resellers.html, not on the shopkeeper landing"));
-  ok(/<a href="resellers\.html"/.test(read("index.html")) && !/id="agency"/.test(read("index.html")), "landing footer links to resellers.html; agency block removed");
+  ok(/<a href="resellers"/.test(read("index.html")) && !/id="agency"/.test(read("index.html")), "landing footer links to resellers (short URL); agency block removed");
 }
 
 /* ---------------------------------------------------------------- */

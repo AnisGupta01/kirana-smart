@@ -2,7 +2,8 @@
    KIRANAYAP - MARKETING PAGES SCRIPT
    Landing page, city pages, QR poster and legal pages.
    - English / Hindi switch (same data-i18n approach and the same
-     saved-language key as the store, so the choice carries over)
+     saved-language key as the store, so the choice carries over).
+     Hindi strings are loaded on demand from site-i18n-hi.js.
    - Builds every "Free demo maango" WhatsApp link from the ONE
      number in assets/js/site-config.js
    - Fills contact details ([data-contact]) from site-config.js
@@ -13,7 +14,7 @@
 
   var doc = global.document;
   var SITE = global.KS_SITE || {};
-  var DICT = global.KS_SITE_I18N || { en: {}, hi: {} };
+  var DICT = global.KS_SITE_I18N || (global.KS_SITE_I18N = { en: {} });
   var LANG_KEY = "ks_lang_v1";
   var lang = "en";
   var listeners = [];
@@ -57,8 +58,34 @@
     }
   }
 
+  /* Hindi text lives in site-i18n-hi.js and is fetched only when needed.
+     Same folder and version scheme as site-i18n.js (CSP: script-src 'self'). */
+  var hiWaiting = null;
+  function hiSrc() {
+    var s = doc.querySelector('script[src*="site-i18n.js"]');
+    var base = s ? s.getAttribute("src").split("?")[0].replace(/site-i18n\.js$/, "") : "assets/js/";
+    var v = String(global.KS_SITE_I18N_HI_V || "");
+    return base + "site-i18n-hi.js" + (/^[A-Za-z0-9]+$/.test(v) && v !== "dev" ? "?v=" + v : "");
+  }
+  function loadHi(cb) {
+    if (DICT.hi) { cb(); return; }
+    if (hiWaiting) { hiWaiting.push(cb); return; }
+    hiWaiting = [cb];
+    var s = doc.createElement("script");
+    s.src = hiSrc();
+    s.async = true;
+    var done = function () {
+      var list = hiWaiting || []; hiWaiting = null;
+      if (!DICT.hi) DICT.hi = {}; /* offline and not cached: Hindi keys fall back to English */
+      list.forEach(function (fn) { fn(); });
+    };
+    s.onload = done; s.onerror = done;
+    (doc.head || doc.documentElement).appendChild(s);
+  }
+
   function setLang(l) {
     if (l !== "en" && l !== "hi") return;
+    if (l === "hi" && !DICT.hi) { loadHi(function () { setLang(l); }); return; }
     lang = l;
     lsSet(LANG_KEY, l);
     apply(doc);
@@ -154,6 +181,11 @@
   function init() {
     var saved = lsGet(LANG_KEY);
     lang = saved === "hi" || saved === "en" ? saved : (SITE.defaultLanguage === "hi" ? "hi" : "en");
+    if (lang === "hi" && !DICT.hi) {
+      /* show English (already in the HTML) until the Hindi file arrives */
+      lang = "en";
+      loadHi(function () { setLang("hi"); });
+    }
     apply(doc);
     updateLangBtn();
     buildWaLinks();

@@ -341,7 +341,7 @@
     var lines = KS.cart.lines();
     if (!lines.length) {
       body.appendChild(h("div", { class: "state-panel" }, [
-        h("div", { class: "state-icon", "aria-hidden": "true", text: "🛒" }),
+        h("div", { class: "state-icon state-icon-cart", "aria-hidden": "true" }),
         h("h3", { text: t("cart.empty.title") }),
         h("p", { class: "muted", text: t("cart.empty.text") }),
         h("button", { class: "btn btn-primary", type: "button", text: t("cart.empty.cta"), onclick: function () { closeDrawer(); goTo("shop"); } })

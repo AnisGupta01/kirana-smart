@@ -194,7 +194,7 @@ async function routeShop(ctx, id, mutate) {
       ok(found.length === 0, "live shop: 'sent' screen has no demo text", found.join(" | "));
       await page.click("#keepCart").catch(() => {});
       await page.click("#drawerClose").catch(() => {});
-      await page.click("#langBtn");
+      await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
       await page.waitForFunction(() => document.documentElement.lang === "hi");
       await page.click("#menuBtn");
       found = await visibleDemo();
@@ -267,7 +267,7 @@ async function routeShop(ctx, id, mutate) {
       let t = await text();
       ok(t.indexOf(EN_STOCK) >= 0, "landing (EN): FAQ shows the exact stock-update phrase");
       ok(/1–2 working days after we receive your details/.test(t) && !/in 1 day|1 din/i.test(t), "landing (EN): go-live 1–2 working days after details, no '1 day'");
-      await page.click("[data-lang-toggle], #langBtn, .lang-btn");
+      await page.click("[data-lang-toggle], #langBtn, .lang-btn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
       await page.waitForFunction(() => document.documentElement.lang === "hi");
       t = await text();
       ok(t.indexOf(HI_STOCK) >= 0, "landing (HI): FAQ shows the Devanagari stock-update phrase");
@@ -297,7 +297,7 @@ async function routeShop(ctx, id, mutate) {
         const body = await page.evaluate(() => document.body.innerText);
         ok(!/Get Started/i.test(body), L + "no 'Get Started' anywhere on the landing");
         ok(!/cinematic|sell on looks/i.test(body), L + "no jargon ('cinematic', 'sell on looks')");
-        ok(!/₹1,499|Reseller|Template licen[cs]e/i.test(body) && (await page.locator('a[href="resellers.html"]').count()) === 1, L + "reseller / template-licence offer is off the landing; footer links to resellers.html");
+        ok(!/₹1,499|Reseller|Template licen[cs]e/i.test(body) && (await page.locator('a[href="resellers"]').count()) === 1, L + "reseller / template-licence offer is off the landing; footer links to resellers");
         ok((await page.locator('a[href*="admin.html"]').count()) === 0, L + "no setup-tool link on the landing");
         const chai = await page.locator('a[href*="demo/chai"]').evaluateAll((a) => a.map((x) => !!(x.closest("#demoCarousel") || x.closest(".price-premium"))));
         ok(chai.length >= 1 && chai.every(Boolean), L + "chai demo only in the carousel and the Premium card (" + chai.length + " links)");
@@ -306,11 +306,11 @@ async function routeShop(ctx, id, mutate) {
         await page.waitForTimeout(700);
         const stickyShown = await page.evaluate(() => { const s = document.querySelector(".lp-sticky"); const r = s.getBoundingClientRect(); return getComputedStyle(s).display !== "none" && r.top < innerHeight && r.height > 0; });
         ok(vp.width < 760 ? stickyShown : !stickyShown, L + (vp.width < 760 ? "sticky WhatsApp bar shows on mobile" : "no sticky WhatsApp bar on desktop"));
-        await page.click("#langBtn");
+        await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
         await page.waitForFunction(() => document.documentElement.lang === "hi");
         const hi = await page.evaluate(() => document.body.innerText);
         ok(!/सिनेमैटिक|सिनेमा जैसा|दिखावट से बिक्री/.test(hi) && (await page.locator(".lx-hero .lx-btn").textContent()).trim() === "WhatsApp पर फ़्री डेमो माँगिए", L + "Hindi: main CTA in Devanagari, no jargon");
-        await page.click("#langBtn");
+        await page.click("#langBtn"); await page.waitForFunction(() => !window.KS_SITE_I18N || (!!window.KS_SITE_I18N.hi && document.documentElement.lang === (localStorage.getItem("ks_lang_v1") || "en")));
         await ctx.close();
       }
       const { ctx, page } = await ctxPage(browser, null, problems);

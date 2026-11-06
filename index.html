@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#fff8ec">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>KiranaYap: Kirana dukaan ki website, orders WhatsApp par</title>
   <meta name="google-site-verification" content="goc9woc-g5TXb2PB8_i2RrJmrqTb79LeAENkEYLwB1I" />
@@ -28,13 +28,13 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
   <link rel="apple-touch-icon" href="assets/images/icon-180.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/landing.css">
-  <script src="assets/js/site-config.js" defer></script>
-  <script src="assets/js/site-i18n.js" defer></script>
-  <script src="assets/js/site.js" defer></script>
-  <script src="assets/js/landing.js" defer></script>
-  <script src="assets/js/pwa.js" defer></script>
+  <link rel="preload" href="assets/fonts/baloo2-bold-latin.woff2?v=3ae2b744" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/landing.css?v=28c52f95">
+  <script src="assets/js/site-config.js?v=3d3ddc98" defer></script>
+  <script src="assets/js/site-i18n.js?v=18f178ae" defer></script>
+  <script src="assets/js/site.js?v=5907096a" defer></script>
+  <script src="assets/js/landing.js?v=4d2c02e8" defer></script>
+  <script src="assets/js/pwa.js?v=5222bb28" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -90,8 +90,8 @@
 
   <header class="lx-header lp-header">
     <div class="lx-wrap lx-header-row">
-      <a class="lx-brand" href="index.html">
-        <img src="assets/images/logo.svg" alt="" width="32" height="32">
+      <a class="lx-brand" href="./">
+        <img src="assets/images/logo.svg" alt="" width="36" height="36">
         <span class="lx-brand-text"><strong>KiranaYap</strong><small data-i18n="l.brandLine">Shop websites · WhatsApp orders</small></span>
       </a>
       <nav class="lx-nav lp-nav" aria-label="Main">
@@ -99,7 +99,7 @@
         <a href="#how" data-i18n="l.nav.how">How it works</a>
         <a href="#pricing" data-i18n="l.nav.pricing">Pricing</a>
         <a href="#faq" data-i18n="l.nav.faq">FAQ</a>
-        <a href="contact.html" data-i18n="l.nav.contact">Contact</a>
+        <a href="contact" data-i18n="l.nav.contact">Contact</a>
       </nav>
       <button id="langBtn" class="lx-lang" type="button">हिंदी</button>
     </div>
@@ -114,7 +114,7 @@
           <h1 id="heroTitle" class="lx-h1"><span data-i18n="l.hero.t1">Apni Dukaan Ko Digital Banao.</span> <span class="lx-h1-accent" data-i18n="l.hero.t2">Orders WhatsApp Par Pao.</span></h1>
           <p class="lx-sub" data-i18n="l.hero.sub">Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.</p>
           <div class="lx-ctas lx-ctas-main">
-            <a class="lx-btn lx-btn-wa lx-btn-lg btn-whatsapp" href="contact.html" data-wa="demo" data-cta="main"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.cta.main">Free demo WhatsApp par maango</span></a>
+            <a class="lx-btn lx-btn-wa lx-btn-lg btn-whatsapp" href="contact" data-wa="demo" data-cta="main"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.cta.main">Free demo WhatsApp par maango</span></a>
           </div>
           <p class="lx-cta-sub"><a class="lx-link" href="#demos" data-cta="demo" data-i18n="l.cta.see">Live demo dekho</a></p>
           <ul class="lx-proof">
@@ -128,20 +128,27 @@
           <a class="lx-phone" href="store/kirana/" aria-label="Demo shop: Sharma Kirana Store (sample products and prices)" data-i18n-aria="l.hero.storeLabel">
             <span class="lx-phone-notch" aria-hidden="true"></span>
             <span class="lx-screen lx-screen-store" aria-hidden="true">
-              <span class="lx-mini-bar"><span class="lx-mini-logo"><img src="assets/images/logo.svg" alt="" width="24" height="24"></span><span class="lx-mini-shop">Sharma Kirana Store<small data-i18n="l.demoTag">Demo</small></span><span class="lx-mini-cart">2</span></span>
+              <span class="lx-mini-bar"><span class="lx-mini-logo"><img src="assets/images/logo.svg" alt="" width="24" height="24" decoding="async"></span><span class="lx-mini-shop">Sharma Kirana Store<small data-i18n="l.demoTag">Demo</small></span><span class="lx-mini-cart">2</span></span>
               <span class="lx-mini-search" data-i18n="l.ph.search">Search atta, dal, oil…</span>
               <span class="lx-mini-grid">
-                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/products/p001.webp" alt="" width="480" height="480" decoding="async"><span class="lx-mini-off">10% off</span></span><span class="lx-mini-name">Whole Wheat Atta</span><span class="lx-mini-unit">5 kg</span><span class="lx-mini-row"><b>₹235</b> <s>₹260</s><span class="lx-mini-add" data-i18n="l.ph.add">Add</span></span></span>
-                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/products/p005.webp" alt="" width="480" height="480" decoding="async"><span class="lx-mini-off">10% off</span></span><span class="lx-mini-name">Basmati Rice</span><span class="lx-mini-unit">5 kg</span><span class="lx-mini-row"><b>₹520</b> <s>₹575</s><span class="lx-mini-add" data-i18n="l.ph.add">Add</span></span></span>
-                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/products/p009.webp" alt="" width="480" height="480" decoding="async"></span><span class="lx-mini-name">Toor Dal (Arhar)</span><span class="lx-mini-unit">1 kg</span><span class="lx-mini-row"><b>₹165</b><span class="lx-mini-add" data-i18n="l.ph.add">Add</span></span></span>
-                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/products/p013.webp" alt="" width="480" height="480" decoding="async"></span><span class="lx-mini-name">Mustard Oil</span><span class="lx-mini-unit">1 L</span><span class="lx-mini-row"><b>₹155</b><span class="lx-mini-add" data-i18n="l.ph.add">Add</span></span></span>
+                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/thumbs/p001.webp" alt="" width="320" height="320" decoding="async" fetchpriority="high"><span class="lx-mini-off">10% off</span></span><span class="lx-mini-name">Whole Wheat Atta</span><span class="lx-mini-unit">5 kg</span><span class="lx-mini-row"><b>₹235</b> <s>₹260</s><span class="lx-mini-add lx-mini-in">1</span></span></span>
+                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/thumbs/p005.webp" alt="" width="320" height="320" decoding="async"><span class="lx-mini-off">10% off</span></span><span class="lx-mini-name">Basmati Rice</span><span class="lx-mini-unit">5 kg</span><span class="lx-mini-row"><b>₹520</b> <s>₹575</s><span class="lx-mini-add" data-i18n="l.ph.add">Add</span></span></span>
+                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/thumbs/p009.webp" alt="" width="320" height="320" decoding="async"></span><span class="lx-mini-name">Toor Dal (Arhar)</span><span class="lx-mini-unit">1 kg</span><span class="lx-mini-row"><b>₹165</b><span class="lx-mini-add lx-mini-in">1</span></span></span>
+                <span class="lx-mini-card"><span class="lx-mini-img"><img src="assets/images/thumbs/p013.webp" alt="" width="320" height="320" decoding="async"></span><span class="lx-mini-name">Mustard Oil</span><span class="lx-mini-unit">1 L</span><span class="lx-mini-row"><b>₹155</b><span class="lx-mini-add" data-i18n="l.ph.add">Add</span></span></span>
               </span>
               <span class="lx-mini-order"><span class="lx-mini-total">2 items · ₹400</span><span class="lx-mini-wa" data-i18n="l.ph.order">Order on WhatsApp</span></span>
             </span>
           </a>
+          <div class="lx-bubble" aria-hidden="true">
+            <span class="lx-bubble-head"><span class="lx-wa-ico"></span><span data-i18n="l.hero.bubble">New order on WhatsApp</span></span>
+            <span class="lx-bubble-line"><span>Whole Wheat Atta 5 kg × 1</span><b>₹235</b></span>
+            <span class="lx-bubble-line"><span>Toor Dal 1 kg × 1</span><b>₹165</b></span>
+            <span class="lx-bubble-line lx-bubble-total"><span data-i18n="l.hero.bubbleTotal">Total</span><b>₹400</b></span>
+          </div>
           <p class="lx-live"><span class="lx-demo-tag" data-i18n="l.demoTag">Demo</span> <span data-i18n="l.hero.cineTag">Sample shop with sample prices</span> · <a href="store/kirana/" data-i18n="l.hero.cineOpen">Open full screen</a></p>
         </div>
       </div>
+      <div class="lx-toran" aria-hidden="true"></div>
     </section>
 
     <!-- LIVE DEMOS CAROUSEL -->
@@ -160,40 +167,40 @@
         </div>
       </div>
       <div class="lx-car" id="demoCarousel" tabindex="0" aria-label="Live demos" data-i18n-aria="l.demos.kicker">
-        <a class="lx-dcard niche-card" href="store/index.html?shop=kirana">
-          <img class="lx-dcard-img" src="assets/images/landing/shop-kirana.webp" alt="" width="640" height="794" loading="lazy" decoding="async">
+        <a class="lx-dcard niche-card" href="store/kirana/">
+          <img class="lx-dcard-img" src="assets/images/landing/shop-kirana.webp" alt="" width="480" height="596" loading="lazy" decoding="async">
           <span class="lx-dcard-body">
             <span class="lx-dcard-tags"><span class="lx-dcard-tag lx-dcard-demo" data-i18n="l.demoTag">Demo</span><span class="lx-dcard-tag" data-i18n="l.niche.kirana">Kirana</span></span>
             <strong class="lx-dcard-title" data-i18n="l.shopname.kirana">Sharma Kirana Store</strong>
             <span class="lx-dcard-go" data-i18n="l.demos.go">Open demo</span>
           </span>
         </a>
-        <a class="lx-dcard niche-card" href="store/index.html?shop=mithai">
-          <img class="lx-dcard-img" src="assets/images/landing/shop-mithai.webp" alt="" width="640" height="794" loading="lazy" decoding="async">
+        <a class="lx-dcard niche-card" href="store/mithai/">
+          <img class="lx-dcard-img" src="assets/images/landing/shop-mithai.webp" alt="" width="480" height="596" loading="lazy" decoding="async">
           <span class="lx-dcard-body">
             <span class="lx-dcard-tags"><span class="lx-dcard-tag lx-dcard-demo" data-i18n="l.demoTag">Demo</span><span class="lx-dcard-tag" data-i18n="l.niche.mithai">Mithai</span></span>
             <strong class="lx-dcard-title" data-i18n="l.shopname.mithai">Shree Mithai Ghar</strong>
             <span class="lx-dcard-go" data-i18n="l.demos.go">Open demo</span>
           </span>
         </a>
-        <a class="lx-dcard niche-card" href="store/index.html?shop=bakery">
-          <img class="lx-dcard-img" src="assets/images/landing/shop-bakery.webp" alt="" width="640" height="794" loading="lazy" decoding="async">
+        <a class="lx-dcard niche-card" href="store/bakery/">
+          <img class="lx-dcard-img" src="assets/images/landing/shop-bakery.webp" alt="" width="480" height="596" loading="lazy" decoding="async">
           <span class="lx-dcard-body">
             <span class="lx-dcard-tags"><span class="lx-dcard-tag lx-dcard-demo" data-i18n="l.demoTag">Demo</span><span class="lx-dcard-tag" data-i18n="l.niche.bakery">Bakery</span></span>
             <strong class="lx-dcard-title" data-i18n="l.shopname.bakery">Fresh Oven Bakery</strong>
             <span class="lx-dcard-go" data-i18n="l.demos.go">Open demo</span>
           </span>
         </a>
-        <a class="lx-dcard niche-card" href="store/index.html?shop=cloud-kitchen">
-          <img class="lx-dcard-img" src="assets/images/landing/shop-cloud.webp" alt="" width="640" height="794" loading="lazy" decoding="async">
+        <a class="lx-dcard niche-card" href="store/cloud-kitchen/">
+          <img class="lx-dcard-img" src="assets/images/landing/shop-cloud.webp" alt="" width="480" height="596" loading="lazy" decoding="async">
           <span class="lx-dcard-body">
             <span class="lx-dcard-tags"><span class="lx-dcard-tag lx-dcard-demo" data-i18n="l.demoTag">Demo</span><span class="lx-dcard-tag" data-i18n="l.niche.cloud">Cloud kitchen</span></span>
             <strong class="lx-dcard-title" data-i18n="l.shopname.cloud">Ghar Ka Swaad Kitchen</strong>
             <span class="lx-dcard-go" data-i18n="l.demos.go">Open demo</span>
           </span>
         </a>
-        <a class="lx-dcard premium-demo" href="demo/chai/index.html">
-          <img class="lx-dcard-img" src="assets/images/chai/hero-burst.webp" alt="" width="720" height="1290" loading="lazy" decoding="async">
+        <a class="lx-dcard premium-demo" href="demo/chai/">
+          <img class="lx-dcard-img" src="assets/images/thumbs/hero-burst-card.webp" alt="" width="480" height="860" loading="lazy" decoding="async">
           <span class="lx-dcard-body">
             <span class="lx-dcard-tags"><span class="lx-dcard-tag lx-dcard-demo" data-i18n="l.demoTag">Demo</span><span class="lx-badge pd-badge" data-i18n="l.demos.premiumBadge">Premium</span></span>
             <strong class="lx-dcard-title" data-i18n="l.demos.premiumTitle">Sharma Chai &amp; Mithai</strong>
@@ -204,8 +211,8 @@
       <div class="lx-wrap">
         <div class="lx-car-progress" aria-hidden="true"><span id="carBar"></span></div>
         <div class="lx-tools">
-          <a href="qr-poster.html" data-i18n="l.demos.qr">Make a QR code &amp; counter poster</a>
-          <a href="udhaar.html" data-i18n="l.demos.udhaar">Try the Digital Udhaar Khata demo</a>
+          <a href="qr-poster" data-i18n="l.demos.qr">Make a QR code &amp; counter poster</a>
+          <a href="udhaar" data-i18n="l.demos.udhaar">Try the Digital Udhaar Khata demo</a>
         </div>
       </div>
     </section>
@@ -219,67 +226,66 @@
           <p class="lx-lead" data-i18n="l.shop.lead">Real photos, clear prices and one tap to add. Try it here: tap Add.</p>
         </div>
         <div class="lx-tabs" role="tablist" aria-label="Choose a demo shop" data-i18n-aria="l.shop.tabs">
-          <button class="lx-tab" type="button" role="tab" aria-selected="true" aria-controls="shopGrid" data-shop="kirana"><img src="assets/images/products/hero-kirana.webp" alt="" width="28" height="28" loading="lazy"><span data-i18n="l.niche.kirana">Kirana</span></button>
-          <button class="lx-tab" type="button" role="tab" aria-selected="false" aria-controls="shopGrid" data-shop="mithai"><img src="assets/images/products/hero-mithai.webp" alt="" width="28" height="28" loading="lazy"><span data-i18n="l.niche.mithai">Mithai</span></button>
-          <button class="lx-tab" type="button" role="tab" aria-selected="false" aria-controls="shopGrid" data-shop="bakery"><img src="assets/images/products/hero-bakery.webp" alt="" width="28" height="28" loading="lazy"><span data-i18n="l.niche.bakery">Bakery</span></button>
-          <button class="lx-tab" type="button" role="tab" aria-selected="false" aria-controls="shopGrid" data-shop="cloud-kitchen"><img src="assets/images/products/hero-cloud-kitchen.webp" alt="" width="28" height="28" loading="lazy"><span data-i18n="l.niche.cloud">Cloud kitchen</span></button>
+          <button class="lx-tab" type="button" role="tab" aria-selected="true" aria-controls="shopGrid" data-shop="kirana"><img src="assets/images/thumbs/hero-kirana-64.webp" alt="" width="32" height="32" loading="lazy" decoding="async"><span data-i18n="l.niche.kirana">Kirana</span></button>
+          <button class="lx-tab" type="button" role="tab" aria-selected="false" aria-controls="shopGrid" data-shop="mithai"><img src="assets/images/thumbs/hero-mithai-64.webp" alt="" width="32" height="32" loading="lazy" decoding="async"><span data-i18n="l.niche.mithai">Mithai</span></button>
+          <button class="lx-tab" type="button" role="tab" aria-selected="false" aria-controls="shopGrid" data-shop="bakery"><img src="assets/images/thumbs/hero-bakery-64.webp" alt="" width="32" height="32" loading="lazy" decoding="async"><span data-i18n="l.niche.bakery">Bakery</span></button>
+          <button class="lx-tab" type="button" role="tab" aria-selected="false" aria-controls="shopGrid" data-shop="cloud-kitchen"><img src="assets/images/thumbs/hero-cloud-kitchen-64.webp" alt="" width="32" height="32" loading="lazy" decoding="async"><span data-i18n="l.niche.cloud">Cloud kitchen</span></button>
         </div>
         <div class="lx-grid" id="shopGrid" role="tabpanel" aria-live="polite">
           <article class="lx-card" data-id="p001">
-            <div class="lx-card-media"><img src="assets/images/products/p001.webp" alt="Whole Wheat Atta" width="480" height="480" loading="lazy" decoding="async"><span class="lx-card-off">10% off</span></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p001.webp" alt="Whole Wheat Atta" width="320" height="320" loading="lazy" decoding="async"><span class="lx-card-off">10% off</span></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Whole Wheat Atta</h3><p class="lx-card-unit">5 kg</p><p class="lx-card-row"><span class="lx-card-price">₹235</span> <s class="lx-card-mrp">₹260</s></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p001" data-i18n="l.shop.add">Add</button></div></div>
           </article>
           <article class="lx-card" data-id="p005">
-            <div class="lx-card-media"><img src="assets/images/products/p005.webp" alt="Basmati Rice" width="480" height="480" loading="lazy" decoding="async"><span class="lx-card-off">10% off</span></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p005.webp" alt="Basmati Rice" width="320" height="320" loading="lazy" decoding="async"><span class="lx-card-off">10% off</span></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Basmati Rice</h3><p class="lx-card-unit">5 kg</p><p class="lx-card-row"><span class="lx-card-price">₹520</span> <s class="lx-card-mrp">₹575</s></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p005" data-i18n="l.shop.add">Add</button></div></div>
           </article>
           <article class="lx-card" data-id="p009">
-            <div class="lx-card-media"><img src="assets/images/products/p009.webp" alt="Toor Dal (Arhar)" width="480" height="480" loading="lazy" decoding="async"></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p009.webp" alt="Toor Dal (Arhar)" width="320" height="320" loading="lazy" decoding="async"></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Toor Dal (Arhar)</h3><p class="lx-card-unit">1 kg</p><p class="lx-card-row"><span class="lx-card-price">₹165</span></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p009" data-i18n="l.shop.add">Add</button></div></div>
           </article>
           <article class="lx-card" data-id="p013">
-            <div class="lx-card-media"><img src="assets/images/products/p013.webp" alt="Mustard Oil" width="480" height="480" loading="lazy" decoding="async"></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p013.webp" alt="Mustard Oil" width="320" height="320" loading="lazy" decoding="async"></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Mustard Oil</h3><p class="lx-card-unit">1 L</p><p class="lx-card-row"><span class="lx-card-price">₹155</span></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p013" data-i18n="l.shop.add">Add</button></div></div>
           </article>
           <article class="lx-card" data-id="p015">
-            <div class="lx-card-media"><img src="assets/images/products/p015.webp" alt="Pure Desi Ghee" width="480" height="480" loading="lazy" decoding="async"></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p015.webp" alt="Pure Desi Ghee" width="320" height="320" loading="lazy" decoding="async"></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Pure Desi Ghee</h3><p class="lx-card-unit">500 ml</p><p class="lx-card-row"><span class="lx-card-price">₹340</span></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p015" data-i18n="l.shop.add">Add</button></div></div>
           </article>
           <article class="lx-card" data-id="p017">
-            <div class="lx-card-media"><img src="assets/images/products/p017.webp" alt="Fresh Paneer" width="480" height="480" loading="lazy" decoding="async"></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p017.webp" alt="Fresh Paneer" width="320" height="320" loading="lazy" decoding="async"></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Fresh Paneer</h3><p class="lx-card-unit">200 g</p><p class="lx-card-row"><span class="lx-card-price">₹85</span></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p017" data-i18n="l.shop.add">Add</button></div></div>
           </article>
           <article class="lx-card" data-id="p022">
-            <div class="lx-card-media"><img src="assets/images/products/p022.webp" alt="Namkeen Mixture" width="480" height="480" loading="lazy" decoding="async"><span class="lx-card-off">14% off</span></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p022.webp" alt="Namkeen Mixture" width="320" height="320" loading="lazy" decoding="async"><span class="lx-card-off">14% off</span></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Namkeen Mixture</h3><p class="lx-card-unit">400 g</p><p class="lx-card-row"><span class="lx-card-price">₹95</span> <s class="lx-card-mrp">₹110</s></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p022" data-i18n="l.shop.add">Add</button></div></div>
           </article>
           <article class="lx-card" data-id="p024">
-            <div class="lx-card-media"><img src="assets/images/products/p024.webp" alt="Tea Leaves (Chai Patti)" width="480" height="480" loading="lazy" decoding="async"></div>
+            <div class="lx-card-media"><img src="assets/images/thumbs/p024.webp" alt="Tea Leaves (Chai Patti)" width="320" height="320" loading="lazy" decoding="async"></div>
             <div class="lx-card-body"><h3 class="lx-card-name">Tea Leaves (Chai Patti)</h3><p class="lx-card-unit">500 g</p><p class="lx-card-row"><span class="lx-card-price">₹235</span></p><div class="lx-card-act"><button class="lx-add" type="button" data-add="p024" data-i18n="l.shop.add">Add</button></div></div>
           </article>
         </div>
         <div class="lx-cartbar" id="shopBar" hidden>
           <span class="lx-cartbar-txt" id="shopBarTxt"></span>
-          <a class="lx-cartbar-go" id="shopBarGo" href="store/index.html?shop=kirana" data-i18n="l.shop.barGo">Checkout in the demo</a>
+          <a class="lx-cartbar-go" id="shopBarGo" href="store/kirana/" data-i18n="l.shop.barGo">Checkout in the demo</a>
         </div>
-        <p class="lx-shop-foot"><a id="shopOpen" class="lx-link" href="store/index.html?shop=kirana" data-i18n="l.shop.open">Open this demo shop full screen</a> <span class="lx-fine" data-i18n="l.shop.note">Demo shops with sample products and prices.</span></p>
+        <p class="lx-shop-foot"><a id="shopOpen" class="lx-link" href="store/kirana/" data-i18n="l.shop.open">Open this demo shop full screen</a> <span class="lx-fine" data-i18n="l.shop.note">Demo shops with sample products and prices.</span></p>
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
+    <!-- HOW IT WORKS: 3 steps -->
     <section id="how" class="lx-sec lx-how" aria-labelledby="howTitle">
       <div class="lx-wrap">
-        <div class="lx-sec-head">
+        <div class="lx-sec-head lx-center">
           <p class="lx-kicker" data-i18n="l.how.kicker">How it works</p>
           <h2 id="howTitle" class="lx-h2" data-i18n="l.how.title">From one WhatsApp message to a live website</h2>
         </div>
         <ol class="lx-steps">
           <li class="lx-step"><span class="lx-step-n" aria-hidden="true">1</span><h3 data-i18n="l.how.s1">Send "DEMO" on WhatsApp</h3><p data-i18n="l.how.s1d">Tell us your shop's name and what you sell. No visit, no meeting needed.</p></li>
-          <li class="lx-step"><span class="lx-step-n" aria-hidden="true">2</span><h3 data-i18n="l.how.s2">Get a free demo in your shop's name</h3><p data-i18n="l.how.s2d">We send a demo link with your name and a few of your items. Check it on your own phone.</p></li>
-          <li class="lx-step"><span class="lx-step-n" aria-hidden="true">3</span><h3 data-i18n="l.how.s3">Share your product list, pay setup by UPI</h3><p data-i18n="l.how.s3d">Send product names, prices and photos on WhatsApp. Setup fee is paid only when you are happy with the demo.</p></li>
-          <li class="lx-step"><span class="lx-step-n" aria-hidden="true">4</span><h3 data-i18n="l.how.s4">Go live with your link and QR</h3><p data-i18n="l.how.s4d">Live within 1–2 working days after we receive your details. Share the link in WhatsApp groups and stick the QR at the counter.</p></li>
+          <li class="lx-step"><span class="lx-step-n" aria-hidden="true">2</span><h3 data-i18n="l.how.s2">Get a free demo in your shop's name</h3><p data-i18n="l.how.s2d3">We send a demo link with your name and a few of your items. Like it? Send your full product list and pay the setup fee by UPI.</p></li>
+          <li class="lx-step"><span class="lx-step-n" aria-hidden="true">3</span><h3 data-i18n="l.how.s4">Go live with your link and QR</h3><p data-i18n="l.how.s4d">Live within 1–2 working days after we receive your details. Share the link in WhatsApp groups and stick the QR at the counter.</p></li>
         </ol>
-        <p class="lx-more-link"><a class="lx-link" href="onboarding.html" data-i18n="l.how.more">See the full onboarding process</a></p>
+        <p class="lx-more-link lx-center"><a class="lx-link" href="onboarding" data-i18n="l.how.more">See the full onboarding process</a></p>
       </div>
     </section>
 
@@ -291,16 +297,15 @@
           <h2 id="featTitle" class="lx-h2" data-i18n="l.feat.title2">Built for how your shop already works</h2>
         </div>
         <ul class="lx-fgrid">
-          <li class="lx-f"><img src="assets/images/products/hero-kirana.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f1">Orders on WhatsApp</h3><p data-i18n="l.feat.f1d">Customers send a neat order list with items, quantities, totals, name and address straight to your WhatsApp.</p></div></li>
-          <li class="lx-f"><img src="assets/images/products/k002.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><div><h3 data-i18n="l.b1.t">0% commission</h3><p data-i18n="l.b1.d">A ₹199 order means ₹199 for you. No app takes a cut, and the customer stays yours.</p></div></li>
-          <li class="lx-f"><img src="assets/images/products/m001.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f3">Hindi + English</h3><p data-i18n="l.feat.f3d">One tap switches the whole website. Your customers read in the language they like.</p></div></li>
-          <li class="lx-f"><img src="assets/images/products/p022.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f4">Search, categories &amp; stock</h3><p data-i18n="l.feat.f4d">Customers search and filter your items. Show MRP and your price, and mark items out of stock.</p></div></li>
-          <li class="lx-f"><img src="assets/images/products/b005.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f5">QR code &amp; counter poster</h3><p data-i18n="l.feat.f5d">Download your shop QR as PNG, print an A4 poster or a small counter card. Works offline.</p></div></li>
-          <li class="lx-f"><img src="assets/images/products/k011.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f6">Fast on any phone</h3><p data-i18n="l.feat.f6d">Light pages with compressed photos that open quickly on budget Android phones and slow internet.</p></div></li>
+          <li class="lx-f"><img src="assets/images/thumbs/hero-kirana.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f1">Orders on WhatsApp</h3><p data-i18n="l.feat.f1d">Customers send a neat order list with items, quantities, totals, name and address straight to your WhatsApp.</p></div></li>
+          <li class="lx-f"><img src="assets/images/thumbs/k002.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.b1.t">0% commission</h3><p data-i18n="l.b1.d">A ₹199 order means ₹199 for you. No app takes a cut, and the customer stays yours.</p></div></li>
+          <li class="lx-f"><img src="assets/images/thumbs/m001.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f3">Hindi + English</h3><p data-i18n="l.feat.f3d">One tap switches the whole website. Your customers read in the language they like.</p></div></li>
+          <li class="lx-f"><img src="assets/images/thumbs/p022.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f4">Search, categories &amp; stock</h3><p data-i18n="l.feat.f4d">Customers search and filter your items. Show MRP and your price, and mark items out of stock.</p></div></li>
+          <li class="lx-f"><img src="assets/images/thumbs/b005.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f5">QR code &amp; counter poster</h3><p data-i18n="l.feat.f5d">Download your shop QR as PNG, print an A4 poster or a small counter card. Works offline.</p></div></li>
+          <li class="lx-f"><img src="assets/images/thumbs/k011.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f6">Fast on any phone</h3><p data-i18n="l.feat.f6d">Light pages with compressed photos that open quickly on budget Android phones and slow internet.</p></div></li>
         </ul>
       </div>
     </section>
-
     <!-- PRICING -->
     <section id="pricing" class="lx-sec lx-price" aria-labelledby="priceTitle">
       <div class="lx-wrap">
@@ -311,6 +316,7 @@
         <div class="lx-plans">
           <article class="lx-plan price-card price-main">
             <div class="lx-plan-head">
+              <p class="lx-plan-tag" data-i18n="l.price.sTag">Best for a kirana</p>
               <h3 data-i18n="l.price.starter">Starter</h3>
               <p class="lx-plan-for" data-i18n="l.price.sFor">For a kirana or small shop getting online</p>
             </div>
@@ -330,10 +336,11 @@
               <li data-i18n="l.price.s2">Up to 10 price / item changes a month, sent on WhatsApp</li>
               <li data-i18n="l.price.s3">WhatsApp support, Mon–Sat 10 am–7 pm, reply within 1 working day</li>
             </ul>
-            <a class="lx-btn lx-btn-wa lx-btn-block btn-whatsapp" href="contact.html" data-wa="starter"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.price.chooseS">Choose Starter on WhatsApp</span></a>
+            <a class="lx-btn lx-btn-wa lx-btn-block btn-whatsapp" href="contact" data-wa="starter"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.price.chooseS">Choose Starter on WhatsApp</span></a>
           </article>
           <article class="lx-plan lx-plan-hl price-card price-premium">
             <div class="lx-plan-head">
+              <p class="lx-plan-tag lx-plan-tag-p" data-i18n="l.demos.premiumBadge">Premium</p>
               <h3 data-i18n="l.price.premium">Premium</h3>
               <p class="lx-plan-for" data-i18n="l.price.pFor">For sweet shops, bakeries and kitchens that want big photos of their items</p>
             </div>
@@ -352,8 +359,8 @@
               <li data-i18n="l.price.p2s">Up to 25 price / item changes a month, sent on WhatsApp</li>
               <li data-i18n="l.price.p3s">Priority WhatsApp support, reply the same working day</li>
             </ul>
-            <a class="lx-btn lx-btn-primary lx-btn-block" href="contact.html" data-wa="premium"><span class="lx-wa-ico lx-wa-ico-light" aria-hidden="true"></span><span data-i18n="l.price.chooseP">Choose Premium on WhatsApp</span></a>
-            <a class="lx-link lx-plan-link" href="demo/chai/index.html" data-i18n="l.demos.premiumGo">Open the premium demo</a>
+            <a class="lx-btn lx-btn-primary lx-btn-block" href="contact" data-wa="premium"><span class="lx-wa-ico lx-wa-ico-light" aria-hidden="true"></span><span data-i18n="l.price.chooseP">Choose Premium on WhatsApp</span></a>
+            <a class="lx-link lx-plan-link" href="demo/chai/" data-i18n="l.demos.premiumGo">Open the premium demo</a>
           </article>
         </div>
         <div class="lx-renew">
@@ -363,13 +370,30 @@
             <li data-i18n="l.price.r2">Monthly fee is paid in advance each month by UPI. No lock-in: stop anytime on WhatsApp and your website goes offline at the end of the paid month.</li>
             <li data-i18n="l.price.r3">Extra changes beyond your plan, new photos or a custom domain (like yourshop.in, about ₹500–1,000 a year, paid by you) are quoted on WhatsApp first.</li>
           </ul>
-          <p class="lx-fine"><a href="terms.html" data-i18n="l.price.termsLink">Full terms</a> · <a href="refund.html" data-i18n="l.foot.refund">Refund policy</a></p>
+          <p class="lx-fine"><a href="terms" data-i18n="l.price.termsLink">Full terms</a> · <a href="refund" data-i18n="l.foot.refund">Refund policy</a></p>
         </div>
         <div class="lx-addons">
           <p class="lx-plan-sub" data-i18n="l.price.addons">Optional add-ons</p>
-          <a class="lx-addon" href="udhaar.html"><span><strong data-i18n="l.price.udhaar">Udhaar Khata Pro</strong><small data-i18n="l.price.u2">One-tap Hindi WhatsApp reminders</small></span><b>+ ₹99<small data-i18n="l.price.month">per month</small></b></a>
-          <a class="lx-addon" href="contact.html" data-wa="posters"><span><strong data-i18n="l.price.posters">Festival posters</strong><small data-i18n="l.price.p1">Diwali, Holi, Eid, Raksha Bandhan and more</small></span><b>₹199<small data-i18n="l.price.perSet">per festival set</small></b></a>
+          <a class="lx-addon" href="udhaar"><span><strong data-i18n="l.price.udhaar">Udhaar Khata Pro</strong><small data-i18n="l.price.u2">One-tap Hindi WhatsApp reminders</small></span><b>+ ₹99<small data-i18n="l.price.month">per month</small></b></a>
+          <a class="lx-addon" href="contact" data-wa="posters"><span><strong data-i18n="l.price.posters">Festival posters</strong><small data-i18n="l.price.p1">Diwali, Holi, Eid, Raksha Bandhan and more</small></span><b>₹199<small data-i18n="l.price.perSet">per festival set</small></b></a>
         </div>
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section id="trust" class="lx-sec lx-trust" aria-labelledby="trustTitle">
+      <div class="lx-wrap">
+        <div class="lx-sec-head lx-center">
+          <p class="lx-kicker" data-i18n="l.trust.kicker">Bharosa</p>
+          <h2 id="trustTitle" class="lx-h2" data-i18n="l.trust.title">No risk in trying it</h2>
+        </div>
+        <ul class="lx-tgrid">
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico1" aria-hidden="true"></span><h3 data-i18n="l.trust.t1">Pay only after you like the demo</h3><p data-i18n="l.trust.d1">The demo in your shop's name is free. The setup fee is paid by UPI only after you approve it.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico2" aria-hidden="true"></span><h3 data-i18n="l.trust.t2">Live on time, or setup fee back</h3><p data-i18n="l.trust.d2">If your website is not live within 2 working days of receiving your details, the full setup fee is refunded.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico3" aria-hidden="true"></span><h3 data-i18n="l.trust.t3">Money comes straight to you</h3><p data-i18n="l.trust.d3">Customers pay you in cash or on your own UPI. No payment passes through us, and there is no commission.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico4" aria-hidden="true"></span><h3 data-i18n="l.trust.t4">No lock-in</h3><p data-i18n="l.trust.d4">Stop anytime on WhatsApp. Your website goes offline at the end of the month you paid for.</p></li>
+        </ul>
+        <p class="lx-trust-note"><span data-i18n="l.trust.note">No reviews or customer numbers are shown here yet, because we only show real ones. Talk to us on WhatsApp before you pay anything.</span> <a class="lx-link" href="about" data-i18n="l.trust.about">Who runs KiranaYap</a> · <a class="lx-link" href="refund" data-i18n="l.foot.refund">Refund policy</a></p>
       </div>
     </section>
 
@@ -406,7 +430,7 @@
           <details><summary data-i18n="l.faq.q8">Does stock update by itself?</summary><p data-i18n="l.faq.a8">Not automatically. The website is a fast static site. Stock/price changes WhatsApp par bhejiye — 24 ghante ke andar update (Mon–Sat). Your plan covers up to 10 changes a month on Starter and 25 on Premium. Live stock sync needs a paid backend and is not part of these plans.</p></details>
           <details><summary data-i18n="l.faq.q5">Can I get my own domain (.in / .com)?</summary><p data-i18n="l.faq.a5">Yes. Your website goes live on a free link first. If you want your own domain, you buy it (usually ₹500–1,000 a year) and we connect it for you.</p></details>
         </div>
-        <p class="lx-more-link"><a class="lx-link" href="faq.html" data-i18n="l.faq.all">All questions</a></p>
+        <p class="lx-more-link"><a class="lx-link" href="faq" data-i18n="l.faq.all">All questions</a></p>
       </div>
     </section>
 
@@ -416,10 +440,10 @@
         <h2 id="finalTitle" class="lx-h2" data-i18n="l.final.title">See your own shop online today</h2>
         <p class="lx-lead" data-i18n="l.final.lead">Send "DEMO" on WhatsApp with your shop's name. We reply with a free demo in your name. No visit, no obligation.</p>
         <div class="lx-ctas lx-final-ctas">
-          <a class="lx-btn lx-btn-wa lx-btn-lg btn-whatsapp" href="contact.html" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.cta.demo">Get a free demo on WhatsApp</span></a>
+          <a class="lx-btn lx-btn-wa lx-btn-lg btn-whatsapp" href="contact" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.cta.demo">Get a free demo on WhatsApp</span></a>
         </div>
         <p id="waNotice" class="wa-notice" role="status" hidden></p>
-        <p class="lx-cities"><span data-i18n="l.final.cities">Serving shops in</span> <a href="shop-website-lucknow.html">Lucknow</a> · <a href="shop-website-kanpur.html">Kanpur</a> · <a href="shop-website-varanasi.html">Varanasi</a></p>
+        <p class="lx-cities"><span data-i18n="l.final.cities">Serving shops in</span> <a href="shop-website-lucknow">Lucknow</a> · <a href="shop-website-kanpur">Kanpur</a> · <a href="shop-website-varanasi">Varanasi</a></p>
       </div>
     </section>
   </main>
@@ -428,41 +452,41 @@
     <div class="lx-wrap">
       <div class="lx-foot-grid">
         <div class="lx-foot-about">
-          <a class="lx-brand" href="index.html"><img src="assets/images/logo.svg" alt="" width="32" height="32"><span class="lx-brand-text"><strong>KiranaYap</strong></span></a>
+          <a class="lx-brand" href="./"><img src="assets/images/logo.svg" alt="" width="32" height="32" loading="lazy" decoding="async"><span class="lx-brand-text"><strong>KiranaYap</strong></span></a>
           <p data-i18n="l.foot.about">Websites for local shops in Uttar Pradesh. Orders on WhatsApp, no commission.</p>
-          <p class="lx-foot-contact"><a href="contact.html" data-wa="support" data-contact="wa-text">WhatsApp</a><br><a href="mailto:anishgupt43@gmail.com">anishgupt43@gmail.com</a></p>
-          <p><a id="igLink" href="index.html" hidden rel="noopener noreferrer" target="_blank">Instagram</a></p>
+          <p class="lx-foot-contact"><a href="contact" data-wa="support" data-contact="wa-text">WhatsApp</a><br><a href="mailto:anishgupt43@gmail.com">anishgupt43@gmail.com</a></p>
+          <p><a id="igLink" href="./" hidden rel="noopener noreferrer" target="_blank">Instagram</a></p>
         </div>
         <div>
           <h2 class="lx-foot-title" data-i18n="l.foot.demos">Demos &amp; tools</h2>
           <ul class="lx-foot-links">
-            <li><a href="store/index.html?shop=kirana" data-i18n="l.niche.kirana">Kirana</a></li>
-            <li><a href="store/index.html?shop=mithai" data-i18n="l.niche.mithai">Mithai</a></li>
-            <li><a href="store/index.html?shop=bakery" data-i18n="l.niche.bakery">Bakery</a></li>
-            <li><a href="store/index.html?shop=cloud-kitchen" data-i18n="l.niche.cloud">Cloud kitchen</a></li>
-            <li><a href="qr-poster.html" data-i18n="l.foot.qr">QR code &amp; poster maker</a></li>
-            <li><a href="udhaar.html" data-i18n="tools.udhaar">Digital Udhaar Khata</a></li>
+            <li><a href="store/kirana/" data-i18n="l.niche.kirana">Kirana</a></li>
+            <li><a href="store/mithai/" data-i18n="l.niche.mithai">Mithai</a></li>
+            <li><a href="store/bakery/" data-i18n="l.niche.bakery">Bakery</a></li>
+            <li><a href="store/cloud-kitchen/" data-i18n="l.niche.cloud">Cloud kitchen</a></li>
+            <li><a href="qr-poster" data-i18n="l.foot.qr">QR code &amp; poster maker</a></li>
+            <li><a href="udhaar" data-i18n="tools.udhaar">Digital Udhaar Khata</a></li>
           </ul>
         </div>
         <div>
           <h2 class="lx-foot-title" data-i18n="l.foot.company">Company</h2>
           <ul class="lx-foot-links">
-            <li><a href="about.html" data-i18n="l.foot.about2">About</a></li>
-            <li><a href="contact.html" data-i18n="l.nav.contact">Contact</a></li>
-            <li><a href="onboarding.html" data-i18n="l.foot.onb">How onboarding works</a></li>
-            <li><a href="faq.html" data-i18n="l.nav.faq">FAQ</a></li>
-            <li><a href="resellers.html" data-i18n="l.foot.resellers">For freelancers &amp; agencies</a></li>
-            <li><a href="shop-website-lucknow.html" data-i18n="l.foot.lko">Shop website in Lucknow</a></li>
-            <li><a href="shop-website-kanpur.html" data-i18n="l.foot.knp">Shop website in Kanpur</a></li>
-            <li><a href="shop-website-varanasi.html" data-i18n="l.foot.vns">Shop website in Varanasi</a></li>
+            <li><a href="about" data-i18n="l.foot.about2">About</a></li>
+            <li><a href="contact" data-i18n="l.nav.contact">Contact</a></li>
+            <li><a href="onboarding" data-i18n="l.foot.onb">How onboarding works</a></li>
+            <li><a href="faq" data-i18n="l.nav.faq">FAQ</a></li>
+            <li><a href="resellers" data-i18n="l.foot.resellers">For freelancers &amp; agencies</a></li>
+            <li><a href="shop-website-lucknow" data-i18n="l.foot.lko">Shop website in Lucknow</a></li>
+            <li><a href="shop-website-kanpur" data-i18n="l.foot.knp">Shop website in Kanpur</a></li>
+            <li><a href="shop-website-varanasi" data-i18n="l.foot.vns">Shop website in Varanasi</a></li>
           </ul>
         </div>
         <div>
           <h2 class="lx-foot-title" data-i18n="l.foot.legal">Legal</h2>
           <ul class="lx-foot-links">
-            <li><a href="privacy.html" data-i18n="legal.privacy">Privacy</a></li>
-            <li><a href="terms.html" data-i18n="l.foot.terms">Terms</a></li>
-            <li><a href="refund.html" data-i18n="l.foot.refund">Refund policy</a></li>
+            <li><a href="privacy" data-i18n="legal.privacy">Privacy</a></li>
+            <li><a href="terms" data-i18n="l.foot.terms">Terms</a></li>
+            <li><a href="refund" data-i18n="l.foot.refund">Refund policy</a></li>
           </ul>
         </div>
       </div>
@@ -471,7 +495,7 @@
   </footer>
 
   <div class="lx-sticky lp-sticky">
-    <a class="lx-btn lx-btn-wa lx-btn-block btn-whatsapp" href="contact.html" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.cta.demo">Get a free demo on WhatsApp</span></a>
+    <a class="lx-btn lx-btn-wa lx-btn-block btn-whatsapp" href="contact" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.cta.demo">Get a free demo on WhatsApp</span></a>
   </div>
 </body>
 </html>

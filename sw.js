@@ -2,40 +2,37 @@
    KIRANAYAP - SERVICE WORKER (offline shell)
    - Pre-caches the pages, styles, scripts and shop files so the
      site opens without internet after the first visit.
+   - CSS/JS/fonts are requested with ?v=<hash> (tools/version-assets.js),
+     so a cached copy is always the right one for the page.
    - Pages: network first (always fresh when online), cache when
      offline. Other files: cache first, refreshed in background.
    Bump CACHE when you change files so phones pick up the update.
    ============================================================ */
 "use strict";
-var CACHE = "ks-shell-v5"; /* v5: KiranaYap rebrand, served at kiranayap.pages.dev root */
+var CACHE = "ks-shell-v6-8fa764a3"; /* v6: "dukaan" redesign, versioned CSS/JS (?v=), small pre-cache. The -<hash> suffix is added by tools/version-assets.js */
+/* Only the page shell: pages, styles, scripts, fonts, icons and shop files
+   (about 0.6 MB). Product photos are cached the first time they are seen,
+   so a first visit on prepaid data does not download every demo photo. */
 var SHELL = [
   "./", "./index.html", "./udhaar.html", "./qr-poster.html",
   "./privacy.html", "./terms.html", "./refund.html",
-  "./about.html", "./contact.html", "./faq.html", "./onboarding.html",
+  "./about.html", "./contact.html", "./faq.html", "./onboarding.html", "./resellers.html",
   "./shop-website-lucknow.html", "./shop-website-kanpur.html", "./shop-website-varanasi.html",
   "./store/", "./store/index.html", "./store/admin.html",
+  "./store/kirana/", "./store/mithai/", "./store/bakery/", "./store/cloud-kitchen/",
   "./store/shops/shops.json", "./store/shops/kirana.json", "./store/shops/mithai.json", "./store/shops/bakery.json", "./store/shops/cloud-kitchen.json",
   "./manifest.webmanifest", "./404.html",
-  "./assets/css/style.css", "./assets/css/site.css", "./assets/css/tools.css",
-  "./assets/js/site-config.js", "./assets/js/site-i18n.js", "./assets/js/site.js", "./assets/js/pwa.js",
-  "./assets/js/shop-loader.js", "./assets/js/i18n.js", "./assets/js/common.js", "./assets/js/cart.js",
-  "./assets/js/app.js", "./assets/js/admin.js", "./assets/js/udhaar-core.js", "./assets/js/udhaar.js",
-  "./assets/js/qr-poster.js", "./assets/vendor/qrcode-generator/qrcode.js",
+  "./assets/css/style.css?v=0006ee3d", "./assets/css/site.css?v=072b57a9", "./assets/css/tools.css?v=295e1f63", "./assets/css/print-a6.css?v=ea575f9c", "./assets/css/landing.css?v=28c52f95",
+  "./assets/js/site-config.js?v=3d3ddc98", "./assets/js/site-i18n.js?v=18f178ae", "./assets/js/site-i18n-hi.js?v=d1e397c4", "./assets/js/site.js?v=5907096a", "./assets/js/pwa.js?v=5222bb28", "./assets/js/landing.js?v=4d2c02e8",
+  "./assets/js/shop-loader.js?v=fe9a7dfc", "./assets/js/i18n.js?v=7b9810f6", "./assets/js/common.js?v=77d23e0d", "./assets/js/cart.js?v=2f012e34",
+  "./assets/js/app.js?v=bc468df6", "./assets/js/admin.js?v=747c0ae6", "./assets/js/udhaar-core.js?v=ceb3c580", "./assets/js/udhaar.js?v=ba5a4f5e",
+  "./assets/js/qr-poster.js?v=a8bcbf2d", "./assets/vendor/qrcode-generator/qrcode.js?v=79ec86f8",
+  "./assets/fonts/baloo2-bold-latin.woff2?v=3ae2b744", "./assets/fonts/baloo2-bold-label.woff2?v=ddb0f290", "./assets/fonts/inter-latin.woff2?v=7caf5e47",
   "./assets/images/logo.svg", "./assets/images/placeholder.svg", "./assets/images/check.svg", "./assets/images/tick.svg",
   "./assets/images/cart.svg", "./assets/images/chat.svg", "./assets/images/search.svg", "./assets/images/chevron.svg",
   "./assets/images/icon-192.png",
-  "./demo/chai/", "./demo/chai/index.html", "./assets/css/cinema.css",
-  "./assets/js/cinema-boot.js", "./assets/js/chai-config.js", "./assets/js/cinema.js",
-  "./assets/fonts/cormorant.woff2", "./assets/fonts/cormorant-italic.woff2", "./assets/fonts/inter.woff2", "./assets/fonts/tiro-deva.woff2",
-  "./assets/css/landing.css", "./assets/js/landing.js",
-  "./assets/images/landing/shop-kirana.webp", "./assets/images/landing/shop-mithai.webp", "./assets/images/landing/shop-bakery.webp", "./assets/images/landing/shop-cloud.webp",
-  "./assets/images/chai/samosa.webp", "./assets/images/chai/kajukatli.webp", "./assets/images/chai/rasmalai.webp", "./assets/images/chai/bunmaska.webp", "./assets/images/chai/lassi.webp",
-  "./assets/images/products/hero-kirana.webp", "./assets/images/products/hero-mithai.webp", "./assets/images/products/hero-bakery.webp", "./assets/images/products/hero-cloud-kitchen.webp",
-  "./assets/images/products/p001.webp", "./assets/images/products/p005.webp", "./assets/images/products/p009.webp", "./assets/images/products/p013.webp", "./assets/images/products/p015.webp", "./assets/images/products/p017.webp", "./assets/images/products/p022.webp", "./assets/images/products/p024.webp",
-  "./assets/images/products/m001.webp", "./assets/images/products/m002.webp", "./assets/images/products/m007.webp", "./assets/images/products/m009.webp", "./assets/images/products/m011.webp", "./assets/images/products/m004.webp", "./assets/images/products/m012.webp", "./assets/images/products/m016.webp",
-  "./assets/images/products/b003.webp", "./assets/images/products/b001.webp", "./assets/images/products/b005.webp", "./assets/images/products/b007.webp", "./assets/images/products/b015.webp", "./assets/images/products/b013.webp", "./assets/images/products/b008.webp", "./assets/images/products/b017.webp",
-  "./assets/images/products/k002.webp", "./assets/images/products/k001.webp", "./assets/images/products/k008.webp", "./assets/images/products/k004.webp", "./assets/images/products/k005.webp", "./assets/images/products/k007.webp", "./assets/images/products/k011.webp", "./assets/images/products/k013.webp",
-  "./assets/images/chai/hero-burst.webp", "./assets/images/chai/chai.webp", "./assets/images/chai/grain.webp"
+  "./demo/chai/", "./demo/chai/index.html", "./assets/css/cinema.css?v=e7bed2c0",
+  "./assets/js/cinema-boot.js?v=88ea53a0", "./assets/js/chai-config.js?v=0cc2fc4d", "./assets/js/cinema.js?v=05b0587e"
 ];
 
 function cleanCopy(res) {
