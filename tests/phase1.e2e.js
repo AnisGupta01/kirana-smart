@@ -139,6 +139,81 @@ async function routeShop(ctx, id, mutate) {
       }
       await ctx.close();
     }
+
+    /* ============ H1: live shops show no demo wording ============ */
+    if (part("live")) {
+      console.log("H1: demo:false shop hides every demo string");
+      const DEMO = /\b(demo|sample|setup tool|fictional)\b|डेमो|नमूना|सेटअप/i;
+      const { ctx, page } = await ctxPage(browser, null, problems);
+      await routeShop(ctx, "mithai", (s) => {
+        s.demo = false;
+        s.storeName = "Shree Mithai Ghar";
+        s.storeLocation = "Aminabad, Lucknow";
+        s.hours = { en: "Every day, 8 AM to 10 PM", hi: "रोज़, सुबह 8 से रात 10 बजे तक" };
+        s.deliveryNote = "Home delivery within 2 km.";
+        /* text.page.title.store still says "(Demo)", as in a JSON copied from the demo */
+      });
+      const visibleDemo = () => page.evaluate((src) => {
+        const re = new RegExp(src, "i");
+        const out = [];
+        const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        let n;
+        while ((n = walk.nextNode())) {
+          const el = n.parentElement;
+          if (!el || !el.getClientRects().length) continue;
+          const cs = getComputedStyle(el);
+          if (cs.visibility === "hidden" || cs.display === "none") continue;
+          if (re.test(n.textContent)) out.push(n.textContent.trim().slice(0, 80));
+        }
+        document.querySelectorAll("a[href]").forEach((a) => { if (/admin\.html/.test(a.getAttribute("href")) && a.getClientRects().length) out.push("link to " + a.getAttribute("href")); });
+        return out;
+      }, DEMO.source);
+      await page.goto(base + "store/index.html?shop=mithai");
+      await page.waitForSelector("#productGrid .product-card");
+      await page.click("#menuBtn");
+      ok(await page.evaluate(() => document.documentElement.classList.contains("is-live-shop")), "live shop: is-live-shop class set");
+      let found = await visibleDemo();
+      ok(found.length === 0, "live shop (EN, menu open): no visible demo / sample / setup-tool text or admin link", found.join(" | "));
+      ok(!DEMO.test(await page.title()) && /Shree Mithai Ghar/.test(await page.title()), "live shop: page title has the shop name and no 'Demo' (" + await page.title() + ")");
+      await page.click("#menuBtn");
+      const buy = SHOP("mithai").products.find((p) => p.available !== false && p.stock > 2);
+      await page.click('#productGrid [data-product="' + buy.id + '"] .btn-primary');
+      await page.click("#cartBtn");
+      found = await visibleDemo();
+      ok(found.length === 0, "live shop: cart drawer has no demo text", found.join(" | "));
+      await page.click("#checkoutBtn");
+      found = await visibleDemo();
+      ok(found.length === 0, "live shop: checkout has no demo text", found.join(" | "));
+      await page.check('input[name="ordertype"][value="pickup"]');
+      await page.fill("#f-name", "Ravi Kumar");
+      await page.evaluate(() => { window.__opened = []; KS.openExternal = (u) => window.__opened.push(u); });
+      await page.click("#sendOrderBtn");
+      const msg = decodeURIComponent(((await page.evaluate(() => window.__opened[0] || "")).split("?text=")[1]) || "");
+      ok(msg.length > 50 && !DEMO.test(msg) && /Sent from the Shree Mithai Ghar website/.test(msg), "live shop: WhatsApp message has no demo wording", msg.slice(-200));
+      found = await visibleDemo();
+      ok(found.length === 0, "live shop: 'sent' screen has no demo text", found.join(" | "));
+      await page.click("#keepCart").catch(() => {});
+      await page.click("#drawerClose").catch(() => {});
+      await page.click("#langBtn");
+      await page.waitForFunction(() => document.documentElement.lang === "hi");
+      await page.click("#menuBtn");
+      found = await visibleDemo();
+      ok(found.length === 0, "live shop (Hindi, menu open): no visible डेमो / नमूना / setup text", found.join(" | "));
+      ok(!DEMO.test(await page.title()), "live shop (Hindi): title has no demo word (" + await page.title() + ")");
+      /* hours missing in a live JSON: no "(sample hours)" fallback */
+      await routeShop(ctx, "mithai", (s) => { s.demo = false; s.storeName = "Shree Mithai Ghar"; s.storeLocation = "Aminabad, Lucknow"; s.deliveryNote = "Home delivery within 2 km."; delete s.hours; });
+      await page.evaluate(() => localStorage.setItem("ks_lang_v1", "en"));
+      await page.goto(base + "store/index.html?shop=mithai");
+      await page.waitForSelector("#productGrid .product-card");
+      found = await visibleDemo();
+      ok(found.length === 0, "live shop without hours: no '(sample hours)' fallback", found.join(" | "));
+      /* the same shop as a demo still shows its demo labels */
+      await routeShop(ctx, "mithai", null);
+      await page.goto(base + "store/index.html?shop=mithai");
+      await page.waitForSelector("#productGrid .product-card");
+      ok((await visibleDemo()).length > 0 && await page.locator(".demo-banner").first().isVisible(), "demo shop still shows its DEMO labels");
+      await ctx.close();
+    }
   } catch (err) {
     failed++;
     console.log("  FAIL  test run crashed: " + (err && err.stack ? err.stack : err));

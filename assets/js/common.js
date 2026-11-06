@@ -925,6 +925,16 @@
     if (heroImg) heroImg.setAttribute("src", KS.asset(hero));
   };
 
+  /* H1: a live shop's page title never carries demo wording, even when
+     its JSON was copied from a demo shop and still says "(Demo)". */
+  var DEMO_WORDS = /\b(demo|sample)\b|डेमो|नमूना/i;
+  KS.isDemoText = function (s) { return DEMO_WORDS.test(String(s || "")); };
+  KS.applyTitle = function () {
+    var title = KS.t("page.title.store");
+    if (cfg().demo === false && KS.isDemoText(title)) title = KS.t("page.title.live", { name: KS.getSettings().storeName });
+    doc.title = title;
+  };
+
   KS.usesShopName = function () { return !!(KS.shop && KS.shop.id !== KS.DEFAULT_SHOP); };
 
   /* ---------------------------------------------------------
@@ -1004,6 +1014,7 @@
       cats.forEach(function (c) { KS.CATEGORIES.push(c); });
     }
     if (shop.hours) label("footer.hours", shop.hours);
+    else if (shop.demo === false) { dicts.en["footer.hours"] = dicts.en["footer.hoursAsk"] || ""; dicts.hi["footer.hours"] = dicts.hi["footer.hoursAsk"] || dicts.en["footer.hours"]; }
     ["en", "hi"].forEach(function (l) {
       var t = shop.text && shop.text[l];
       if (!t || typeof t !== "object") return;

@@ -58,7 +58,7 @@
         <a href="#top" data-goto="top" data-i18n="nav.home">Home</a>
         <a href="#offers" data-goto="offers" data-i18n="nav.offers">Offers</a>
         <a href="#shop" data-goto="shop" data-i18n="nav.shop">All products</a>
-        <a href="admin.html" data-keep-shop class="nav-demo" data-i18n="nav.dashboard">Shop setup tool (local demo)</a>
+        <a href="admin.html" data-keep-shop class="nav-demo" data-demo-only data-i18n="nav.dashboard">Shop setup tool (local demo)</a>
       </div>
     </nav>
   </header>
@@ -75,8 +75,8 @@
         <p id="appErrorDetail" class="muted"></p>
         <div class="state-actions">
           <button id="errReload" class="btn btn-primary" type="button" data-i18n="err.retry">Reload</button>
-          <button id="errReset" class="btn btn-ghost" type="button" data-i18n="err.reset">Reset demo data</button>
-          <a class="btn btn-ghost" href="../index.html#demos" data-i18n="err.allDemos">See all demo shops</a>
+          <button id="errReset" class="btn btn-ghost" type="button" data-demo-only data-i18n="err.reset">Reset demo data</button>
+          <a class="btn btn-ghost" href="../index.html#demos" data-demo-only data-i18n="err.allDemos">See all demo shops</a>
         </div>
       </div>
 
@@ -155,7 +155,7 @@
           <div class="block-head">
             <div>
               <h2 id="offersTitle" class="block-title" data-i18n="sec.offers">Special offers</h2>
-              <p class="muted block-note" data-i18n="sec.offers.note">Demo offers - sample discounts for demonstration only.</p>
+              <p class="muted block-note" data-demo-only data-i18n="sec.offers.note">Demo offers - sample discounts for demonstration only.</p>
             </div>
           </div>
           <div id="offersGrid" class="product-grid product-rail"></div>
@@ -223,7 +223,7 @@
       </div>
       <div class="footer-bottom">
         <p data-demo-only><strong data-brand-name>KiranaYap</strong> &middot; <span data-i18n="footer.demo">Demo only. Sample products, sample prices, no online payments, no delivery tracking. Orders are sent only when the customer presses Send in WhatsApp.</span></p>
-        <p><a href="admin.html" data-keep-shop data-i18n="nav.dashboard">Shop setup tool (local demo)</a></p>
+        <p data-demo-only><a href="admin.html" data-keep-shop data-i18n="nav.dashboard">Shop setup tool (local demo)</a></p>
         <p class="made-with"><a href="../index.html" data-i18n="footer.madeWith">Website by KiranaYap &middot; get one for your shop</a></p>
       </div>
     </div>

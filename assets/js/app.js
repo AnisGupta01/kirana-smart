@@ -709,6 +709,7 @@
     KS.cart.onChange(function () { renderAll(); });
 
     KS.onLangChange(function () {
+      KS.applyTitle();
       updateLangBtn();
       renderStoreLine();
       buildCategoryFilter();
@@ -751,6 +752,7 @@
       KS.initLang();
       KS.applyBranding();
       KS.applyI18n(doc);
+      KS.applyTitle();
       KS.getProducts();
       bindEvents();
       var adjusted = KS.cart.reconcile();
