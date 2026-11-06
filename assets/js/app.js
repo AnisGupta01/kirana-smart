@@ -734,14 +734,16 @@
     });
   }
 
-  /* Point canonical / og:url at this shop's own address (?shop=<id>) */
+  /* Point canonical / og:url at the shop's static page (store/<id>/,
+     made by tools/build-shop-pages.js). Static pages already have them. */
   function setShopUrls() {
-    if (!KS.shop) return;
+    if (!KS.shop || doc.documentElement.getAttribute("data-shop")) return;
     var els = doc.querySelectorAll('link[rel="canonical"], meta[property="og:url"]');
     for (var i = 0; i < els.length; i++) {
       var attr = els[i].tagName === "LINK" ? "href" : "content";
-      var base = (els[i].getAttribute(attr) || "").split("?")[0];
-      if (base) els[i].setAttribute(attr, base + "?shop=" + encodeURIComponent(KS.shop.id));
+      var cur = els[i].getAttribute(attr) || "";
+      var at = cur.indexOf("/store/");
+      if (at > 0) els[i].setAttribute(attr, cur.slice(0, at) + "/store/" + encodeURIComponent(KS.shop.id) + "/");
     }
   }
 

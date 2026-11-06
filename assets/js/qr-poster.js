@@ -35,8 +35,9 @@
     } catch (e) { return null; }
   }
 
-  /* The public address of a shop: <site>/store/index.html?shop=<id> */
-  function shopUrl(id) { return SITE_URL.replace(/\/?$/, "/") + "store/index.html?shop=" + encodeURIComponent(id); }
+  /* The public address of a shop: <site>/store/<id>/ (static page with the
+     shop's own link preview, made by tools/build-shop-pages.js) */
+  function shopUrl(id) { return SITE_URL.replace(/\/?$/, "/") + "store/" + encodeURIComponent(id) + "/"; }
 
   /* Returns the QR matrix as an array of rows of booleans */
   function qrMatrix(text) {

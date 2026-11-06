@@ -1081,6 +1081,12 @@
   /* Adds ?shop=<id> to links marked data-keep-shop (store <-> dashboard). */
   KS.applyShopLinks = function (root) {
     if (!KS.shop || KS.shop.id === KS.DEFAULT_SHOP) return;
+    /* a static per-shop page (store/<id>/) already knows its shop */
+    if (doc.documentElement.getAttribute("data-shop")) {
+      var adm = (root || doc).querySelectorAll('a[data-keep-shop][href="../admin.html"]');
+      for (var j = 0; j < adm.length; j++) adm[j].setAttribute("href", "../admin.html?shop=" + encodeURIComponent(KS.shop.id));
+      return;
+    }
     var els = (root || doc).querySelectorAll("a[data-keep-shop]");
     for (var i = 0; i < els.length; i++) {
       var href = (els[i].getAttribute("href") || "").split("?")[0].split("#");

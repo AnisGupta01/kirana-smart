@@ -28,7 +28,7 @@ Live: https://kiranayap.pages.dev/
 | `index.html` | Landing page for shopkeepers: clean light design, hero (Live Demo / Get Started / WhatsApp) with the premium demo in a phone, demo carousel (all labelled DEMO), try-it product grid, how it works, features, pricing with limits + renewal terms, comparison, FAQ, final CTA. No testimonials or stats (none are real yet). SEO meta, Open Graph, Twitter, JSON-LD. |
 | `about.html`, `contact.html`, `faq.html`, `onboarding.html` | Trust pages: who runs it, WhatsApp + email support and hours, honest FAQ (incl. static vs backend), step-by-step onboarding. |
 | `shop-website-lucknow.html`, `-kanpur.html`, `-varanasi.html` | City SEO pages with their own Hindi/English copy. |
-| `store/index.html?shop=<id>` | The shop website (storefront + WhatsApp checkout). One app, driven by `store/shops/<id>.json`. No `?shop=` = kirana demo. |
+| `store/<id>/` and `store/index.html?shop=<id>` | The shop website (storefront + WhatsApp checkout). One app, driven by `store/shops/<id>.json`. `store/<id>/index.html` is generated (see below) so link previews show the shop. No `?shop=` = kirana demo. |
 | `store/admin.html?shop=<id>` | **Shop setup tool (local demo)**: edit products, stock and settings in this browser, then **Download shop file (JSON)** to publish. Sample orders only. |
 | `udhaar.html` | Digital Udhaar Khata demo: per-customer ledger, udhaar/payment entries, running balance, Hindi WhatsApp reminder, CSV export. LocalStorage only, no lending. |
 | `qr-poster.html?shop=<id>` | Shop QR: pick a shop (from `store/shops/shops.json`) or paste a link → **Download QR (PNG)**, **A4 poster** or **A6 counter card**, in the shop's brand colour. QR made on the device (vendored MIT `qrcode-generator`), works offline. |
@@ -52,6 +52,17 @@ All demo products now use real-looking studio photos (`assets/images/products/<p
 - Make one: copy `assets/js/chai-config.js` (new `id`, shop name, products, `whatsappNumber`) and `demo/chai/index.html` (point it at the new config). Photos: square product shot on a black background (`assets/images/chai/<name>.webp`, ≤150 KB) plus small transparent ingredient cut-outs (`ing-<name>.webp`).
 - Motion uses only `transform` and `opacity`, respects "reduce motion", and the pages have no horizontal scroll at 360–1280 px.
 - **Instagram reel:** `node tools/record-reel.js demo/chai/index.html reel.mp4` records a ~18 s 1080×1920 MP4 of the page scrolling itself (needs Playwright + ffmpeg).
+
+### Per-shop pages and WhatsApp link previews
+
+WhatsApp, Facebook and Google read a page's HTML without running JavaScript, so `store/index.html?shop=<id>` always showed one generic preview. Each shop in `store/shops/shops.json` therefore also has a small generated page, `store/<id>/index.html`, with the shop's own `<title>`, description, canonical URL and `og:`/`twitter:` tags written into the HTML. It runs the same store app (`<html data-shop="<id>">` presets the shop). `?shop=` links keep working and point their canonical at `store/<id>/`.
+
+```
+bash tools/make-shop-og.sh [id]     # optional: link-preview image assets/images/og/<id>.jpg (ImageMagick)
+node tools/build-shop-pages.js      # writes store/<id>/index.html for every shop + updates sitemap.xml
+```
+
+Run the generator after adding a shop or changing its name, texts, colours or photo, and after editing `store/index.html` (it is the template). `node tests/static.test.js` fails when a generated page is out of date. Share `…/store/<id>/` links (the QR tool uses them).
 
 **New shop in ~30 minutes:** copy one JSON file and edit it. Step-by-step in Hindi and English: [`docs/NEW-SHOP.md`](docs/NEW-SHOP.md).
 

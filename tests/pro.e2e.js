@@ -131,7 +131,7 @@ function pdfInfo(buf) {
     if (part("pages")) {
       console.log("Pages and links (served at " + (BASE || "") + "/)");
       const seeds = ["", "about.html", "contact.html", "faq.html", "onboarding.html", "privacy.html", "terms.html", "refund.html", "udhaar.html", "qr-poster.html",
-        "shop-website-lucknow.html", "shop-website-kanpur.html", "shop-website-varanasi.html", "demo/chai/", "store/admin.html"].concat(REGISTRY.map((id) => "store/index.html?shop=" + id));
+        "shop-website-lucknow.html", "shop-website-kanpur.html", "shop-website-varanasi.html", "demo/chai/", "store/admin.html"].concat(REGISTRY.map((id) => "store/index.html?shop=" + id)).concat(REGISTRY.map((id) => "store/" + id + "/"));
       const { ctx, page } = await ctxPage(browser, VIEWPORTS[0], problems);
       const linkStatus = {};
       const allPages = new Set(seeds.map((s) => new URL(s, base).href));
@@ -221,7 +221,7 @@ function pdfInfo(buf) {
         ok(missing.length === 0, "every public page has title, description, canonical, Open Graph and Twitter tags with absolute " + PAGES_DOMAIN + " URLs", missing.join(" "));
         await p4.goto(base + "store/index.html?shop=bakery");
         await p4.waitForSelector("#productGrid .product-card");
-        ok((await p4.getAttribute('link[rel="canonical"]', "href")) === PAGES_DOMAIN + "store/index.html?shop=bakery", "store canonical points at the shop's own URL");
+        ok((await p4.getAttribute('link[rel="canonical"]', "href")) === PAGES_DOMAIN + "store/bakery/", "?shop=bakery canonical points at the shop's static page store/bakery/");
         await c4.close();
       }
     }
@@ -344,7 +344,7 @@ function pdfInfo(buf) {
         const shop = SHOP(id);
         const { ctx, page } = await ctxPage(browser, id === "kirana" ? VIEWPORTS[1] : VIEWPORTS[0], problems);
         await page.goto(base + "qr-poster.html?shop=" + id);
-        const want = PAGES_DOMAIN + "store/index.html?shop=" + id;
+        const want = PAGES_DOMAIN + "store/" + id + "/";
         await page.waitForFunction((w) => { const q = document.getElementById("pQr"); return q && q.getAttribute("data-url") === w; }, want, { timeout: 8000 });
         ok((await page.textContent("#pShop")) === shop.storeName, id + ": poster shows the shop name from its JSON");
         ok((await decodeQrSvg(page, "#pQr svg")) === want, id + ": on-screen QR decodes to " + want);

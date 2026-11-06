@@ -3,11 +3,13 @@
 Every shop website is **one JSON file** in `store/shops/`. The website code is shared, so you never copy HTML.
 हर दुकान की वेबसाइट `store/shops/` में **एक JSON फ़ाइल** है। कोड सबका एक ही है, HTML कॉपी नहीं करना पड़ता।
 
-| Shop file | Live address (after deploy) |
-|---|---|
-| `store/shops/kirana.json` | `https://kiranayap.pages.dev/store/` (default) or `…/store/?shop=kirana` |
-| `store/shops/mithai.json` | `https://kiranayap.pages.dev/store/?shop=mithai` |
-| `store/shops/gupta-sweets.json` (your new one) | `https://kiranayap.pages.dev/store/?shop=gupta-sweets` |
+| Shop file | Address to share (after deploy) | Also works |
+|---|---|---|
+| `store/shops/kirana.json` | `…/store/kirana/` | `…/store/` (default), `…/store/?shop=kirana` |
+| `store/shops/mithai.json` | `…/store/mithai/` | `…/store/?shop=mithai` |
+| `store/shops/gupta-sweets.json` (your new one) | `…/store/gupta-sweets/` | `…/store/?shop=gupta-sweets` |
+
+Share the `store/<id>/` address: it is a small static page made by `node tools/build-shop-pages.js`, so WhatsApp and Facebook show the shop's own name, description and photo in the link preview (they do not run JavaScript, so `?shop=` links only ever showed the generic preview).
 
 The shop's dashboard is the same address with `admin.html`: `…/store/admin.html?shop=gupta-sweets`.
 
@@ -35,9 +37,11 @@ The shop's dashboard is the same address with `admin.html`: `…/store/admin.htm
    - `image`: leave `""` for an automatic picture, or an `https://` link to a photo you have the right to use.
 5. **Texts** (optional, 3 min): `"text"` overrides any label of the store in `en` and `hi` (hero title, search hint, footer). Keys are listed in `assets/js/i18n.js`.
 6. **Remove sample orders**: for a real shop set `"sampleOrders": []`.
-7. **Register the shop** (1 min): add a line to `store/shops/shops.json`, e.g. `{ "id": "gupta-sweets", "demo": false }`. The QR tool lists shops from this file and the tests check it. Optional: add `"./store/shops/gupta-sweets.json"` to the list in `sw.js` and bump `CACHE` (e.g. `ks-shell-v5`) so the shop also opens offline.
-8. **Check it** (3 min): commit, wait ~1 minute for Cloudflare Pages, open `…/store/index.html?shop=gupta-sweets` on your phone, add an item and press *Order on WhatsApp*. If something is wrong in the file the page shows the exact problem (for example "Shop file needs a storeName").
-9. **QR code + posters**: open `…/qr-poster.html?shop=gupta-sweets` (or pick the shop in the list). Press *Download QR (PNG)* for WhatsApp status/printing, choose *A4 poster* or *Counter card (A6)* and press *Print / Save as PDF* (100% scale). The QR always points to `https://kiranayap.pages.dev/store/index.html?shop=gupta-sweets`.
+7. **Register the shop and make its page** (2 min): add a line to `store/shops/shops.json`, e.g. `{ "id": "gupta-sweets", "demo": false }`. The QR tool lists shops from this file and the tests check it. Then, on a computer with Node:
+   - `bash tools/make-shop-og.sh gupta-sweets` (optional, needs ImageMagick): makes the link-preview picture `assets/images/og/gupta-sweets.jpg` from the shop's colour, photo and name.
+   - `node tools/build-shop-pages.js`: writes `store/gupta-sweets/index.html` with the shop's own title, description, canonical and `og:` tags, and adds it to `sitemap.xml`. Run it again whenever you change the shop's name, texts, colours or photo. `node tests/static.test.js` fails if you forget.
+8. **Check it** (3 min): commit, wait ~1 minute for Cloudflare Pages, open `…/store/gupta-sweets/` on your phone, add an item and press *Order on WhatsApp*. If something is wrong in the file the page shows the exact problem (for example "Shop file needs a storeName").
+9. **QR code + posters**: open `…/qr-poster.html?shop=gupta-sweets` (or pick the shop in the list). Press *Download QR (PNG)* for WhatsApp status/printing, choose *A4 poster* or *Counter card (A6)* and press *Print / Save as PDF* (100% scale). The QR always points to `https://kiranayap.pages.dev/store/gupta-sweets/`.
 10. **Later price/stock changes**: either edit the JSON in GitHub, or open `…/store/admin.html?shop=gupta-sweets` (local setup tool), change products, press *Download shop file (JSON)* in Settings and replace the file in `store/shops/`.
 
 Tip: validate the JSON before saving (for example by pasting it into any "JSON validator"). A missing comma is the most common mistake.
@@ -65,8 +69,9 @@ Tip: validate the JSON before saving (for example by pasting it into any "JSON v
    - `image`: ख़ुद-ब-ख़ुद तस्वीर के लिए `""` छोड़िए, या ऐसी फ़ोटो का `https://` लिंक जिसके इस्तेमाल का आपको हक़ है।
 5. **टेक्स्ट** (ज़रूरी नहीं, 3 मिनट): `"text"` से स्टोर का कोई भी लेबल `en` और `hi` में बदल सकते हैं (हीरो टाइटल, सर्च हिंट, फ़ुटर)। सारी keys `assets/js/i18n.js` में हैं।
 6. **नमूना ऑर्डर हटाएँ**: असली दुकान के लिए `"sampleOrders": []` कर दीजिए।
-7. **जाँच लें** (3 मिनट): commit कीजिए, Cloudflare Pages के लिए ~1 मिनट रुकिए, फ़ोन पर `…/store/?shop=gupta-sweets` खोलिए, एक सामान डालकर *WhatsApp पर ऑर्डर* दबाइए। फ़ाइल में ग़लती हो तो पेज पर साफ़ लिखा आता है कि क्या कमी है।
-8. **QR पोस्टर**: दुकान का डैशबोर्ड → *काउंटर के लिए QR पोस्टर बनाएँ*, A4 पर प्रिंट कीजिए।
+7. **दुकान रजिस्टर करें और उसका पेज बनाएँ** (2 मिनट): `store/shops/shops.json` में एक लाइन जोड़िए, जैसे `{ "id": "gupta-sweets", "demo": false }`। फिर `node tools/build-shop-pages.js` चलाइए: इससे `store/gupta-sweets/index.html` बनता है, जिससे WhatsApp पर लिंक भेजने पर दुकान का अपना नाम और फ़ोटो दिखता है। (चाहें तो पहले `bash tools/make-shop-og.sh gupta-sweets` से प्रीव्यू फ़ोटो बना लें।)
+8. **जाँच लें** (3 मिनट): commit कीजिए, Cloudflare Pages के लिए ~1 मिनट रुकिए, फ़ोन पर `…/store/gupta-sweets/` खोलिए, एक सामान डालकर *WhatsApp पर ऑर्डर* दबाइए। फ़ाइल में ग़लती हो तो पेज पर साफ़ लिखा आता है कि क्या कमी है।
+9. **QR पोस्टर**: दुकान का डैशबोर्ड → *काउंटर के लिए QR पोस्टर बनाएँ*, A4 पर प्रिंट कीजिए।
 
 सलाह: सेव करने से पहले JSON किसी "JSON validator" में जाँच लीजिए। सबसे आम ग़लती: छूटा हुआ कॉमा।
 

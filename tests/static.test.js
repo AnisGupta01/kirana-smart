@@ -203,6 +203,49 @@ console.log("Trust pages, honesty, contact details");
   const big = []; (function walk(d) { fs.readdirSync(path.join(root, d)).forEach((f) => { const p = path.join(d, f); const st = fs.statSync(path.join(root, p)); if (st.isDirectory()) walk(p); else if (/\.(webp|png|jpe?g)$/i.test(f) && st.size > 150 * 1024) big.push(p + " " + Math.round(st.size / 1024) + "KB"); }); })("assets/images");
   ok(big.length === 0, "no image over 150 KB" + (big.length ? " -> " + big.join(",") : ""));
 }
+
+/* ---------------- Phase 1: static per-shop preview pages (H2) ---------------- */
+console.log("Per-shop static pages (store/<id>/index.html)");
+{
+  const build = require(path.join(root, "tools/build-shop-pages.js"));
+  const res = build.main(true);
+  const reg = JSON.parse(read("store/shops/shops.json")).shops.map((x) => x.id);
+  const jsonFiles = fs.readdirSync(path.join(root, "store/shops")).filter((f) => f.endsWith(".json") && f !== "shops.json").map((f) => f.replace(/\.json$/, ""));
+  ok(jsonFiles.every((id) => reg.indexOf(id) >= 0), "every store/shops/<id>.json is listed in shops.json");
+  Object.keys(res.pages).forEach((f) => {
+    ok(exists(f) && read(f) === res.pages[f], f + " is up to date (run: node tools/build-shop-pages.js)");
+  });
+  ok(res.sitemapOk, "sitemap.xml lists exactly the registered shops as store/<id>/");
+  ok(!/store\/index\.html\?shop=/.test(read("sitemap.xml")), "sitemap no longer lists ?shop= duplicates");
+  reg.forEach((id) => {
+    const f = "store/" + id + "/index.html";
+    const html = read(f);
+    const shop = JSON.parse(read("store/shops/" + id + ".json"));
+    const url = build.SITE + "store/" + id + "/";
+    const attr = (re) => { const m = re.exec(html); return m ? m[1] : ""; };
+    ok(attr(/<link rel="canonical" href="([^"]+)"/) === url && attr(/<meta property="og:url" content="([^"]+)"/) === url, f + ": canonical + og:url = " + url);
+    const title = attr(/<title[^>]*>([^<]+)<\/title>/);
+    ok(title.indexOf(shop.storeName.replace(/ \(Demo\)$/, "")) >= 0 && attr(/<meta property="og:title" content="([^"]+)"/) === title, f + ": <title> and og:title name the shop (" + title + ")");
+    const desc = attr(/<meta property="og:description" content="([^"]+)"/);
+    ok(desc.length >= 60 && desc === attr(/<meta name="description" content="([^"]+)"/), f + ": og:description = meta description, shop-specific");
+    ok(shop.demo === false ? !/demo|sample/i.test(title + desc) : /demo/i.test(desc), f + ": preview text is honest about demo status");
+    const img = attr(/<meta property="og:image" content="([^"]+)"/);
+    ok(img === build.SITE + "assets/images/og/" + id + ".jpg" && exists("assets/images/og/" + id + ".jpg"), f + ": og:image is the shop's own preview image (JPEG, exists)");
+    ok(new RegExp('data-shop="' + id + '"').test(html) && /data-base="\.\.\/\.\.\/"/.test(html), f + ": presets the shop and the asset base");
+    const refs = []; html.replace(/(?:src|href)="([^"#?]+)(?:[?#][^"]*)?"/g, (m, u) => { if (!/^(https?:|mailto:|data:|tel:)/.test(u)) refs.push(u); return m; });
+    const miss = refs.filter((u) => !exists(path.join("store/" + id, u)));
+    ok(miss.length === 0, f + ": all " + refs.length + " local links resolve" + (miss.length ? " -> " + miss.join(",") : ""));
+  });
+  {
+    const live = Object.assign(JSON.parse(read("store/shops/mithai.json")), { id: "gupta-sweets", demo: false, storeName: "Gupta Sweets", storeLocation: "Aminabad, Lucknow" });
+    const html = build.buildPage(read("store/index.html"), live);
+    const head = html.slice(0, html.indexOf("</head>"));
+    ok(/class="is-live-shop"/.test(html) && !/\b(demo|sample)\b/i.test(head.replace(/data-demo-only/g, "")), "a live shop's generated page: no demo wording in <head>, demo blocks hidden from first paint");
+    ok(/<title[^>]*>Gupta Sweets - order on WhatsApp<\/title>/.test(html) && /Order from Gupta Sweets, Aminabad, Lucknow on WhatsApp/.test(head), "a live shop's generated page: title + description from its JSON");
+  }
+  ok(/data-shop/.test(read("assets/js/shop-loader.js")) && /data-shops-base/.test(read("assets/js/shop-loader.js")), "shop-loader reads the static page's preset shop");
+  ok(/build-shop-pages/.test(read("README.md")) && /build-shop-pages/.test(read("docs/NEW-SHOP.md")), "README and NEW-SHOP document the page generator");
+}
 try { JSON.parse(read("vercel.json")); ok(true, "vercel.json is valid JSON"); } catch (e) { ok(false, "vercel.json is valid JSON"); }
 ok(!/"DENY"/.test(read("vercel.json")), "vercel.json allows same-origin framing (landing preview)");
 

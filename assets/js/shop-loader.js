@@ -15,12 +15,18 @@
   "use strict";
   var search = (global.location && global.location.search) || "";
   var m = /[?&]shop=([^&#]*)/.exec(search);
+  var root = global.document && global.document.documentElement;
+  /* Static per-shop pages (store/<id>/index.html, made by
+     tools/build-shop-pages.js) preset the shop on <html data-shop>. */
+  var preset = root && root.getAttribute && root.getAttribute("data-shop");
   var id = "kirana";
-  if (m) {
+  if (preset) id = String(preset).toLowerCase();
+  else if (m) {
     try { id = decodeURIComponent(m[1]).toLowerCase(); } catch (e) { id = ""; }
   }
   global.KS_SHOP_ID = id;
-  var base = "shops/";
+  var base = (root && root.getAttribute && root.getAttribute("data-shops-base")) || "shops/";
+  if (base !== "shops/" && base !== "../shops/") base = "shops/";
 
   function get(mode) {
     return global.fetch(base + id + ".json", { credentials: "same-origin", cache: mode }).then(function (r) {

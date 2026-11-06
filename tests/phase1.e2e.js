@@ -1,4 +1,4 @@
-/* Phase 1 browser tests (Playwright + Chromium), served under /kirana-smart/
+/* Phase 1 browser tests (Playwright + Chromium), served at the site root (SERVE_BASE)
    like GitHub Pages (tests/serve-subpath.js).
 
    Run all:        node tests/phase1.e2e.js
@@ -212,6 +212,47 @@ async function routeShop(ctx, id, mutate) {
       await page.goto(base + "store/index.html?shop=mithai");
       await page.waitForSelector("#productGrid .product-card");
       ok((await visibleDemo()).length > 0 && await page.locator(".demo-banner").first().isVisible(), "demo shop still shows its DEMO labels");
+      await ctx.close();
+    }
+
+    /* ============ H2: static per-shop preview pages ============ */
+    if (part("preview")) {
+      console.log("H2: per-shop static pages carry their own preview tags");
+      const SITE = "https://kiranayap.pages.dev/";
+      const reg = readJSON("store/shops/shops.json").shops.map((x) => x.id);
+      const { ctx, page } = await ctxPage(browser, null, problems);
+      for (const id of reg) {
+        const shop = SHOP(id);
+        const raw = await (await page.request.get(base + "store/" + id + "/")).text();
+        const tag = (re) => { const m = re.exec(raw); return m ? m[1] : ""; };
+        const name = shop.storeName.replace(/ \(Demo\)$/, "");
+        ok(tag(/<title[^>]*>([^<]+)</).indexOf(name) >= 0 && tag(/property="og:title" content="([^"]+)"/).indexOf(name) >= 0, id + ": raw HTML (no JS) title + og:title name the shop");
+        ok(tag(/rel="canonical" href="([^"]+)"/) === SITE + "store/" + id + "/" && tag(/property="og:url" content="([^"]+)"/) === SITE + "store/" + id + "/", id + ": raw HTML canonical/og:url = store/" + id + "/");
+        const img = tag(/property="og:image" content="([^"]+)"/);
+        const imgRes = await page.request.get(img.replace(SITE, base));
+        ok(imgRes.status() === 200 && /image\/jpeg/.test(imgRes.headers()["content-type"] || ""), id + ": og:image is served (" + img.replace(SITE, "") + ")");
+        await page.goto(base + "store/" + id + "/");
+        await page.waitForSelector("#productGrid .product-card");
+        ok((await page.locator("#productGrid .product-card").count()) === shop.products.length, id + ": static page runs the store with this shop's " + shop.products.length + " products");
+        ok((await page.getAttribute('link[rel="canonical"]', "href")) === SITE + "store/" + id + "/", id + ": canonical stays on the static page after JS");
+        const buy = shop.products.find((p) => p.available !== false && p.stock > 2);
+        await page.click('#productGrid [data-product="' + buy.id + '"] .btn-primary');
+        ok((await page.textContent("#cartCount")) === "1", id + ": add to cart works on the static page");
+        const imgsOk = await page.evaluate(() => Array.from(document.images).filter((i) => i.complete && i.naturalWidth === 0).length);
+        ok(imgsOk === 0, id + ": no broken images on the static page");
+        if (id !== "kirana") {
+          await page.click("#menuBtn");
+          const adm = await page.getAttribute('#siteNav a[href*="admin.html"]', "href");
+          ok(adm === "../admin.html?shop=" + id, id + ": setup-tool link keeps the shop (" + adm + ")");
+          await page.click("#menuBtn");
+        }
+        /* the ?shop= address still works and shares the same cart */
+        await page.goto(base + "store/index.html?shop=" + id);
+        await page.waitForSelector("#productGrid .product-card");
+        ok((await page.textContent("#cartCount")) === "1", id + ": ?shop=" + id + " still works and shares the cart");
+        ok((await page.getAttribute('link[rel="canonical"]', "href")) === SITE + "store/" + id + "/", id + ": ?shop= canonical points at store/" + id + "/");
+        await page.evaluate(() => localStorage.clear());
+      }
       await ctx.close();
     }
   } catch (err) {
