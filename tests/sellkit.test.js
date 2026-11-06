@@ -248,7 +248,10 @@ function siteWindow(cfg, attrs) {
   ok(D.en["l.hero.sub"] === "Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.", "hero subheading exactly as briefed");
   ok(/^STARTER PLAN\n/.test(decodeURIComponent(w3.KS_SITE_API.waUrl("starter").split("?text=")[1])) || /^STARTER PLAN\n/.test(D.en["l.wa.starter"]), "Starter plan has its own WhatsApp message");
   ok(/₹999 setup \+ ₹149\/month/.test(D.en["l.wa.starter"]) && /₹2,999 setup \+ ₹199\/month/.test(D.en["l.wa.premium"]), "plan messages carry the plan prices");
-  ["₹999", "₹149", "₹99", "₹199", "₹1,499", "₹2,999", "₹499"].forEach((p) => ok(read("index.html").indexOf(p) >= 0, "landing shows price " + p));
+  ["₹999", "₹149", "₹99", "₹199", "₹2,999"].forEach((p) => ok(read("index.html").indexOf(p) >= 0, "landing shows price " + p));
+  /* M7: template licence / reseller plan live on their own page, linked from the footer */
+  ["₹1,499", "₹499"].forEach((p) => ok(read("resellers.html").indexOf(p) >= 0 && read("index.html").indexOf(p) < 0, "reseller price " + p + " only on resellers.html, not on the shopkeeper landing"));
+  ok(/<a href="resellers\.html"/.test(read("index.html")) && !/id="agency"/.test(read("index.html")), "landing footer links to resellers.html; agency block removed");
 }
 
 /* ---------------------------------------------------------------- */

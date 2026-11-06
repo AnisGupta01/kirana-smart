@@ -373,6 +373,34 @@ h3 { font-size: 1.08rem; line-height: 1.35; font-weight: 700; letter-spacing: -.
   .wa-notice-float { left: auto; right: 24px; bottom: 96px; }
 }
 
+
+/* ---------- hero phone: plain kirana demo store (static, no animation) ---------- */
+.lx-screen-store { background: #fbf8f1; color: #1f2937; }
+.lx-mini-bar { position: absolute; inset: 0 0 auto 0; display: flex; align-items: center; gap: 8px; padding: 36px 12px 10px; background: #14532d; color: #fff; }
+.lx-mini-logo { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: #fff; }
+.lx-mini-logo img { width: 22px; height: 22px; }
+.lx-mini-shop { display: flex; flex-direction: column; font-size: .74rem; font-weight: 700; line-height: 1.15; min-width: 0; }
+.lx-mini-shop small { font-size: .56rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #fcd34d; }
+.lx-mini-cart { margin-left: auto; display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: #f59e0b; color: #1f2937; font-size: .7rem; font-weight: 700; }
+.lx-mini-search { position: absolute; top: 86px; left: 10px; right: 10px; display: block; padding: 7px 10px; border-radius: 10px; background: #fff; border: 1px solid #e5e0d4; color: #6b7280; font-size: .66rem; }
+.lx-mini-grid { position: absolute; top: 122px; left: 10px; right: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.lx-mini-card { display: flex; flex-direction: column; gap: 1px; padding: 6px; border-radius: 12px; background: #fff; border: 1px solid #eee7d8; min-width: 0; }
+.lx-mini-img { position: relative; display: block; border-radius: 8px; overflow: hidden; background: #f3efe6; }
+.lx-mini-img img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.lx-mini-off { position: absolute; top: 4px; left: 4px; padding: 1px 5px; border-radius: 6px; background: #b91c1c; color: #fff; font-size: .5rem; font-weight: 700; }
+.lx-mini-name { margin-top: 3px; font-size: .62rem; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lx-mini-unit { font-size: .55rem; color: #6b7280; }
+.lx-mini-row { display: flex; align-items: center; gap: 4px; font-size: .66rem; }
+.lx-mini-row s { color: #9ca3af; font-size: .55rem; }
+.lx-mini-add { margin-left: auto; padding: 2px 8px; border-radius: 999px; background: #14532d; color: #fff; font-size: .56rem; font-weight: 700; }
+.lx-mini-order { position: absolute; left: 10px; right: 10px; bottom: 18px; display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 12px; border-radius: 999px; background: #fff; border: 1px solid #e5e0d4; font-size: .62rem; font-weight: 700; }
+.lx-mini-wa { margin-left: auto; padding: 7px 10px; border-radius: 999px; background: var(--wa); color: var(--wa-ink); white-space: nowrap; }
+.lx-cta-sub { margin: var(--s2) 0 0; }
+@media (min-width: 760px) {
+  /* the sticky WhatsApp bar is for phones only */
+  .lx-sticky, .lp-sticky { display: none; }
+}
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

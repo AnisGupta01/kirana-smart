@@ -27,6 +27,13 @@
 - Share image: `assets/images/og-image.png` said "1 din mein". It was a raster with no source, so it now has one: `tools/og/og-image.html` (+ `tools/og/render-og.js`, art cut from the old image into `tools/og/og-art.webp`). New text: "Apni dukaan ki website, 1–2 din mein live. Details milne ke baad 1–2 working din."
 - Tests: static checks for forbidden/conflicting wording and the exact phrases; `tests/phase1.e2e.js` part `promises` checks the rendered landing (EN + HI), FAQ, terms, refund and a city page.
 
+### 5. M1/M4/M7: one main CTA, plain kirana hero, no jargon, resellers moved
+- Hero: one big button, **"Free demo WhatsApp par maango"** (HI "WhatsApp पर फ़्री डेमो माँगिए"), with "Live demo dekho" as a small text link under it. "Get Started" is gone from the hero and the final CTA. The sticky WhatsApp bar is kept on phones only (hidden from 760 px up).
+- Hero phone now shows the plain **Sharma Kirana Store** demo (static picture of the ₹999 product: header, search, 4 products, "Order on WhatsApp" bar) and links to `store/kirana/`. The chai slideshow and the desktop chai iframe are gone from the hero. The chai demo remains only in the demos carousel and on the Premium card (footer link removed).
+- Jargon removed: "sell on looks" → "want big photos of their items"; "Cinematic one-product-per-screen design" → "Big-photo design: one item per screen"; "Cinematic website" tag → "Big-photo website" (EN + HI); chai demo meta and terms no longer say "cinematic".
+- The template-licence / reseller block left the shopkeeper landing for a new page, `resellers.html` (linked from the landing footer, terms and sitemap). The "Shop setup tool (local demo)" link is no longer on the landing.
+- Tests: `tests/phase1.e2e.js` part `landing` (360 + 1280 px, EN + HI); existing landing tests updated.
+
 ## 2026-11-02: Phase 0 audit
 
 - Added `docs/AUDIT-PHASE0.md`, a re-audit of the `pro-upgrade` branch (identical to `main` after PR #5). It covers findings ranked by impact, Phase 1 checklist status, exact test results (1,221 passed, 0 failed when split), licence risks, Lighthouse mobile numbers and recommendations.

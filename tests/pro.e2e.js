@@ -130,7 +130,7 @@ function pdfInfo(buf) {
     /* ============ PAGES: crawl every page and link ============ */
     if (part("pages")) {
       console.log("Pages and links (served at " + (BASE || "") + "/)");
-      const seeds = ["", "about.html", "contact.html", "faq.html", "onboarding.html", "privacy.html", "terms.html", "refund.html", "udhaar.html", "qr-poster.html",
+      const seeds = ["", "resellers.html", "about.html", "contact.html", "faq.html", "onboarding.html", "privacy.html", "terms.html", "refund.html", "udhaar.html", "qr-poster.html",
         "shop-website-lucknow.html", "shop-website-kanpur.html", "shop-website-varanasi.html", "demo/chai/", "store/admin.html"].concat(REGISTRY.map((id) => "store/index.html?shop=" + id)).concat(REGISTRY.map((id) => "store/" + id + "/"));
       const { ctx, page } = await ctxPage(browser, VIEWPORTS[0], problems);
       const linkStatus = {};
@@ -394,7 +394,9 @@ function pdfInfo(buf) {
         ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni Dukaan Ko Digital Banao. Orders WhatsApp Par Pao.", "hero headline exactly as briefed");
         ok((await page.textContent(".lx-sub")).trim() === "Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.", "hero subheading exactly as briefed");
         const cta = await page.locator(".lx-hero .lx-ctas a").evaluateAll((a) => a.map((x) => [x.textContent.trim(), x.getAttribute("href")]));
-        ok(cta.length === 3 && cta[0][0] === "Live Demo" && cta[0][1] === "#demos" && cta[1][0] === "Get Started" && cta[1][1] === "onboarding.html" && /WhatsApp/.test(cta[2][0]) && cta[2][1].startsWith("https://wa.me/" + OWNER + "?text="), "hero buttons: Live Demo → #demos, Get Started → onboarding, WhatsApp → wa.me", JSON.stringify(cta));
+        ok(cta.length === 1 && cta[0][0] === "Free demo WhatsApp par maango" && cta[0][1].startsWith("https://wa.me/" + OWNER + "?text="), "hero: one main button, 'Free demo WhatsApp par maango' → wa.me", JSON.stringify(cta));
+        const sub = await page.locator(".lx-hero .lx-cta-sub a").evaluateAll((a) => a.map((x) => [x.textContent.trim(), x.getAttribute("href")]));
+        ok(sub.length === 1 && sub[0][0] === "Live demo dekho" && sub[0][1] === "#demos", "hero: 'Live demo dekho' is a small text link under it", JSON.stringify(sub));
         const ids = ["shop", "how", "features", "pricing", "faq", "contact"];
         ok((await page.evaluate((ids) => ids.every((i) => document.getElementById(i)), ids)) && (await page.locator(".lx-phone").count()) === 1, "mobile preview, How it works, Features, Pricing, FAQ and final CTA sections present");
         const plan = async (sel) => decodeURIComponent((await page.getAttribute(sel, "href")).split("?text=")[1]);

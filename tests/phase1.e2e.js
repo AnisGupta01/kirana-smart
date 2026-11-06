@@ -282,6 +282,42 @@ async function routeShop(ctx, id, mutate) {
       ok(/1–2 (working days|कामकाजी दिन)/.test(t) && !/in 1 day|1 दिन में/.test(t), "Lucknow page: '1–2 working days' (in the saved language)");
       await ctx.close();
     }
+
+    /* ============ M1/M4/M7: one CTA, plain hero, no jargon, resellers elsewhere ============ */
+    if (part("landing")) {
+      console.log("M1/M4/M7: landing has one main CTA, a plain kirana hero, no jargon");
+      for (const vp of [{ width: 360, height: 800 }, { width: 1280, height: 800 }]) {
+        const L = "@" + vp.width + ": ";
+        const { ctx, page } = await ctxPage(browser, vp, problems);
+        await page.goto(base);
+        const heroBtns = await page.locator(".lx-hero .lx-btn").evaluateAll((a) => a.map((x) => x.textContent.trim()));
+        ok(heroBtns.length === 1 && heroBtns[0] === "Free demo WhatsApp par maango" && await page.locator(".lx-hero .lx-btn").getAttribute("data-wa") === "demo", L + "hero has exactly one button: the WhatsApp demo request", JSON.stringify(heroBtns));
+        const live = page.locator(".lx-hero .lx-cta-sub a");
+        ok(await live.isVisible() && (await live.textContent()).trim() === "Live demo dekho", L + "'Live demo dekho' text link right under it");
+        const body = await page.evaluate(() => document.body.innerText);
+        ok(!/Get Started/i.test(body), L + "no 'Get Started' anywhere on the landing");
+        ok(!/cinematic|sell on looks/i.test(body), L + "no jargon ('cinematic', 'sell on looks')");
+        ok(!/₹1,499|Reseller|Template licen[cs]e/i.test(body) && (await page.locator('a[href="resellers.html"]').count()) === 1, L + "reseller / template-licence offer is off the landing; footer links to resellers.html");
+        ok((await page.locator('a[href*="admin.html"]').count()) === 0, L + "no setup-tool link on the landing");
+        const chai = await page.locator('a[href*="demo/chai"]').evaluateAll((a) => a.map((x) => !!(x.closest("#demoCarousel") || x.closest(".price-premium"))));
+        ok(chai.length >= 1 && chai.every(Boolean), L + "chai demo only in the carousel and the Premium card (" + chai.length + " links)");
+        ok((await page.locator(".lx-hero .lx-phone").getAttribute("href")) === "store/kirana/" && /Sharma Kirana Store/.test(await page.locator(".lx-hero .lx-phone").textContent()), L + "hero phone = plain kirana demo store");
+        await page.evaluate(() => window.scrollTo(0, document.getElementById("pricing").offsetTop));
+        await page.waitForTimeout(700);
+        const stickyShown = await page.evaluate(() => { const s = document.querySelector(".lp-sticky"); const r = s.getBoundingClientRect(); return getComputedStyle(s).display !== "none" && r.top < innerHeight && r.height > 0; });
+        ok(vp.width < 760 ? stickyShown : !stickyShown, L + (vp.width < 760 ? "sticky WhatsApp bar shows on mobile" : "no sticky WhatsApp bar on desktop"));
+        await page.click("#langBtn");
+        await page.waitForFunction(() => document.documentElement.lang === "hi");
+        const hi = await page.evaluate(() => document.body.innerText);
+        ok(!/सिनेमैटिक|सिनेमा जैसा|दिखावट से बिक्री/.test(hi) && (await page.locator(".lx-hero .lx-btn").textContent()).trim() === "WhatsApp पर फ़्री डेमो माँगिए", L + "Hindi: main CTA in Devanagari, no jargon");
+        await page.click("#langBtn");
+        await ctx.close();
+      }
+      const { ctx, page } = await ctxPage(browser, null, problems);
+      await page.goto(base + "resellers.html");
+      ok(/₹1,499/.test(await page.textContent("main")) && /₹499/.test(await page.textContent("main")) && (await page.locator('[data-wa="agency"]').count()) === 1, "resellers.html: licence + reseller prices and its own WhatsApp button");
+      await ctx.close();
+    }
   } catch (err) {
     failed++;
     console.log("  FAIL  test run crashed: " + (err && err.stack ? err.stack : err));

@@ -74,7 +74,7 @@ module.exports = async function sellkit(t) {
     ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni Dukaan Ko Digital Banao. Orders WhatsApp Par Pao.", "hero headline (exact copy from the brief)");
     ok((await page.textContent(".lx-sub")).trim() === "Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.", "hero subheading (exact copy from the brief)");
     ok((await page.title()).includes("KiranaYap"), "landing title");
-    const sections = ["demos", "shop", "features", "how", "pricing", "agency", "why", "faq", "contact"];
+    const sections = ["demos", "shop", "features", "how", "pricing", "why", "faq", "contact"];
     const have = await page.evaluate((ids) => ids.filter((i) => document.getElementById(i)), sections);
     ok(have.length === sections.length, "all sections present (" + have.join(",") + ")");
     ok((await page.locator("#reviews").count()) === 0, "no testimonials section (no fake reviews)");
@@ -84,9 +84,9 @@ module.exports = async function sellkit(t) {
     await page.evaluate(() => window.scrollTo({ top: document.getElementById("features").offsetTop, behavior: "instant" }));
     await page.waitForSelector(".lp-sticky.is-on", { timeout: 4000 });
     ok(await page.locator(".lp-sticky .btn-whatsapp").isVisible(), "sticky green demo button slides in on mobile after scrolling");
-    /* hero phone: lightweight slideshow on mobile, the demo iframe is not loaded */
-    ok((await page.getAttribute("#heroFrame", "data-src")).startsWith("demo/chai/") && !(await page.getAttribute("#heroFrame", "src")), "mobile hero shows the photo slideshow (demo iframe not loaded)");
-    ok((await page.locator(".lx-slide img").count()) === 6, "hero slideshow has 6 product photos");
+    /* hero phone: the plain kirana demo store (static picture, no iframe, no chai) */
+    ok((await page.locator("#heroFrame").count()) === 0 && (await page.getAttribute(".lx-hero .lx-phone", "href")) === "store/kirana/", "hero phone shows the plain kirana demo store (no iframe)");
+    ok((await page.locator(".lx-hero .lx-mini-card img").count()) === 4 && (await page.locator('.lx-hero a[href*="demo/chai"]').count()) === 0, "hero phone: 4 kirana products, no chai demo in the hero");
     ok((await page.locator('a[href="udhaar.html"]').count()) >= 2 && (await page.locator('a[href="qr-poster.html"]').count()) >= 1, "links to Udhaar Khata and QR poster");
     /* placeholder number: no WhatsApp, friendly notice */
     ok((await page.locator("[data-wa][data-wa-missing]").count()) >= 5, "with placeholder number, demo buttons are marked missing");
@@ -172,7 +172,7 @@ module.exports = async function sellkit(t) {
     const msg = decodeURIComponent(href.split("?text=")[1]);
     ok(/^DEMO\n/.test(msg) && /Dukaan ka naam/.test(msg), "prefilled DEMO message");
     ok((await page.getAttribute(".lp-hero .btn-whatsapp", "target")) === "_blank" && /noopener/.test(await page.getAttribute(".lp-hero .btn-whatsapp", "rel")), "WhatsApp opens in a new tab safely");
-    ok(/^AGENCY/.test(decodeURIComponent((await page.getAttribute('[data-wa="agency"]', "href")).split("?text=")[1])), "agency button has its own message");
+    ok((await page.locator('[data-wa="agency"]').count()) === 0, "no agency / reseller button on the shopkeeper landing (moved to resellers.html)");
     ok(await page.locator(".lp-nav").isVisible(), "desktop nav visible");
     const row = await page.evaluate(() => { const c = [...document.querySelectorAll("#demoCarousel .lx-dcard")].map((e) => e.getBoundingClientRect()); return { sameRow: c.slice(0, 4).every((r) => Math.abs(r.top - c[0].top) < 2), shown: c.filter((r) => r.left >= 0 && r.right <= innerWidth + 1).length }; });
     {
@@ -275,10 +275,8 @@ module.exports = async function sellkit(t) {
   if (want("cine")) {
     const { ctx, page } = await newPage(browser, base, { width: 1280, height: 800 }, problems, NOSW);
     await page.goto(base + "/");
-    await page.waitForFunction(() => { const f = document.getElementById("heroFrame"); return f && f.getAttribute("src"); }, null, { timeout: 8000 });
-    ok((await page.getAttribute("#heroFrame", "src")).startsWith("demo/chai/") && !(await page.locator("#heroFrame").evaluate((f) => f.hidden)), "desktop: hero phone loads the cinematic demo after page load");
-    await page.waitForFunction(() => document.querySelector(".lx-screen").classList.contains("is-live"), null, { timeout: 8000 });
-    ok(true, "desktop: hero phone swaps the slideshow for the live demo");
+    await page.waitForTimeout(1500);
+    ok((await page.locator("iframe").count()) === 0 && (await page.locator('.lx-hero a[href*="demo/chai"]').count()) === 0, "desktop: hero shows the plain kirana demo, no chai iframe");
     ok((await page.getAttribute(".premium-demo", "href")) === "demo/chai/index.html" && /premium/i.test(await page.textContent(".premium-demo .pd-badge")), "Premium cinematic demo card is in the carousel");
     const prem = await page.textContent(".price-premium");
     ok(/₹2,999/.test(prem) && /₹199/.test(prem), "Premium tier ₹2,999 setup + ₹199/month");

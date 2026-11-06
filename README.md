@@ -25,13 +25,14 @@ Live: https://kiranayap.pages.dev/
 | Page | What it is |
 |---|---|
 | `demo/chai/index.html` | **Premium cinematic demo** "Sharma Chai & Mithai": dark editorial design, one product per full screen (01–06), real product photos, ingredients burst around the photo as you scroll, mini cart, Hindi/English, WhatsApp order. All text, prices, photos and the shop number live in `assets/js/chai-config.js`. `?autoplay=1` plays it by itself (used in the landing-page phone). |
-| `index.html` | Landing page for shopkeepers: clean light design, hero (Live Demo / Get Started / WhatsApp) with the premium demo in a phone, demo carousel (all labelled DEMO), try-it product grid, how it works, features, pricing with limits + renewal terms, comparison, FAQ, final CTA. No testimonials or stats (none are real yet). SEO meta, Open Graph, Twitter, JSON-LD. |
+| `index.html` | Landing page for shopkeepers: clean light design, hero with one main button (Free demo WhatsApp par maango) and a small 'Live demo dekho' link, with the plain kirana demo store in a phone, demo carousel (all labelled DEMO), try-it product grid, how it works, features, pricing with limits + renewal terms, comparison, FAQ, final CTA. No testimonials or stats (none are real yet). SEO meta, Open Graph, Twitter, JSON-LD. |
 | `about.html`, `contact.html`, `faq.html`, `onboarding.html` | Trust pages: who runs it, WhatsApp + email support and hours, honest FAQ (incl. static vs backend), step-by-step onboarding. |
 | `shop-website-lucknow.html`, `-kanpur.html`, `-varanasi.html` | City SEO pages with their own Hindi/English copy. |
 | `store/<id>/` and `store/index.html?shop=<id>` | The shop website (storefront + WhatsApp checkout). One app, driven by `store/shops/<id>.json`. `store/<id>/index.html` is generated (see below) so link previews show the shop. No `?shop=` = kirana demo. |
 | `store/admin.html?shop=<id>` | **Shop setup tool (local demo)**: edit products, stock and settings in this browser, then **Download shop file (JSON)** to publish. Sample orders only. |
 | `udhaar.html` | Digital Udhaar Khata demo: per-customer ledger, udhaar/payment entries, running balance, Hindi WhatsApp reminder, CSV export. LocalStorage only, no lending. |
 | `qr-poster.html?shop=<id>` | Shop QR: pick a shop (from `store/shops/shops.json`) or paste a link → **Download QR (PNG)**, **A4 poster** or **A6 counter card**, in the shop's brand colour. QR made on the device (vendored MIT `qrcode-generator`), works offline. |
+| `resellers.html` | Template licence and reseller plan for freelancers/agencies (kept off the shopkeeper landing; linked from its footer). |
 | `privacy.html`, `terms.html`, `refund.html` | Simple, DPDP-aware policies with Hindi summaries. Shops handle their own GST/FSSAI. |
 | `manifest.webmanifest`, `sw.js`, `assets/js/pwa.js` | Installable app + offline shell. |
 | `sitemap.xml`, `robots.txt` | SEO basics. |
