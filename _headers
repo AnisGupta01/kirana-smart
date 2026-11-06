@@ -1,0 +1,58 @@
+# KiranaYap - Cloudflare Pages response headers (https://kiranayap.pages.dev/)
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+# Rules that match the same request are merged, so Cache-Control is only set
+# by rules that never overlap.
+
+# Security headers on every response
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+
+# Static files: names are NOT versioned (no hash), so cache for 1 day only,
+# not "immutable". The service worker refreshes them in the background.
+/assets/*
+  Cache-Control: public, max-age=86400
+
+# Always revalidate the service worker, manifest, shop data and pages.
+# Cloudflare Pages also serves "about.html" as "/about", so both forms are listed.
+/sw.js
+  Cache-Control: no-cache
+/manifest.webmanifest
+  Cache-Control: no-cache
+/store/*
+  Cache-Control: no-cache
+/demo/*
+  Cache-Control: no-cache
+/
+  Cache-Control: no-cache
+/*.html
+  Cache-Control: no-cache
+/index
+  Cache-Control: no-cache
+/about
+  Cache-Control: no-cache
+/contact
+  Cache-Control: no-cache
+/faq
+  Cache-Control: no-cache
+/onboarding
+  Cache-Control: no-cache
+/privacy
+  Cache-Control: no-cache
+/terms
+  Cache-Control: no-cache
+/refund
+  Cache-Control: no-cache
+/udhaar
+  Cache-Control: no-cache
+/qr-poster
+  Cache-Control: no-cache
+/shop-website-lucknow
+  Cache-Control: no-cache
+/shop-website-kanpur
+  Cache-Control: no-cache
+/shop-website-varanasi
+  Cache-Control: no-cache
+/404
+  Cache-Control: no-cache

@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - LANDING PAGE INTERACTIONS (v3)
+   KIRANAYAP - LANDING PAGE INTERACTIONS (v3)
    - Hero phone slideshow (crossfade) + desktop live demo iframe
    - Live demos carousel: prev/next + progress bar
    - Product grid: shop tabs (store/shops/<shop>.json), Add / qty,

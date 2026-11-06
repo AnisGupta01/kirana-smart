@@ -1,7 +1,7 @@
 /* ============================================================
-   KIRANA SMART - DIGITAL UDHAAR KHATA (DEMO) - LOGIC
+   KIRANAYAP - DIGITAL UDHAAR KHATA (DEMO) - LOGIC
    A simple credit record book for the shopkeeper. Data lives
-   ONLY in this browser (LocalStorage). Kirana Smart does not
+   ONLY in this browser (LocalStorage). KiranaYap does not
    lend money; this only records what the shop has given on
    credit and what it has received back.
    Amounts are stored as whole paise to avoid rounding errors.

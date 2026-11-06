@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - SHOPPING CART
+   KIRANAYAP - SHOPPING CART
    Keeps [{id, qty}] in LocalStorage. Quantities can never go
    above the available demo stock and never below 1.
    ============================================================ */

@@ -73,7 +73,7 @@ module.exports = async function sellkit(t) {
     await page.goto(base + "/");
     ok((await page.textContent("h1")).replace(/\s+/g, " ").trim() === "Apni Dukaan Ko Digital Banao. Orders WhatsApp Par Pao.", "hero headline (exact copy from the brief)");
     ok((await page.textContent(".lx-sub")).trim() === "Apne customers ko online products dikhao, WhatsApp par orders receive karo aur apne business ko digital banao. Bina commission ke.", "hero subheading (exact copy from the brief)");
-    ok((await page.title()).includes("Kirana Smart"), "landing title");
+    ok((await page.title()).includes("KiranaYap"), "landing title");
     const sections = ["demos", "shop", "features", "how", "pricing", "agency", "why", "faq", "contact"];
     const have = await page.evaluate((ids) => ids.filter((i) => document.getElementById(i)), sections);
     ok(have.length === sections.length, "all sections present (" + have.join(",") + ")");
@@ -315,7 +315,7 @@ module.exports = async function sellkit(t) {
     ok((await page.getAttribute('meta[name="theme-color"]', "content")) === s.colors.brand, id + ": theme colour from JSON");
     ok((await page.title()) === s.text.en["page.title.store"], id + ": page title from JSON");
     ok((await page.textContent(".site-footer")).includes(s.hours.en), id + ": opening hours in footer");
-    ok((await page.getAttribute(".made-with a", "href")) === "../index.html", id + ": 'Website by Kirana Smart' link back to landing");
+    ok((await page.getAttribute(".made-with a", "href")) === "../index.html", id + ": 'Website by KiranaYap' link back to landing");
     /* order flow */
     await page.evaluate(() => { window.__opened = []; KS.openExternal = (u) => window.__opened.push(u); });
     const first = s.products.find((p) => p.stock > 5 && p.available);
@@ -441,12 +441,12 @@ module.exports = async function sellkit(t) {
   console.log("QR poster");
   if (want("qr")) {
     const { ctx, page } = await newPage(browser, base, { width: 390, height: 800 }, problems, NOSW);
-    const target = "https://anisgupta01.github.io/kirana-smart/store/?shop=mithai";
+    const target = "https://kiranayap.pages.dev/store/?shop=mithai";
     await page.goto(base + "/qr-poster.html?name=Shree%20Mithai%20Ghar&url=" + encodeURIComponent(target));
     ok((await page.textContent("#pShop")) === "Shree Mithai Ghar", "poster shows the shop name from the link");
     ok((await page.locator("#pQr svg path").count()) === 1, "QR drawn as SVG on the device");
     ok((await page.textContent(".poster-head")).includes("Scan karo") && (await page.textContent(".poster-head")).includes("WhatsApp pe order karo"), "poster headline");
-    ok((await page.textContent("#pUrl")) === "anisgupta01.github.io/kirana-smart/store/?shop=mithai", "poster shows the short link");
+    ok((await page.textContent("#pUrl")) === "kiranayap.pages.dev/store/?shop=mithai", "poster shows the short link");
     /* decode the QR the user actually sees */
     let jsQR = null;
     try { jsQR = require("jsqr"); } catch (e) { /* optional */ }
@@ -574,7 +574,7 @@ if (require.main === module) {
   });
   srv.listen(0, "127.0.0.1", async () => {
     const base = "http://127.0.0.1:" + srv.address().port;
-    const browser = await chromium.launch({ args: ["--no-sandbox"] });
+    const browser = await chromium.launch(Object.assign({ args: ["--no-sandbox"] }, process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}));
     const problems = [];
     async function newPage(b, _base, viewport, probs, opts) {
       const ctx = await b.newContext(Object.assign({ viewport: viewport || { width: 390, height: 800 }, locale: "en-IN" }, opts || {}));

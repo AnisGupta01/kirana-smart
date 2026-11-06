@@ -1,4 +1,4 @@
-# Kirana Smart: shop websites that sell themselves
+# KiranaYap: shop websites that sell themselves
 
 **Apni Dukaan Ko Digital Banao. Orders WhatsApp Par Pao.**
 
@@ -6,9 +6,9 @@ This repository is a complete, static "sell kit" for selling simple websites to 
 
 Architecture, and exactly what works statically vs. what needs a backend: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Audit of the previous version: [`docs/AUDIT.md`](docs/AUDIT.md).
 
-Plain HTML, CSS and JavaScript. No build step, no framework, no backend, no API keys. Free hosting on GitHub Pages (or Vercel). Hindi + English everywhere. Fast on cheap Android phones and installable as an app (PWA).
+Plain HTML, CSS and JavaScript. No build step, no framework, no backend, no API keys. Free hosting on Cloudflare Pages (GitHub Pages or Vercel also work). Hindi + English everywhere. Fast on cheap Android phones and installable as an app (PWA).
 
-Live: https://anisgupta01.github.io/kirana-smart/
+Live: https://kiranayap.pages.dev/
 
 ## Fill these in before sharing the link
 
@@ -18,7 +18,7 @@ Live: https://anisgupta01.github.io/kirana-smart/
 | Support email | `assets/js/site-config.js` → `contactEmail` (+ `contact.html`, footers) | Currently anishgupt43@gmail.com |
 | Instagram link (optional) | `assets/js/site-config.js` → `instagram` | Shows an Instagram link in the footer. |
 | Demo shops' WhatsApp numbers (optional) | `store/shops/*.json` → `whatsappNumber` | Put **your** number here so prospects' test orders reach you; otherwise checkout explains the number is not set. |
-| Custom domain (optional) | GitHub Pages settings, then update URLs in `sitemap.xml`, `robots.txt`, canonical/OG tags | `robots.txt` only takes effect at a domain root. |
+| Custom domain (optional) | Cloudflare Pages > Custom domains, then update URLs in `sitemap.xml`, `robots.txt`, canonical/OG tags | `robots.txt` only takes effect at a domain root. |
 
 ## What's inside
 
@@ -85,7 +85,7 @@ docs/NEW-SHOP.md                how to add a shop
 docs/ARCHITECTURE.md            architecture, static vs backend, suggested backend
 docs/AUDIT.md                   audit of the previous version
 tests/                          static, logic, sell-kit and browser tests
-manifest.webmanifest sw.js sitemap.xml robots.txt vercel.json
+manifest.webmanifest sw.js sitemap.xml robots.txt _headers 404.html vercel.json
 ```
 
 ## Demo-only (be honest with shop owners)
@@ -98,6 +98,7 @@ manifest.webmanifest sw.js sitemap.xml robots.txt vercel.json
 
 ## Preview / deploy
 
+- Cloudflare Pages (live, https://kiranayap.pages.dev/): no build command, output directory = repository root (or upload the public files only). `_headers` sets caching + security headers; `404.html` is served for unknown paths.
 - GitHub Pages: push to `main`; the site is served from the repository root.
 - Vercel: see `DEPLOYMENT.md`.
 - Locally: any static server from the repo root (for example `npx serve .`), then open `http://localhost:3000/`. The store needs a server (it fetches its JSON); opening the HTML file directly will show "shop not found".
@@ -110,7 +111,7 @@ See `TESTING.md`. Quick run:
 ```
 node tests/static.test.js && node tests/logic.test.js && node tests/sellkit.test.js
 node tests/e2e.js        # needs playwright + chromium
-node tests/pro.e2e.js    # serves the site under /kirana-smart/ like GitHub Pages; 360 + 1280 px
+node tests/pro.e2e.js    # serves the site at / like Cloudflare Pages (SERVE_BASE=/kirana-smart for a sub-path); 360 + 1280 px
 ```
 
 ## Security notes

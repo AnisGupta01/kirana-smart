@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - SHARED HELPERS
+   KIRANAYAP - SHARED HELPERS
    Storage, validation, money, WhatsApp message, translations,
    and small UI helpers (toast, modal, confirm).
    No dynamic code execution, and user text is ALWAYS inserted with textContent.
@@ -566,7 +566,7 @@
     L.push("Notes: " + (order.notes ? order.notes : "None"));
     L.push("");
     L.push("Payment: to be paid to the shop directly (no online payment was made).");
-    L.push(cfg().demo === false ? "Sent from the " + settings.storeName + " website." : "Sent from a Kirana Smart demo store (sample order, not a real shop).");
+    L.push(cfg().demo === false ? "Sent from the " + settings.storeName + " website." : "Sent from a KiranaYap demo store (sample order, not a real shop).");
     return L.join("\n");
   };
 
@@ -881,9 +881,9 @@
     }
     var a = cfg().accentColor;
     if (typeof a === "string" && /^#[0-9a-fA-F]{6}$/.test(a)) root.style.setProperty("--accent", a);
-    /* A shop's own name is the brand on its pages; the kirana demo keeps "Kirana Smart" */
+    /* A shop's own name is the brand on its pages; the kirana demo keeps "KiranaYap" */
     if (cfg().shopColors && root.classList) root.classList.add("has-shop-colors");
-    var brand = KS.usesShopName() ? KS.getSettings().storeName : (cfg().brandName || "Kirana Smart");
+    var brand = KS.usesShopName() ? KS.getSettings().storeName : (cfg().brandName || "KiranaYap");
     var nm = doc.querySelectorAll("[data-brand-name]");
     for (var i = 0; i < nm.length; i++) nm[i].textContent = brand;
     /* Shop monogram (logoText) replaces the generic logo in the header */
@@ -975,7 +975,7 @@
       });
     });
     global.KS_CONFIG = {
-      brandName: cleanText(shop.brandName, 40) || "Kirana Smart",
+      brandName: cleanText(shop.brandName, 40) || "KiranaYap",
       brandColor: hexOr(colors.brand, "#14532d"),
       accentColor: hexOr(colors.accent, ""),
       shopColors: id !== KS.DEFAULT_SHOP,
@@ -1006,7 +1006,7 @@
   /* Builds the shop file (store/shops/<id>.json) from the original shop
      JSON plus the products and settings edited in this browser. This is
      how the local setup tool's changes get published: download, then
-     commit the file (or send it to Kirana Smart). */
+     commit the file (or send it to KiranaYap). */
   KS.buildShopExport = function (original) {
     var base = JSON.parse(JSON.stringify(original && typeof original === "object" ? original : {}));
     var st = KS.getSettings();

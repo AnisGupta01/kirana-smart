@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - SHOPKEEPER DASHBOARD (DEMO)
+   KIRANAYAP - SHOPKEEPER DASHBOARD (DEMO)
    LocalStorage only: changes stay in this browser on this device.
    There is NO login and NO cloud sync. Not a secure admin system.
    ============================================================ */

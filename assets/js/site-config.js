@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - SITE SETTINGS (landing page, city pages, tools)
+   KIRANAYAP - SITE SETTINGS (landing page, city pages, tools)
    ------------------------------------------------------------
    This is the ONE place to put the owner's WhatsApp number.
    Every "Free demo maango" button on the site uses it.
@@ -15,7 +15,7 @@ window.KS_SITE = {
   ownerWhatsApp: "917266042235",
 
   /* Public address of the site (used for links you share) */
-  siteUrl: "https://anisgupta01.github.io/kirana-smart/",
+  siteUrl: "https://kiranayap.pages.dev/",
 
   /* Support e-mail shown on the Contact page and footer */
   contactEmail: "anishgupt43@gmail.com",

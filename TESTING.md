@@ -18,7 +18,7 @@ All three suites passed in the build environment (Node 22, Chromium via Playwrig
 ## What was NOT tested (be honest with customers)
 
 - **A real WhatsApp send.** Tests confirm the correct `https://wa.me/...?text=...` link is produced and opened. They cannot press Send inside WhatsApp or check delivery to a real phone.
-- **A real Vercel / GitHub Pages deployment.** Tests use a local static server. `vercel.json` is valid JSON but was not run through Vercel.
+- **A real Cloudflare Pages / Vercel / GitHub Pages deployment.** Tests use a local static server at `/` (like https://kiranayap.pages.dev/), or under a sub-path with `SERVE_BASE=/kirana-smart`. `_headers` and `vercel.json` were not run through Cloudflare or Vercel.
 - **robots.txt on a project site.** Search engines read robots.txt only at a domain root, so it takes effect once the site has its own domain.
 - **Real Android devices and other browsers.** Layout was checked in Chromium at phone, tablet and desktop widths. Safari, Firefox, and physical phones were not tested.
 - **Screen readers.** Labels, roles and keyboard handling are in place and keyboard behaviour is tested, but no screen reader was used.

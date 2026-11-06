@@ -61,7 +61,7 @@ async function overflowX(page) {
     await page.goto(base + "/store/index.html");
     await page.waitForSelector("#productGrid .product-card");
     ok((await page.locator("#productGrid .product-card").count()) === 33, "33 products rendered in catalog");
-    ok((await page.title()).includes("Kirana Smart"), "page title");
+    ok((await page.title()).includes("KiranaYap"), "page title");
     ok((await page.textContent("#storeLine")).includes("Sharma Kirana Store"), "store name in header");
     ok((await page.locator("#featuredGrid .product-card").count()) > 0, "featured section has products");
     ok((await page.locator("#popularGrid .product-card").count()) > 0, "popular section has products");

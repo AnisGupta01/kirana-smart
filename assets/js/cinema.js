@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - CINEMATIC SHOP
+   KIRANAYAP - CINEMATIC SHOP
    One product per full screen. As you scroll, the photo grows in
    and its ingredients burst out around it (scroll-driven, using
    transform + opacity only, so it stays smooth on cheap phones).

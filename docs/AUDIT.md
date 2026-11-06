@@ -1,3 +1,5 @@
+> Historical document: written before the rebrand, when the product was called **Kirana Smart** and hosted at `anisgupta01.github.io/kirana-smart/`. The site is now **KiranaYap** at https://kiranayap.pages.dev/.
+
 # Kirana Smart — audit before the "pro" upgrade
 
 Audited: `main` at `b22f90a` (2 Nov 2026), live at https://anisgupta01.github.io/kirana-smart/

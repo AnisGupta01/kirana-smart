@@ -15,7 +15,7 @@ const exists = (f) => fs.existsSync(path.join(root, f));
 const required = ["index.html", "store/index.html", "store/admin.html", "udhaar.html", "qr-poster.html",
   "shop-website-lucknow.html", "shop-website-kanpur.html", "shop-website-varanasi.html",
   "privacy.html", "terms.html", "refund.html", "about.html", "contact.html", "faq.html", "onboarding.html", "docs/ARCHITECTURE.md", "docs/AUDIT.md", "store/shops/shops.json", "assets/css/print-a6.css", "sitemap.xml", "robots.txt", "manifest.webmanifest", "sw.js",
-  "vercel.json", "README.md", "DEPLOYMENT.md", "TESTING.md", "docs/NEW-SHOP.md", ".gitignore",
+  "vercel.json", "_headers", "404.html", "README.md", "DEPLOYMENT.md", "TESTING.md", "docs/NEW-SHOP.md", ".gitignore",
   "store/shops/kirana.json", "store/shops/mithai.json", "store/shops/bakery.json", "store/shops/cloud-kitchen.json",
   "assets/css/style.css", "assets/css/site.css", "assets/css/tools.css",
   "assets/js/shop-loader.js", "assets/js/i18n.js", "assets/js/common.js", "assets/js/cart.js", "assets/js/app.js", "assets/js/admin.js",
@@ -69,7 +69,7 @@ Object.keys(PAGES).forEach((page) => {
 ["index.html", "shop-website-lucknow.html", "shop-website-kanpur.html", "shop-website-varanasi.html"].forEach((page) => {
   const html = read(page);
   ok(/<meta name="description" content="[^"]{60,}"/.test(html), page + ": meta description");
-  ok(/<link rel="canonical" href="https:\/\/anisgupta01\.github\.io\/kirana-smart\/[^"]*"/.test(html), page + ": canonical URL");
+  ok(/<link rel="canonical" href="https:\/\/kiranayap\.pages\.dev\/[^"]*"/.test(html), page + ": canonical URL");
   ok(/property="og:title"/.test(html) && /property="og:image" content="https:/.test(html), page + ": Open Graph title + image");
   ok(/application\/ld\+json/.test(html), page + ": structured data (JSON-LD)");
   ok(/class="[^"]*\bbtn-whatsapp\b[^"]*"[^>]*data-wa=/.test(html), page + ": has a WhatsApp demo button");
@@ -90,7 +90,7 @@ fs.readdirSync(jsDir).filter((f) => /\.js$/.test(f)).forEach((f) => {
   ok(!/new Function\s*\(/.test(src), f + ": no new Function()");
   ok(!/\.innerHTML\s*=|\.outerHTML\s*=|insertAdjacentHTML|document\.write/.test(src), f + ": no unsafe HTML insertion");
   ok(!/(api[_-]?key|secret|password|token)\s*[:=]\s*["'][^"']{6,}/i.test(src), f + ": no hard-coded secrets");
-  ok(!/https?:\/\/(?!wa\.me|www\.instagram|anisgupta01\.github\.io|schema\.org|www\.w3\.org|yourshop|shop\.example)[a-z0-9.-]+\.[a-z]{2,}/i.test(src.replace(/\/\*[\s\S]*?\*\//g, "")), f + ": no calls to outside services");
+  ok(!/https?:\/\/(?!wa\.me|www\.instagram|kiranayap\.pages\.dev|schema\.org|www\.w3\.org|yourshop|shop\.example)[a-z0-9.-]+\.[a-z]{2,}/i.test(src.replace(/\/\*[\s\S]*?\*\//g, "")), f + ": no calls to outside services");
 });
 {
   const v = read("assets/vendor/qrcode-generator/qrcode.js");
@@ -173,9 +173,9 @@ if (manifest) {
   const sm = read("sitemap.xml");
   ok(/^<\?xml version="1.0" encoding="UTF-8"\?>\s*<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/.test(sm) && /<\/urlset>\s*$/.test(sm), "sitemap.xml is a urlset");
   const locs = []; sm.replace(/<loc>([^<]+)<\/loc>/g, (m, l) => { locs.push(l); return m; });
-  const bad = locs.filter((l) => { const p = l.replace("https://anisgupta01.github.io/kirana-smart/", "").split("?")[0] || "index.html"; return !exists(p) || /&(?!amp;)/.test(l); });
+  const bad = locs.filter((l) => { const p = l.replace("https://kiranayap.pages.dev/", "").split("?")[0] || "index.html"; return !exists(p) || /&(?!amp;)/.test(l); });
   ok(locs.length >= 10 && bad.length === 0, "sitemap: " + locs.length + " URLs, all point to real pages" + (bad.length ? " -> " + bad.join(", ") : ""));
-  ok(/Sitemap: https:\/\/anisgupta01\.github\.io\/kirana-smart\/sitemap\.xml/.test(read("robots.txt")), "robots.txt points to the sitemap");
+  ok(/Sitemap: https:\/\/kiranayap\.pages\.dev\/sitemap\.xml/.test(read("robots.txt")), "robots.txt points to the sitemap");
 }
 
 /* ---------------- pro upgrade: honesty, trust, contact ---------------- */
@@ -191,10 +191,11 @@ console.log("Trust pages, honesty, contact details");
   ["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((id) => ok(JSON.parse(read("store/shops/" + id + ".json")).demo === true && /\(Demo\)/.test(JSON.parse(read("store/shops/" + id + ".json")).storeName), id + " demo shop is flagged demo and named '(Demo)'"));
   ok(/local demo/i.test(read("store/admin.html")) && /exportShopBtn/.test(read("store/admin.html")), "setup tool is labelled local demo and has a working export button");
   ok(/Needs a backend/.test(read("docs/ARCHITECTURE.md")) || /needs a backend/i.test(read("docs/ARCHITECTURE.md")), "ARCHITECTURE.md documents what needs a backend");
-  ok(/ks-shell-v4/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v4)");
+  ok(/ks-shell-v5/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v5)");
   const htmlFiles = pages;
-  const rootAbs = htmlFiles.filter((f) => /\s(href|src)="\/(?!\/)/.test(read(f)));
-  ok(rootAbs.length === 0, "no root-absolute href/src (GitHub Pages serves under /kirana-smart/)" + (rootAbs.length ? " -> " + rootAbs.join(",") : ""));
+  /* 404.html is the one exception: the host serves it for any missing address, at any depth */
+  const rootAbs = htmlFiles.filter((f) => f !== "404.html" && /\s(href|src)="\/(?!\/)/.test(read(f)));
+  ok(rootAbs.length === 0, "no root-absolute href/src (relative links work at kiranayap.pages.dev/ and under any sub-path)" + (rootAbs.length ? " -> " + rootAbs.join(",") : ""));
   const imgsNoSize = htmlFiles.filter((f) => /<img(?![^>]*\bwidth=)[^>]*>/.test(read(f)));
   ok(imgsNoSize.length === 0, "every <img> in HTML has width/height (no layout shift)" + (imgsNoSize.length ? " -> " + imgsNoSize.join(",") : ""));
   const imgsNoAlt = htmlFiles.filter((f) => /<img(?![^>]*\balt=)[^>]*>/.test(read(f)));
@@ -204,6 +205,29 @@ console.log("Trust pages, honesty, contact details");
 }
 try { JSON.parse(read("vercel.json")); ok(true, "vercel.json is valid JSON"); } catch (e) { ok(false, "vercel.json is valid JSON"); }
 ok(!/"DENY"/.test(read("vercel.json")), "vercel.json allows same-origin framing (landing preview)");
+
+/* KiranaYap rebrand + Cloudflare Pages (kiranayap.pages.dev root) */
+{
+  const pub = fs.readdirSync(root).filter((f) => /\.(html|xml|txt|webmanifest)$/.test(f)).concat(["store/index.html", "store/admin.html", "demo/chai/index.html", "assets/js/site-config.js", "assets/js/site-i18n.js", "assets/js/i18n.js", "assets/js/common.js", "assets/js/chai-config.js", "assets/js/qr-poster.js"],
+    fs.readdirSync(path.join(root, "store/shops")).map((f) => "store/shops/" + f));
+  const oldUrl = pub.filter((f) => /anisgupta01\.github\.io|\/kirana-smart\//.test(read(f)));
+  ok(oldUrl.length === 0, "no old github.io / /kirana-smart/ URLs in public files" + (oldUrl.length ? " -> " + oldUrl.join(",") : ""));
+  /* the old name may only appear as JSON-LD alternateName (continuity for search engines) */
+  const oldName = pub.filter((f) => /kirana ?smart/i.test(read(f).replace(/"alternateName": *(\[[^\]]*\]|"[^"]*")/g, "")));
+  ok(oldName.length === 0, "brand is KiranaYap everywhere (old name only in alternateName)" + (oldName.length ? " -> " + oldName.join(",") : ""));
+  ok(/"alternateName": *"Kirana Smart"/.test(read("index.html")), "index.html ProfessionalService keeps alternateName 'Kirana Smart'");
+  const mf = JSON.parse(read("manifest.webmanifest"));
+  ok(/KiranaYap/.test(mf.name) && mf.short_name === "KiranaYap" && mf.start_url.indexOf("/") !== 0 && mf.scope === "./", "manifest: KiranaYap name/short_name, relative start_url and scope");
+  const sm = read("sitemap.xml");
+  ok((sm.match(/<loc>https:\/\/kiranayap\.pages\.dev\//g) || []).length === (sm.match(/<loc>/g) || []).length && (sm.match(/<lastmod>2026-11-06<\/lastmod>/g) || []).length === (sm.match(/<loc>/g) || []).length, "sitemap: every URL on kiranayap.pages.dev with lastmod 2026-11-06");
+  ok(/siteUrl: "https:\/\/kiranayap\.pages\.dev\/"/.test(read("assets/js/site-config.js")), "site-config.js siteUrl is https://kiranayap.pages.dev/");
+  const h = read("_headers");
+  ok(/^\/assets\/\*\n\s+Cache-Control: public, max-age=86400$/m.test(h) && !/immutable/.test(h.replace(/^#.*$/gm, "")), "_headers: /assets/* cached 1 day, not immutable (file names are not versioned)");
+  ok(/^\/sw\.js\n\s+Cache-Control: no-cache$/m.test(h) && /^\/manifest\.webmanifest\n\s+Cache-Control: no-cache$/m.test(h) && /^\/\*\.html\n\s+Cache-Control: no-cache$/m.test(h), "_headers: no-cache for pages, sw.js and manifest");
+  ok(/X-Content-Type-Options: nosniff/.test(h) && /Referrer-Policy: strict-origin-when-cross-origin/.test(h), "_headers: nosniff + strict-origin-when-cross-origin");
+  const nf = read("404.html");
+  ok(/KiranaYap/.test(nf) && /href="\/"/.test(nf) && /noindex/.test(nf) && nf.replace(/<!--[\s\S]*?-->/g, "").match(/(?:href|src)="\/[^"]*"/g).every((u) => /^(href|src)="\/(assets\/[^"]+|store\/index\.html|contact\.html)?"$/.test(u) && exists(u.replace(/^(href|src)="\//, "").replace(/"$/, "") || "index.html")), "404.html: branded, noindex, links home, every root path exists");
+}
 
 console.log("\n" + passed + " passed, " + failed + " failed");
 process.exit(failed ? 1 : 0);

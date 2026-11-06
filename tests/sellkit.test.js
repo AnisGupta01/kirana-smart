@@ -126,7 +126,7 @@ console.log("Applying shops");
     ok(okApply && k2.getProducts().length === shopJson(id).products.length, id + ": applies cleanly, all products valid");
   });
   KS.applyShop(shopJson("kirana"));
-  ok(!KS.usesShopName() && KS.getSettings().storeName.indexOf("Sharma") === 0, "kirana demo keeps Kirana Smart branding");
+  ok(!KS.usesShopName() && KS.getSettings().storeName.indexOf("Sharma") === 0, "kirana demo keeps KiranaYap branding");
 }
 
 /* ---------------------------------------------------------------- */
@@ -266,7 +266,7 @@ console.log("QR poster");
   eq(Q.cleanUrl("ftp://x.in"), null, "non-web link rejected");
   eq(Q.cleanUrl("not a url"), null, "text with spaces rejected");
   eq(Q.cleanUrl("https://" + "a".repeat(300) + ".in"), null, "very long link rejected");
-  const url = "https://anisgupta01.github.io/kirana-smart/store/?shop=mithai";
+  const url = "https://kiranayap.pages.dev/store/?shop=mithai";
   const m = Q.qrMatrix(url);
   ok(m.length >= 21 && m.length <= 177 && m.every((r) => r.length === m.length), "QR matrix is square (" + m.length + " modules)");
   ok(m[0][0] && m[0][6] && m[6][0] && !m[7][7], "QR has finder pattern corners");

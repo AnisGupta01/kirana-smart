@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - SERVICE WORKER (offline shell)
+   KIRANAYAP - SERVICE WORKER (offline shell)
    - Pre-caches the pages, styles, scripts and shop files so the
      site opens without internet after the first visit.
    - Pages: network first (always fresh when online), cache when
@@ -7,7 +7,7 @@
    Bump CACHE when you change files so phones pick up the update.
    ============================================================ */
 "use strict";
-var CACHE = "ks-shell-v4";
+var CACHE = "ks-shell-v5"; /* v5: KiranaYap rebrand, served at kiranayap.pages.dev root */
 var SHELL = [
   "./", "./index.html", "./udhaar.html", "./qr-poster.html",
   "./privacy.html", "./terms.html", "./refund.html",
@@ -15,7 +15,7 @@ var SHELL = [
   "./shop-website-lucknow.html", "./shop-website-kanpur.html", "./shop-website-varanasi.html",
   "./store/", "./store/index.html", "./store/admin.html",
   "./store/shops/shops.json", "./store/shops/kirana.json", "./store/shops/mithai.json", "./store/shops/bakery.json", "./store/shops/cloud-kitchen.json",
-  "./manifest.webmanifest",
+  "./manifest.webmanifest", "./404.html",
   "./assets/css/style.css", "./assets/css/site.css", "./assets/css/tools.css",
   "./assets/js/site-config.js", "./assets/js/site-i18n.js", "./assets/js/site.js", "./assets/js/pwa.js",
   "./assets/js/shop-loader.js", "./assets/js/i18n.js", "./assets/js/common.js", "./assets/js/cart.js",
@@ -38,12 +38,24 @@ var SHELL = [
   "./assets/images/chai/hero-burst.webp", "./assets/images/chai/chai.webp", "./assets/images/chai/grain.webp"
 ];
 
+function cleanCopy(res) {
+  return res.blob().then(function (body) {
+    return new Response(body, { status: res.status, statusText: res.statusText, headers: res.headers });
+  });
+}
+
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(CACHE).then(function (cache) {
       /* add one by one so a single missing file does not break install */
       return Promise.all(SHELL.map(function (url) {
-        return cache.add(new Request(url, { cache: "reload" })).catch(function () { /* skip */ });
+        return fetch(new Request(url, { cache: "reload" })).then(function (res) {
+          if (!res || !res.ok) return;
+          /* Cloudflare Pages redirects "about.html" -> "/about". A redirected
+             response must not be replayed for a navigation, so store a clean copy. */
+          if (res.redirected) return cleanCopy(res).then(function (c) { return cache.put(url, c); });
+          return cache.put(url, res);
+        }).catch(function () { /* skip */ });
       }));
     }).then(function () { return self.skipWaiting(); })
   );
@@ -74,6 +86,8 @@ self.addEventListener("fetch", function (event) {
           if (hit) return hit;
           /* "/store/?shop=x" -> cached "/store/index.html" */
           if (/\/$/.test(url.pathname)) return caches.match(url.pathname + "index.html").then(function (h2) { return h2 || caches.match("./index.html"); });
+          /* "/about" (Cloudflare Pages short URL) -> cached "/about.html" */
+          if (!/\.[a-z0-9]+$/i.test(url.pathname)) return caches.match(url.pathname + ".html").then(function (h3) { return h3 || caches.match("./index.html"); });
           return caches.match("./index.html");
         });
       })

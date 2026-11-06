@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - ENGLISH / HINDI TEXT
+   KIRANAYAP - ENGLISH / HINDI TEXT
    Every visible label lives here. To change a word, edit it
    below. Both languages must keep the same keys (the test
    script checks this). {name} style parts are filled in by code.
@@ -8,8 +8,8 @@
    ============================================================ */
 window.KS_I18N = {
   en: {
-    "page.title.store": "Kirana Smart - Neighbourhood Grocery (Demo)",
-    "page.title.admin": "Shop setup tool (local demo) - Kirana Smart",
+    "page.title.store": "KiranaYap - Neighbourhood Grocery (Demo)",
+    "page.title.admin": "Shop setup tool (local demo) - KiranaYap",
     "a11y.skip": "Skip to main content",
     "lang.switch": "Switch language",
 
@@ -283,14 +283,14 @@ window.KS_I18N = {
     "serr.note": "Note can be at most 120 characters.",
     "common.delete": "Delete",
     "err.allDemos": "See all demo shops",
-    "footer.madeWith": "Website by Kirana Smart · get one for your shop",
+    "footer.madeWith": "Website by KiranaYap · get one for your shop",
     "tools.title": "Shop tools",
     "tools.udhaar": "Digital Udhaar Khata",
     "tools.qr": "Make QR poster for the counter",
-    "ud.pageTitle": "Digital Udhaar Khata (Demo) - Kirana Smart",
+    "ud.pageTitle": "Digital Udhaar Khata (Demo) - KiranaYap",
     "ud.title": "Digital Udhaar Khata (Demo)",
     "ud.toDashboard": "Dashboard",
-    "ud.banner": "Demo record book only. Data stays in this phone's browser and is not backed up. Kirana Smart does not lend money or collect payments.",
+    "ud.banner": "Demo record book only. Data stays in this phone's browser and is not backed up. KiranaYap does not lend money or collect payments.",
     "ud.heading": "Udhaar Khata",
     "ud.totalDue": "Total baaki (to collect)",
     "ud.dueCustomers": "Customers with dues",
@@ -351,7 +351,7 @@ window.KS_I18N = {
     "ud.err.noCustomer": "Customer not found.",
     "legal.privacy": "Privacy",
     "exp.title": "Publish your changes: export the shop file",
-    "exp.text": "Changes made here stay in this browser only. To show them to customers, download the shop file (JSON) and send it to Kirana Smart on WhatsApp, or replace store/shops/<shop>.json in the website and publish.",
+    "exp.text": "Changes made here stay in this browser only. To show them to customers, download the shop file (JSON) and send it to KiranaYap on WhatsApp, or replace store/shops/<shop>.json in the website and publish.",
     "exp.btn": "Download shop file (JSON)",
     "exp.done": "Downloaded {file}. Publish it to update the live shop."
   },
@@ -632,14 +632,14 @@ window.KS_I18N = {
     "serr.note": "नोट अधिकतम 120 अक्षर का हो सकता है।",
     "common.delete": "हटाएँ",
     "err.allDemos": "सारी डेमो दुकानें देखें",
-    "footer.madeWith": "वेबसाइट: Kirana Smart · अपनी दुकान के लिए बनवाएँ",
+    "footer.madeWith": "वेबसाइट: KiranaYap · अपनी दुकान के लिए बनवाएँ",
     "tools.title": "दुकान के टूल",
     "tools.udhaar": "डिजिटल उधार खाता",
     "tools.qr": "काउंटर के लिए QR पोस्टर बनाएँ",
-    "ud.pageTitle": "डिजिटल उधार खाता (डेमो) - Kirana Smart",
+    "ud.pageTitle": "डिजिटल उधार खाता (डेमो) - KiranaYap",
     "ud.title": "डिजिटल उधार खाता (डेमो)",
     "ud.toDashboard": "डैशबोर्ड",
-    "ud.banner": "सिर्फ़ डेमो खाता-बही। डेटा इसी फ़ोन के ब्राउज़र में रहता है, इसका बैकअप नहीं होता। Kirana Smart पैसे उधार नहीं देता और भुगतान नहीं लेता।",
+    "ud.banner": "सिर्फ़ डेमो खाता-बही। डेटा इसी फ़ोन के ब्राउज़र में रहता है, इसका बैकअप नहीं होता। KiranaYap पैसे उधार नहीं देता और भुगतान नहीं लेता।",
     "ud.heading": "उधार खाता",
     "ud.totalDue": "कुल बाकी (वसूलना है)",
     "ud.dueCustomers": "जिन पर बाकी है",
@@ -700,7 +700,7 @@ window.KS_I18N = {
     "ud.err.noCustomer": "ग्राहक नहीं मिला।",
     "legal.privacy": "प्राइवेसी",
     "exp.title": "बदलाव पब्लिश करें: दुकान की फ़ाइल एक्सपोर्ट करें",
-    "exp.text": "यहाँ किए बदलाव सिर्फ़ इसी ब्राउज़र में रहते हैं। ग्राहकों को दिखाने के लिए दुकान की फ़ाइल (JSON) डाउनलोड करके WhatsApp पर Kirana Smart को भेजें, या वेबसाइट में store/shops/<shop>.json बदलकर पब्लिश करें।",
+    "exp.text": "यहाँ किए बदलाव सिर्फ़ इसी ब्राउज़र में रहते हैं। ग्राहकों को दिखाने के लिए दुकान की फ़ाइल (JSON) डाउनलोड करके WhatsApp पर KiranaYap को भेजें, या वेबसाइट में store/shops/<shop>.json बदलकर पब्लिश करें।",
     "exp.btn": "दुकान की फ़ाइल डाउनलोड करें (JSON)",
     "exp.done": "{file} डाउनलोड हुई। लाइव दुकान अपडेट करने के लिए इसे पब्लिश करें।"
   }

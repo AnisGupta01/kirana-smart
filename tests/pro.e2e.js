@@ -1,6 +1,7 @@
 /* "Pro" browser tests (Playwright + Chromium) for the upgrade.
-   The site is served under /kirana-smart/ exactly like GitHub Pages
-   (tests/serve-subpath.js), at 360x800 and 1280x800.
+   The site is served at the domain root exactly like Cloudflare Pages
+   (https://kiranayap.pages.dev/, tests/serve-subpath.js), at 360x800 and
+   1280x800. SERVE_BASE=/kirana-smart serves it under a sub-path instead.
 
    Run all:            node tests/pro.e2e.js
    Run one part:       PRO_PART=pages node tests/pro.e2e.js
@@ -20,7 +21,7 @@ try { ({ chromium } = require("playwright")); } catch (e) { ({ chromium } = requ
 let jsQR = null;
 try { jsQR = require("jsqr"); } catch (e) { /* QR decode checks fail loudly below */ }
 
-const PAGES_DOMAIN = "https://anisgupta01.github.io/kirana-smart/";
+const PAGES_DOMAIN = "https://kiranayap.pages.dev/";
 const OWNER = "917266042235";
 const VIEWPORTS = [{ width: 360, height: 800 }, { width: 1280, height: 800 }];
 const PART = process.env.PRO_PART || "all";
@@ -123,12 +124,12 @@ function pdfInfo(buf) {
   const srv = await serve();
   const origin = "http://127.0.0.1:" + srv.address().port;
   const base = origin + BASE + "/";
-  const browser = await chromium.launch({ args: ["--no-sandbox"] });
+  const browser = await chromium.launch(Object.assign({ args: ["--no-sandbox"] }, process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}));
   const problems = [];
   try {
     /* ============ PAGES: crawl every page and link ============ */
     if (part("pages")) {
-      console.log("Pages and links (served under " + BASE + "/)");
+      console.log("Pages and links (served at " + (BASE || "") + "/)");
       const seeds = ["", "about.html", "contact.html", "faq.html", "onboarding.html", "privacy.html", "terms.html", "refund.html", "udhaar.html", "qr-poster.html",
         "shop-website-lucknow.html", "shop-website-kanpur.html", "shop-website-varanasi.html", "demo/chai/", "store/admin.html"].concat(REGISTRY.map((id) => "store/index.html?shop=" + id));
       const { ctx, page } = await ctxPage(browser, VIEWPORTS[0], problems);
@@ -147,7 +148,7 @@ function pdfInfo(buf) {
           linkStatus[u.href] = linkStatus[u.href] || null;
         }
       }
-      ok(rootAbsolute.length === 0, "no root-absolute links (they would break under " + BASE + "/)", rootAbsolute.slice(0, 5).join(", "));
+      ok(rootAbsolute.length === 0, "no root-absolute links (the site stays portable to any sub-path)", rootAbsolute.slice(0, 5).join(", "));
       const bad = [];
       for (const u of Object.keys(linkStatus)) {
         const r = await page.request.get(u);
@@ -467,12 +468,12 @@ function pdfInfo(buf) {
         const locs = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1].replace(/&amp;/g, "&"));
         const bad = [];
         for (const l of locs) { const r = await page.request.get(l.replace(PAGES_DOMAIN, base)); if (r.status() !== 200) bad.push(r.status() + " " + l); }
-        ok(locs.length >= 17 && bad.length === 0, "sitemap: " + locs.length + " URLs, all on the Pages domain and all 200 locally", bad.join(", "));
+        ok(locs.length >= 13 && locs.every((l) => l.indexOf(PAGES_DOMAIN) === 0) && bad.length === 0, "sitemap: " + locs.length + " URLs, all on the Pages domain and all 200 locally", bad.join(", "));
         ok(["about.html", "contact.html", "faq.html", "onboarding.html"].every((p) => locs.indexOf(PAGES_DOMAIN + p) >= 0), "sitemap lists the new trust pages");
         const robots = await (await page.request.get(base + "robots.txt")).text();
-        ok(/Sitemap: https:\/\/anisgupta01\.github\.io\/kirana-smart\/sitemap\.xml/.test(robots), "robots.txt points at the sitemap");
+        ok(/Sitemap: https:\/\/kiranayap\.pages\.dev\/sitemap\.xml/.test(robots), "robots.txt points at the sitemap");
         const sw = await (await page.request.get(base + "sw.js")).text();
-        ok(/ks-shell-v4/.test(sw) && /about\.html/.test(sw) && /shops\.json/.test(sw), "service worker cache bumped to ks-shell-v4 and pre-caches new pages");
+        ok(/ks-shell-v5/.test(sw) && /about\.html/.test(sw) && /shops\.json/.test(sw), "service worker cache bumped to ks-shell-v5 and pre-caches new pages");
         await ctx.close();
       }
     }

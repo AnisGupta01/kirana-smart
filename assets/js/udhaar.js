@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - DIGITAL UDHAAR KHATA (DEMO) - PAGE
+   KIRANAYAP - DIGITAL UDHAAR KHATA (DEMO) - PAGE
    UI for udhaar.html. Logic lives in udhaar-core.js.
    All text is inserted with textContent.
    ============================================================ */

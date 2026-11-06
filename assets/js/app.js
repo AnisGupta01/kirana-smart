@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - CUSTOMER STOREFRONT
+   KIRANAYAP - CUSTOMER STOREFRONT
    Search, filters, cart drawer, checkout and WhatsApp order.
    DEMO: nothing here is sent to a server. Orders only leave the
    phone when the customer presses Send inside WhatsApp.

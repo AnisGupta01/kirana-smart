@@ -1,6 +1,6 @@
-# Kirana Smart — architecture
+# KiranaYap — architecture
 
-A **static website** (HTML, CSS, vanilla JavaScript). No build step, no server, no database, no external CDN. Hosted on GitHub Pages at `https://anisgupta01.github.io/kirana-smart/`. Every link is relative, so the site works under the `/kirana-smart/` sub-path (tests serve it exactly that way).
+A **static website** (HTML, CSS, vanilla JavaScript). No build step, no server, no database, no external CDN. Hosted on Cloudflare Pages at the root of `https://kiranayap.pages.dev/` (previously GitHub Pages under `/kirana-smart/`). Every link is relative, so the site works at the domain root and under any sub-path (tests serve it at `/` by default and under `/kirana-smart/` with `SERVE_BASE=/kirana-smart`).
 
 ## Map
 
@@ -21,7 +21,7 @@ A **static website** (HTML, CSS, vanilla JavaScript). No build step, no server, 
 ## Multi-shop: one URL per shop
 
 ```
-https://anisgupta01.github.io/kirana-smart/store/index.html?shop=<id>
+https://kiranayap.pages.dev/store/index.html?shop=<id>
 ```
 
 1. `shop-loader.js` reads `?shop=<id>` (lowercase letters, digits, dashes; `shops` is reserved) and fetches `store/shops/<id>.json`.
@@ -62,7 +62,7 @@ The local "Shop setup tool" (`store/admin.html`) is labelled as a local demo. It
 
 Order of work (each step is useful on its own):
 
-1. **Supabase free tier** (Postgres + Auth + Row Level Security + storage): `shops`, `products`, `orders` tables. Keep the static front end on GitHub Pages; read products from Supabase with the anon key (RLS: public read, owner write).
+1. **Supabase free tier** (Postgres + Auth + Row Level Security + storage): `shops`, `products`, `orders` tables. Keep the static front end on Cloudflare Pages; read products from Supabase with the anon key (RLS: public read, owner write).
 2. **Owner login** with Supabase Auth (phone OTP or magic link) → a real dashboard to edit products/stock from a phone. Removes the JSON-redeploy step.
 3. **Order capture**: on checkout, insert the order (status `sent`) *before* opening WhatsApp, so the owner sees an order list and can mark confirmed/delivered. WhatsApp remains the notification channel.
 4. **Live stock**: decrement stock in a Postgres function when the owner confirms an order (not on customer click, to avoid abuse).

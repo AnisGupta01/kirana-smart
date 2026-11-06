@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - SHOP QR CODE, A4 POSTER AND COUNTER CARD
+   KIRANAYAP - SHOP QR CODE, A4 POSTER AND COUNTER CARD
    - Pick a shop from store/shops/shops.json (or type any link):
      fills the shop name, its store URL and its brand colour.
    - QR drawn on the device with the vendored qrcode-generator
@@ -16,7 +16,7 @@
   var SVGNS = "http://www.w3.org/2000/svg";
   var SITE = global.KS_SITE || {};
   var API = global.KS_SITE_API;
-  var SITE_URL = String(SITE.siteUrl || "https://anisgupta01.github.io/kirana-smart/");
+  var SITE_URL = String(SITE.siteUrl || "https://kiranayap.pages.dev/");
   var shopColour = null; /* {main, dark} from the selected shop's JSON */
   var shopCache = {};
   function $(id) { return doc.getElementById(id); }

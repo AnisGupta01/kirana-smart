@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - MARKETING PAGES SCRIPT
+   KIRANAYAP - MARKETING PAGES SCRIPT
    Landing page, city pages, QR poster and legal pages.
    - English / Hindi switch (same data-i18n approach and the same
      saved-language key as the store, so the choice carries over)

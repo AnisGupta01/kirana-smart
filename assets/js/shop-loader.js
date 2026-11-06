@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - SHOP LOADER
+   KIRANAYAP - SHOP LOADER
    Loaded FIRST on store/index.html and store/admin.html.
    Picks the shop from the address (?shop=mithai) and starts
    downloading store/shops/<id>.json straight away, while the

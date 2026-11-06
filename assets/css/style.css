@@ -1,6 +1,6 @@
 @font-face { font-family: "Tiro Devanagari Hindi"; src: url("../fonts/tiro-deva.woff2") format("woff2"); font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+25CC, U+A830-A839, U+A8E0-A8FF; }
 /* ============================================================
-   KIRANA SMART - STYLES
+   KIRANAYAP - STYLES
    Mobile-first design system: fresh greens, a warm turmeric
    accent, cream background. Change --brand (or brandColor in
    config.js) to re-colour the main green.

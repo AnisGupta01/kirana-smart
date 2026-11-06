@@ -1,5 +1,5 @@
 /* ============================================================
-   KIRANA SMART - INSTALLABLE APP (PWA)
+   KIRANAYAP - INSTALLABLE APP (PWA)
    Registers the service worker (sw.js at the site root) so the
    pages open offline and the site can be added to the home
    screen. Silently does nothing where not supported.
