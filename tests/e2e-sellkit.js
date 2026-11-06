@@ -509,7 +509,7 @@ module.exports = async function sellkit(t) {
   }
   if (want("pages")) {
     const { ctx, page } = await newPage(browser, base, { width: 360, height: 800 }, problems, NOSW);
-    for (const [p, re] of [["privacy", /DPDP/], ["refund", /3 working days/], ["terms", /FSSAI/]]) {
+    for (const [p, re] of [["privacy", /DPDP/], ["refund", /within 2 working days of receiving/], ["terms", /FSSAI/]]) {
       await page.goto(base + "/" + p + ".html");
       ok(re.test(await page.textContent("main")) && /[\u0900-\u097F]/.test(await page.textContent(".legal-hi")), p + " page: key terms + Hindi summary");
       ok((await overflowX(page)) <= 0, p + " page: no overflow at 360px");

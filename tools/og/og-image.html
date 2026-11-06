@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!-- SOURCE of assets/images/og-image.png (the site-wide WhatsApp/Facebook preview).
+     Edit the text here, then run:  node tools/og/render-og.js
+     The basket/mithai art (og-art.webp) is cut from the original image. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OG image source</title>
+<style>
+  @font-face { font-family: "Inter"; src: url("../../assets/fonts/inter.woff2") format("woff2"); font-weight: 100 900; }
+  html, body { margin: 0; }
+  .og { position: relative; width: 1200px; height: 630px; overflow: hidden; font-family: Inter, "DejaVu Sans", sans-serif; color: #fff;
+        background: linear-gradient(160deg, #1a6839 0%, #185d35 45%, #124826 100%); }
+  .art { position: absolute; right: 0; top: 60px; width: 560px; height: 510px; background: url("og-art.webp") center / cover no-repeat;
+         -webkit-mask-image: linear-gradient(to right, transparent, #000 28px), linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 40px), transparent); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent, #000 28px), linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-composite: intersect; }
+  .brand { position: absolute; left: 64px; top: 56px; display: flex; align-items: center; gap: 16px; font-weight: 700; font-size: 34px; }
+  .brand img { width: 64px; height: 64px; }
+  h1 { position: absolute; left: 64px; top: 140px; width: 600px; margin: 0; font-size: 64px; line-height: 1.06; font-weight: 800; letter-spacing: -1px; }
+  .sub { position: absolute; left: 64px; top: 370px; width: 600px; margin: 0; font-size: 27px; line-height: 1.35; color: #e6f4ea; }
+  .pills { position: absolute; left: 64px; top: 478px; display: flex; gap: 14px; }
+  .pill { background: #f59e0b; color: #2b1700; font-weight: 700; font-size: 25px; padding: 10px 20px; border-radius: 999px; }
+</style>
+</head>
+<body>
+  <div class="og" id="og">
+    <div class="art"></div>
+    <div class="brand"><img src="../../assets/images/logo.svg" alt="">KiranaYap</div>
+    <h1>Apni dukaan ki website, 1–2 din mein live.</h1>
+    <p class="sub">Details milne ke baad 1–2 working din.<br>WhatsApp pe order · Koi commission nahi</p>
+    <div class="pills"><span class="pill">₹999 setup</span><span class="pill">Pehla mahina free</span></div>
+  </div>
+</body>
+</html>

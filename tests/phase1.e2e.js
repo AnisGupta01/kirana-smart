@@ -255,6 +255,33 @@ async function routeShop(ctx, id, mutate) {
       }
       await ctx.close();
     }
+
+    /* ============ H3/M2: one promise set ============ */
+    if (part("promises")) {
+      console.log("H3/M2: rendered pages show one go-live promise and one update phrase");
+      const EN_STOCK = "Stock/price changes WhatsApp par bhejiye — 24 ghante ke andar update (Mon–Sat)";
+      const HI_STOCK = "स्टॉक/दाम के बदलाव WhatsApp पर भेजिए — 24 घंटे के अंदर अपडेट (सोम–शनि)";
+      const { ctx, page } = await ctxPage(browser, null, problems);
+      const text = () => page.evaluate(() => { document.querySelectorAll("details").forEach((d) => { d.open = true; }); return document.body.innerText; });
+      await page.goto(base);
+      let t = await text();
+      ok(t.indexOf(EN_STOCK) >= 0, "landing (EN): FAQ shows the exact stock-update phrase");
+      ok(/1–2 working days after we receive your details/.test(t) && !/in 1 day|1 din/i.test(t), "landing (EN): go-live 1–2 working days after details, no '1 day'");
+      await page.click("[data-lang-toggle], #langBtn, .lang-btn");
+      await page.waitForFunction(() => document.documentElement.lang === "hi");
+      t = await text();
+      ok(t.indexOf(HI_STOCK) >= 0, "landing (HI): FAQ shows the Devanagari stock-update phrase");
+      ok(/डिटेल मिलने के बाद 1–2 कामकाजी दिन/.test(t) && !/1 दिन में/.test(t), "landing (HI): go-live 1–2 कामकाजी दिन, no '1 दिन में'");
+      for (const pg of ["faq.html", "terms.html", "refund.html"]) {
+        await page.goto(base + pg);
+        t = await text();
+        ok(t.indexOf(EN_STOCK) >= 0 && t.indexOf(HI_STOCK) >= 0, pg + ": both phrases visible (EN text + Hindi summary)");
+      }
+      await page.goto(base + "shop-website-lucknow.html");
+      t = await text();
+      ok(/1–2 (working days|कामकाजी दिन)/.test(t) && !/in 1 day|1 दिन में/.test(t), "Lucknow page: '1–2 working days' (in the saved language)");
+      await ctx.close();
+    }
   } catch (err) {
     failed++;
     console.log("  FAIL  test run crashed: " + (err && err.stack ? err.stack : err));

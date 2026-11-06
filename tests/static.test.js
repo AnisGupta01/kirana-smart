@@ -246,6 +246,26 @@ console.log("Per-shop static pages (store/<id>/index.html)");
   ok(/data-shop/.test(read("assets/js/shop-loader.js")) && /data-shops-base/.test(read("assets/js/shop-loader.js")), "shop-loader reads the static page's preset shop");
   ok(/build-shop-pages/.test(read("README.md")) && /build-shop-pages/.test(read("docs/NEW-SHOP.md")), "README and NEW-SHOP document the page generator");
 }
+
+/* ---------------- Phase 1: one promise set everywhere (H3/M2) ---------------- */
+console.log("One go-live promise and one stock-update phrase everywhere");
+{
+  const EN_STOCK = "Stock/price changes WhatsApp par bhejiye — 24 ghante ke andar update (Mon–Sat)";
+  const HI_STOCK = "स्टॉक/दाम के बदलाव WhatsApp पर भेजिए — 24 घंटे के अंदर अपडेट (सोम–शनि)";
+  const site = fs.readdirSync(root).filter((f) => f.endsWith(".html")).concat(["store/index.html", "demo/chai/index.html", "assets/js/site-i18n.js", "assets/js/i18n.js", "assets/js/chai-config.js", "tools/og/og-image.html", "README.md", "docs/NEW-SHOP.md"]);
+  const bad = site.filter((f) => /\b(live|website)[^.]{0,20}\b(in|within) (1|one) (working )?day\b|\b1 din\b|1 दिन में|\b3 working days\b|3 कामकाजी|we update (it|the file)|हम बदल देंगे|हम अपडेट कर देंगे/i.test(read(f)));
+  ok(bad.length === 0, "no conflicting go-live / update promises (1 day, 3 working days, 'we update it')" + (bad.length ? " -> " + bad.join(",") : ""));
+  ["index.html", "faq.html", "terms.html", "refund.html"].forEach((f) => ok(read(f).indexOf(EN_STOCK) >= 0, f + ": exact stock-update phrase"));
+  ["faq.html", "terms.html", "refund.html", "onboarding.html"].forEach((f) => ok(read(f).indexOf(HI_STOCK) >= 0, f + ": exact Devanagari stock-update phrase"));
+  const sandbox = { window: {} }; vm.createContext(sandbox); vm.runInContext(read("assets/js/site-i18n.js"), sandbox);
+  const D = sandbox.window.KS_SITE_I18N || sandbox.window.KS_I18N_SITE || null;
+  const dicts = D || (function () { const w = {}; vm.runInNewContext(read("assets/js/site-i18n.js"), { window: w }); return w[Object.keys(w)[0]]; })();
+  ok(dicts && dicts.en["l.faq.a8"].indexOf(EN_STOCK) >= 0 && dicts.hi["l.faq.a8"].indexOf(HI_STOCK) >= 0, "site-i18n: landing FAQ answer uses the exact phrase in EN and HI");
+  ok(/1–2 working days after we receive your details/.test(dicts.en["l.how.s4d"]) && /डिटेल मिलने के बाद 1–2 कामकाजी दिन/.test(dicts.hi["l.how.s4d"]), "site-i18n: go-live = 1–2 working days after details (EN + HI)");
+  ["index.html", "faq.html", "terms.html", "onboarding.html"].forEach((f) => ok(/1–2 working days after we receive your details/.test(read(f)), f + ": go-live promise '1–2 working days after we receive your details'"));
+  ok(/within 2 working days of receiving/.test(read("refund.html")) && /1–2 working days after we receive your details/.test(read("refund.html")), "refund.html: refund trigger matches the 1–2 working day promise");
+  ok(/1–2 din mein live/.test(read("tools/og/og-image.html")) && /Details milne ke baad 1–2 working din/.test(read("tools/og/og-image.html")), "share image source (tools/og/og-image.html) says 1–2 din after details");
+}
 try { JSON.parse(read("vercel.json")); ok(true, "vercel.json is valid JSON"); } catch (e) { ok(false, "vercel.json is valid JSON"); }
 ok(!/"DENY"/.test(read("vercel.json")), "vercel.json allows same-origin framing (landing preview)");
 
