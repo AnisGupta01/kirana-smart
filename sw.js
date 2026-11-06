@@ -84,6 +84,8 @@ self.addEventListener("fetch", function (event) {
       }).catch(function () {
         return caches.match(req, { ignoreSearch: true }).then(function (hit) {
           if (hit) return hit;
+          /* a shop file must never be answered with an HTML page */
+          if (/\.json$/.test(url.pathname)) return new Response("{}", { status: 503, headers: { "Content-Type": "application/json" } });
           /* "/store/?shop=x" -> cached "/store/index.html" */
           if (/\/$/.test(url.pathname)) return caches.match(url.pathname + "index.html").then(function (h2) { return h2 || caches.match("./index.html"); });
           /* "/about" (Cloudflare Pages short URL) -> cached "/about.html" */

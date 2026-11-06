@@ -156,21 +156,41 @@
   var settingsCache = null;
   KS.invalidateCaches = function () { productsCache = null; settingsCache = null; };
 
+  /* C1: the shop JSON (store/shops/<id>.json) is the source of truth.
+     Edits made in the local setup tool are kept in LocalStorage together
+     with a fingerprint ("src") of the shop JSON they were made against.
+     When the published JSON changes, the fingerprint no longer matches and
+     the fresh JSON wins, so returning visitors always see current prices
+     and stock. On live shops (demo:false) the storefront never reads local
+     edits at all; only the setup tool does. */
+  KS.localEditsAllowed = function () {
+    return !KS.shop || KS.shop.demo !== false || KS.setupTool === true;
+  };
+  function shopSrc() { return (KS.shop && KS.shop.src) || ""; }
+  function storedList(raw) {
+    /* current format: {src, products:[...]}; older plain arrays are stale */
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+    if (raw.src !== shopSrc() || !Array.isArray(raw.products)) return null;
+    return raw.products;
+  }
+
   KS.getProducts = function () {
     if (productsCache) return productsCache;
-    var raw = readJSON(KEYS.products, null);
     var list = null;
-    if (Array.isArray(raw)) {
-      list = [];
-      var seen = {};
-      raw.forEach(function (p) {
-        var s = sanitizeProduct(p);
-        if (s && !seen[s.id]) { seen[s.id] = true; list.push(s); }
-      });
+    if (KS.localEditsAllowed()) {
+      var raw = storedList(readJSON(KEYS.products, null));
+      if (raw) {
+        list = [];
+        var seen = {};
+        raw.forEach(function (p) {
+          var s = sanitizeProduct(p);
+          if (s && !seen[s.id]) { seen[s.id] = true; list.push(s); }
+        });
+      }
     }
     if (!list) {
       list = defaultProducts();
-      writeJSON(KEYS.products, list);
+      if (KS.localEditsAllowed()) writeJSON(KEYS.products, { src: shopSrc(), products: list });
     }
     productsCache = list;
     return list;
@@ -184,7 +204,7 @@
       if (s && !seen[s.id]) { seen[s.id] = true; clean.push(s); }
     });
     productsCache = clean;
-    writeJSON(KEYS.products, clean);
+    writeJSON(KEYS.products, { src: shopSrc(), products: clean });
     return clean;
   };
 
@@ -237,8 +257,9 @@
   KS.getSettings = function () {
     if (settingsCache) return settingsCache;
     var d = KS.defaultSettings();
-    var s = readJSON(KEYS.settings, null);
-    if (s && typeof s === "object") {
+    var s = KS.localEditsAllowed() ? readJSON(KEYS.settings, null) : null;
+    /* settings saved against an older shop JSON are dropped (see C1 above) */
+    if (s && typeof s === "object" && s._src === shopSrc()) {
       if (typeof s.storeName === "string" && cleanText(s.storeName, 60).length >= 2) d.storeName = cleanText(s.storeName, 60);
       if (typeof s.storeLocation === "string") d.storeLocation = cleanText(s.storeLocation, 100);
       if (typeof s.whatsappNumber === "string") d.whatsappNumber = cleanText(s.whatsappNumber, 30);
@@ -252,7 +273,10 @@
   };
   KS.saveSettings = function (s) {
     settingsCache = null;
-    writeJSON(KEYS.settings, s);
+    var copy = {};
+    Object.keys(s || {}).forEach(function (k) { copy[k] = s[k]; });
+    copy._src = shopSrc();
+    writeJSON(KEYS.settings, copy);
     return KS.getSettings();
   };
 
@@ -363,7 +387,7 @@
     productsCache = null;
     settingsCache = null;
     var products = defaultProducts();
-    writeJSON(KEYS.products, products);
+    writeJSON(KEYS.products, { src: shopSrc(), products: products });
     writeJSON(KEYS.orders, KS.makeSampleOrders(products));
     lsRemove(KEYS.settings);
     productsCache = null;
@@ -929,6 +953,21 @@
   };
   function hexOr(v, d) { return typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v) ? v : d; }
 
+  /* Short, stable fingerprint of a shop JSON (FNV-1a over its text,
+     ignoring "exportedAt"). Used to tell when the published file changed. */
+  KS.fingerprint = function (obj) {
+    var txt;
+    try {
+      txt = JSON.stringify(obj, function (k, v) { return k === "exportedAt" ? undefined : v; }) || "";
+    } catch (e) { txt = ""; }
+    var hsh = 0x811c9dc5;
+    for (var i = 0; i < txt.length; i++) {
+      hsh ^= txt.charCodeAt(i);
+      hsh = (hsh + ((hsh << 1) + (hsh << 4) + (hsh << 7) + (hsh << 8) + (hsh << 24))) >>> 0;
+    }
+    return ("0000000" + hsh.toString(16)).slice(-8) + ":" + txt.length;
+  };
+
   /* Validates a shop JSON object and installs it: settings, categories,
      labels, products, sample orders and storage keys. Throws on bad data. */
   KS.applyShop = function (shop) {
@@ -999,7 +1038,7 @@
     Object.keys(keys).forEach(function (k) { KEYS[k] = keys[k]; });
     KS.invalidateCaches();
     if (!defaultProducts().length) throw new Error("No product in the shop file passed the checks (price, category).");
-    KS.shop = { id: id, demo: shop.demo !== false, niche: cleanText(shop.niche, 30) || id };
+    KS.shop = { id: id, demo: shop.demo !== false, niche: cleanText(shop.niche, 30) || id, src: KS.fingerprint(shop) };
     return KS.shop;
   };
 
@@ -1036,6 +1075,23 @@
       var href = (els[i].getAttribute("href") || "").split("?")[0].split("#");
       els[i].setAttribute("href", href[0] + "?shop=" + encodeURIComponent(KS.shop.id) + (href[1] ? "#" + href[1] : ""));
     }
+  };
+
+  /* Re-fetches the shop JSON (network first) and, when it changed since
+     the page loaded, installs it. Resolves true when the data changed,
+     false when unchanged or when the network is not reachable. */
+  KS.lastShopFetch = Date.now();
+  KS.refreshShop = function () {
+    var f = global.KS_FETCH_SHOP;
+    if (typeof f !== "function" || !KS.shop) return Promise.resolve(false);
+    var before = KS.shop.src;
+    return f().then(function (shop) {
+      KS.lastShopFetch = Date.now();
+      if (!shop || KS.fingerprint(shop) === before) return false;
+      KS.applyShop(shop);
+      KS.applyShopLinks();
+      return true;
+    }, function () { return false; });
   };
 
   /* Runs init once the DOM and the shop JSON (started by shop-loader.js)

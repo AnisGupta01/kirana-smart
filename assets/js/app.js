@@ -303,7 +303,41 @@
     else renderCartView(body);
   }
 
+  /* What changed in the cart since the customer added items (fresh shop
+     data: out of stock, less stock, new price). Shown until dismissed. */
+  function changesNotice() {
+    var ch = KS.cart.lastChanges;
+    if (!ch) return null;
+    function nm(x) { var p = KS.getProduct(x.id); return p ? KS.displayName(p) : x.name; }
+    var items = [];
+    ch.removed.forEach(function (x) { items.push(h("li", { text: t("cart.changed.removed", { name: nm(x) }) })); });
+    ch.trimmed.forEach(function (x) { items.push(h("li", { text: t("cart.changed.trimmed", { name: nm(x), n: x.qty }) })); });
+    ch.repriced.forEach(function (x) { items.push(h("li", { text: t("cart.changed.price", { name: nm(x), from: KS.money(x.from), to: KS.money(x.to) }) })); });
+    return h("div", { class: "alert alert-warn cart-changes", id: "cartChanges", role: "alert" }, [
+      h("strong", { text: t("cart.changed.title") }),
+      h("ul", null, items),
+      h("button", { class: "link-btn", type: "button", id: "cartChangesOk", text: t("cart.changed.ok"), onclick: function () { KS.cart.clearChanges(); renderDrawer(); } })
+    ]);
+  }
+
+  /* Re-checks prices/stock with the server; when anything in the cart
+     changed, sends the customer back to the cart to see what changed. */
+  function refreshFromServer() {
+    return KS.refreshShop().then(function (changed) {
+      if (!changed) return false;
+      KS.invalidateCaches();
+      var report = KS.cart.reconcile();
+      renderStoreLine();
+      renderAll();
+      if (report && state.drawerOpen && state.view === "checkout") { state.view = "cart"; renderDrawer(); }
+      if (report) KS.toast(t("cart.stockAdjusted"), "error");
+      return !!report;
+    });
+  }
+
   function renderCartView(body) {
+    var notice = changesNotice();
+    if (notice) body.appendChild(notice);
     var lines = KS.cart.lines();
     if (!lines.length) {
       body.appendChild(h("div", { class: "state-panel" }, [
@@ -349,7 +383,16 @@
     body.appendChild(h("div", { class: "cart-foot" }, [
       h("div", { class: "total-row" }, [h("span", { text: t("cart.subtotal") }), h("strong", { id: "cartSubtotal", text: KS.money(totals.subtotal) })]),
       h("p", { class: "muted small", text: t("cart.feeNote") }),
-      h("button", { class: "btn btn-primary btn-block", type: "button", id: "checkoutBtn", text: t("cart.checkout"), onclick: function () { state.view = "checkout"; renderDrawer(); } }),
+      h("button", {
+        class: "btn btn-primary btn-block", type: "button", id: "checkoutBtn", text: t("cart.checkout"),
+        onclick: function () {
+          if (KS.cart.reconcile()) { renderDrawer(); return; }
+          KS.cart.clearChanges();
+          state.view = "checkout";
+          renderDrawer();
+          refreshFromServer();
+        }
+      }),
       h("button", {
         class: "btn btn-ghost btn-block", type: "button", id: "clearCartBtn", text: t("cart.clear"),
         onclick: function () {
@@ -491,6 +534,8 @@
       return;
     }
     if (changed) {
+      state.view = "cart";
+      renderDrawer();
       KS.toast(t("cart.stockAdjusted"), "error");
       return;
     }
@@ -669,6 +714,11 @@
       buildCategoryFilter();
       renderCategoryTiles();
       renderAll();
+    });
+
+    /* Back to a tab left open for a while: re-check prices and stock */
+    doc.addEventListener("visibilitychange", function () {
+      if (doc.visibilityState === "visible" && Date.now() - KS.lastShopFetch > 60000) refreshFromServer();
     });
 
     /* Another tab of the SAME browser changed the demo data */

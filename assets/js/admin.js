@@ -7,6 +7,8 @@
   "use strict";
 
   var KS = global.KS;
+  /* The setup tool edits a LOCAL copy of the shop (see KS.localEditsAllowed) */
+  KS.setupTool = true;
   var h = KS.h;
   var t = KS.t;
   var doc = global.document;

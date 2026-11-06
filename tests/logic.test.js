@@ -177,16 +177,85 @@ console.log("Cart");
   eq(c.count(), 0, "clear empties cart");
 }
 
+console.log("C1: fresh shop JSON beats a returning visitor's stored copy");
+{
+  /* Reproduces the Phase 0 probe: a visitor loads mithai, the owner then
+     changes Kaju Katli from Rs 560 to Rs 671 and marks it out of stock. */
+  const shopV1 = readShop("mithai");
+  const kaju = shopV1.products.find((p) => /kaju katli/i.test(p.name));
+  ok(!!kaju && kaju.price === 560, "mithai has Kaju Katli at Rs 560 (" + (kaju && kaju.price) + ")");
+  const { win, store } = makeWindow(null, "mithai");
+  let KS = win.KS;
+  ok(KS.cart.add(kaju.id).ok, "visit 1: Kaju Katli added to cart at Rs 560");
+  eq(KS.getProduct(kaju.id).price, 560, "visit 1: price Rs 560");
+  ok(typeof store.ks_mithai_products_v1 === "string", "visit 1: products copied to LocalStorage");
+
+  /* visit 2, price change only (still in stock) */
+  const shopV2 = JSON.parse(JSON.stringify(shopV1));
+  shopV2.products.find((p) => p.id === kaju.id).price = 671;
+  shopV2.products.find((p) => p.id === kaju.id).mrp = null;
+  ok(KS.fingerprint(shopV2) !== KS.fingerprint(shopV1), "changed JSON gets a new fingerprint");
+  KS.applyShop(shopV2);
+  KS.cart.load();
+  eq(KS.getProduct(kaju.id).price, 671, "visit 2: returning visitor sees Rs 671, not the stored Rs 560");
+  const r1 = KS.cart.reconcile();
+  ok(r1 && r1.repriced.length === 1 && r1.repriced[0].from === 560 && r1.repriced[0].to === 671, "visit 2: cart flags the price change 560 -> 671");
+  eq(KS.cart.lines()[0].line, 671, "visit 2: cart line uses Rs 671");
+  const msg = KS.buildOrderMessage({ id: "KS-1", createdAt: "2026-11-02T10:00:00Z", customerName: "Test", phone: "", type: "pickup", address: "", notes: "", items: KS.cart.lines().map((l) => ({ name: l.product.name, unit: l.product.unit, price: l.product.price, qty: l.qty })), subtotal: 671, deliveryFee: 0, total: 671 }, KS.getSettings());
+  ok(msg.includes("671") && !msg.includes("560"), "visit 2: WhatsApp order uses Rs 671");
+  ok(KS.cart.reconcile() === false, "second reconcile: nothing new to flag");
+
+  /* visit 3, out of stock */
+  const shopV3 = JSON.parse(JSON.stringify(shopV2));
+  Object.assign(shopV3.products.find((p) => p.id === kaju.id), { available: false, stock: 0 });
+  KS.applyShop(shopV3);
+  KS.cart.load();
+  eq(KS.productStatus(KS.getProduct(kaju.id), KS.getSettings()), "unavailable", "visit 3: Kaju Katli shows as unavailable");
+  ok(!KS.cart.add(kaju.id).ok, "visit 3: cannot add Kaju Katli to the cart");
+  const r2 = KS.cart.reconcile();
+  ok(r2 && r2.removed.length === 1 && r2.removed[0].id === kaju.id, "visit 3: out-of-stock item removed from cart and flagged");
+  eq(KS.cart.count(), 0, "visit 3: nothing left to check out");
+
+  /* old (pre-fix) LocalStorage format: a plain array is treated as stale */
+  store.ks_mithai_products_v1 = JSON.stringify(shopV1.products);
+  KS.invalidateCaches();
+  eq(KS.getProduct(kaju.id).price, 671, "old plain-array LocalStorage copy is ignored");
+
+  /* setup-tool edits survive while the JSON is unchanged (demo shops) */
+  KS.saveProducts(KS.getProducts().map((p) => (p.id === kaju.id ? Object.assign({}, p, { price: 600 }) : p)));
+  KS.invalidateCaches();
+  eq(KS.getProduct(kaju.id).price, 600, "demo shop: local setup-tool edit kept while JSON unchanged");
+  KS.applyShop(shopV2);
+  eq(KS.getProduct(kaju.id).price, 671, "demo shop: a newer JSON replaces the local edit");
+}
+
+console.log("C1: live shops (demo:false) never use local product/settings edits");
+{
+  const live = Object.assign(readShop("mithai"), { demo: false });
+  const { win, store } = makeWindow(null, "mithai");
+  const KS = win.KS;
+  KS.applyShop(live);
+  const first = live.products[0];
+  store.ks_mithai_products_v1 = JSON.stringify({ src: KS.shop.src, products: live.products.map((p) => Object.assign({}, p, { price: 1 })) });
+  store.ks_mithai_settings_v1 = JSON.stringify({ storeName: "Hacked", whatsappNumber: "919999999999", _src: KS.shop.src });
+  KS.invalidateCaches();
+  eq(KS.getProduct(first.id).price, first.price, "live shop: storefront ignores a LocalStorage price edit");
+  eq(KS.getSettings().whatsappNumber, live.whatsappNumber, "live shop: storefront ignores a LocalStorage WhatsApp number");
+  KS.setupTool = true;
+  KS.invalidateCaches();
+  eq(KS.getProduct(first.id).price, 1, "live shop: the setup tool still edits its local copy");
+}
+
 console.log("Storage resilience");
 {
   const { win, store } = makeWindow();
   store.ks_products_v1 = "{not json";
   win.KS.invalidateCaches();
   eq(win.KS.getProducts().length, win.KS_DEFAULT_PRODUCTS.length, "corrupt product JSON falls back to defaults");
-  store.ks_products_v1 = JSON.stringify([{ id: "x", name: "Bad", category: "rice", price: -5, unit: "1", stock: 1 }, { id: "ok1", name: "Fine", category: "rice", price: 5, unit: "1 kg", stock: 1 }]);
+  store.ks_products_v1 = JSON.stringify({ src: win.KS.shop.src, products: [{ id: "x", name: "Bad", category: "rice", price: -5, unit: "1", stock: 1 }, { id: "ok1", name: "Fine", category: "rice", price: 5, unit: "1 kg", stock: 1 }] });
   win.KS.invalidateCaches();
   eq(win.KS.getProducts().map((p) => p.id), ["ok1"], "invalid stored products dropped");
-  store.ks_settings_v1 = JSON.stringify({ storeName: "X", deliveryFee: -50, lowStockThreshold: "abc" });
+  store.ks_settings_v1 = JSON.stringify({ storeName: "X", deliveryFee: -50, lowStockThreshold: "abc", _src: win.KS.shop.src });
   win.KS.invalidateCaches();
   const s = win.KS.getSettings();
   eq(s.storeName.length >= 2, true, "short stored shop name ignored");

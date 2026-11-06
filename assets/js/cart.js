@@ -1,7 +1,9 @@
 /* ============================================================
    KIRANAYAP - SHOPPING CART
-   Keeps [{id, qty}] in LocalStorage. Quantities can never go
-   above the available demo stock and never below 1.
+   Keeps [{id, qty, price}] in LocalStorage. Quantities can never go
+   above the available stock and never below 1. "price" is the price
+   the customer saw when adding; reconcile() compares it with the
+   shop's current price so a change is shown before checkout.
    ============================================================ */
 (function (global) {
   "use strict";
@@ -19,7 +21,8 @@
       var q = Number(r.qty);
       if (!Number.isInteger(q) || q < 1 || q > 9999) return;
       if (items.some(function (i) { return i.id === r.id; })) return;
-      items.push({ id: r.id, qty: q });
+      var pr = Number(r.price);
+      items.push({ id: r.id, qty: q, price: isFinite(pr) && pr > 0 ? pr : null });
     });
   }
   function save() { KS.writeJSON(KS.KEYS.cart, items); }
@@ -49,8 +52,8 @@
       var it = find(id);
       var cur = it ? it.qty : 0;
       if (cur + 1 > max) return { ok: false, reason: "max", max: max };
-      if (it) it.qty = cur + 1;
-      else items.push({ id: id, qty: 1 });
+      if (it) { it.qty = cur + 1; if (it.price === null || it.price === undefined) it.price = p.price; }
+      else items.push({ id: id, qty: 1, price: p.price });
       save();
       notify();
       return { ok: true, qty: cur + 1 };
@@ -65,8 +68,8 @@
       if (!p || max <= 0) { if (it) cart.remove(id); return { ok: false, reason: "unavailable" }; }
       var res = { ok: true, qty: qty };
       if (qty > max) { qty = max; res = { ok: false, reason: "max", max: max, qty: max }; }
-      if (it) it.qty = qty;
-      else items.push({ id: id, qty: qty });
+      if (it) { it.qty = qty; if (it.price === null || it.price === undefined) it.price = p.price; }
+      else items.push({ id: id, qty: qty, price: p.price });
       save();
       notify();
       return res;
@@ -95,22 +98,40 @@
       return out;
     },
 
-    /* Drops missing/unavailable products and trims quantities to
-       the current stock. Returns true when anything changed. */
+    /* Checks the cart against the shop's CURRENT products (fresh from
+       the shop JSON): drops missing / out-of-stock / unavailable items,
+       trims quantities to stock and picks up price changes.
+       Returns false when nothing changed, otherwise a report:
+       { removed:[{id,name}], trimmed:[{id,name,qty}], repriced:[{id,name,from,to}] }
+       The report is also kept in cart.lastChanges until cleared. */
     reconcile: function () {
-      var changed = false;
+      var report = { removed: [], trimmed: [], repriced: [] };
       var next = [];
       items.forEach(function (i) {
         var p = KS.getProduct(i.id);
         var max = maxFor(p);
-        if (!p || max <= 0) { changed = true; return; }
-        if (i.qty > max) { i.qty = max; changed = true; }
+        if (!p || max <= 0) { report.removed.push({ id: i.id, name: p ? p.name : i.id }); return; }
+        if (i.qty > max) { i.qty = max; report.trimmed.push({ id: i.id, name: p.name, qty: max }); }
+        if (i.price !== null && i.price !== undefined && KS.toPaise(i.price) !== KS.toPaise(p.price)) {
+          report.repriced.push({ id: i.id, name: p.name, from: i.price, to: p.price });
+        }
+        i.price = p.price;
         next.push(i);
       });
+      var changed = report.removed.length + report.trimmed.length + report.repriced.length > 0;
+      var priceFilled = items.length === next.length && !changed;
       items = next;
-      if (changed) { save(); notify(); }
-      return changed;
+      if (changed) {
+        cart.lastChanges = report;
+        save();
+        notify();
+        return report;
+      }
+      if (priceFilled) save();
+      return false;
     },
+    lastChanges: null,
+    clearChanges: function () { cart.lastChanges = null; },
 
     totals: function (type, settings) {
       return KS.calcTotals(cart.lines().map(function (l) { return { price: l.product.price, qty: l.qty }; }), type, settings);
