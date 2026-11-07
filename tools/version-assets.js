@@ -9,7 +9,7 @@
    - the Hindi strings file that site.js loads on demand
      (KS_SITE_I18N_HI_V in site-i18n.js),
    - the service worker's pre-cache list, whose cache name gets the
-     same kind of hash (ks-shell-v6-<hash>) so phones drop old copies.
+     same kind of hash (ks-shell-v7-<hash>) so phones drop old copies.
    Because a changed file always gets a new URL, Cloudflare can cache
    these folders for a year ("immutable" in _headers).
 
