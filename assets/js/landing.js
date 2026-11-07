@@ -295,7 +295,7 @@
   /* ---------------- Reveals ---------------- */
   function initReveals() {
     if (reduceMQ.matches || !("IntersectionObserver" in global)) return;
-    var sel = ".lx-sec-head, .lx-f, .lx-step, .lx-plan, .lx-renew, .lx-cmp, .lx-t";
+    var sel = ".lx-sec-head, .lx-f, .lx-step, .lx-plan, .lx-renew, .lx-addons, .lx-cmp, .lx-t, .lx-tools, .lx-acc, .lx-final-in";
     var els = doc.querySelectorAll(sel);
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
