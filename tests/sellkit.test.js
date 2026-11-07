@@ -114,7 +114,7 @@ console.log("Applying shops");
   evil.colors.brand = "red;background:url(x)";
   evil.heroImage = "javascript:alert(1)";
   KS.applyShop(evil);
-  ok(win.KS_CONFIG.brandColor === "#14532d" && win.KS_CONFIG.heroImage === "", "unsafe colour / image values fall back to safe defaults");
+  ok(win.KS_CONFIG.brandColor === "#0e7a55" && win.KS_CONFIG.heroImage === "", "unsafe colour / image values fall back to safe defaults");
 }
 {
   const { win } = storeWindow();

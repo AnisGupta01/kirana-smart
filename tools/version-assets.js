@@ -8,8 +8,10 @@
    - font url()s inside the CSS files,
    - the Hindi strings file that site.js loads on demand
      (KS_SITE_I18N_HI_V in site-i18n.js),
+   - the design tokens: tokens.css is copied into the top of
+     landing.css and style.css (between the @tokens markers),
    - the service worker's pre-cache list, whose cache name gets the
-     same kind of hash (ks-shell-v6-<hash>) so phones drop old copies.
+     same kind of hash (ks-shell-v9-<hash>) so phones drop old copies.
    Because a changed file always gets a new URL, Cloudflare can cache
    these folders for a year ("immutable" in _headers).
 
@@ -60,8 +62,26 @@ function versionRefs(file, text, attrRe) {
   });
 }
 
+/* 0. design tokens: tokens.css is the one source; its block is copied
+   between the @tokens markers at the top of landing.css and style.css,
+   so every page gets the tokens without an extra CSS request. */
+const TOKEN_TARGETS = ["assets/css/landing.css", "assets/css/style.css"];
+const TOKEN_RE = /\/\* @tokens:start[^*]*\*\/[\s\S]*?\/\* @tokens:end \*\//;
+function tokenBlock() {
+  return "/* @tokens:start (copied from tokens.css by tools/version-assets.js - edit tokens.css, not here) */\n" + read("assets/css/tokens.css").trim() + "\n/* @tokens:end */";
+}
+function syncTokens(changed) {
+  if (!fs.existsSync(path.join(ROOT, "assets/css/tokens.css"))) return;
+  TOKEN_TARGETS.forEach((f) => {
+    const s = read(f);
+    if (!TOKEN_RE.test(s)) return;
+    if (write(f, s.replace(TOKEN_RE, () => tokenBlock()))) changed.push(f);
+  });
+}
+
 function main() {
   const changed = [];
+  syncTokens(changed);
   /* 1. fonts inside CSS */
   const css = walk("assets/css", []).filter((f) => f.endsWith(".css"));
   css.forEach((f) => {
@@ -106,6 +126,11 @@ function check() {
   publicHtml().forEach((f) => look(f, read(f), /(<(?:link|script)\b[^>]*?\s(?:href|src)=")([^"]+)(")/g));
   const v = /window\.KS_SITE_I18N_HI_V = "([^"]*)";/.exec(read("assets/js/site-i18n.js"));
   if (!v || v[1] !== hashOf("assets/js/site-i18n-hi.js")) bad.push("assets/js/site-i18n.js: KS_SITE_I18N_HI_V out of date");
+  TOKEN_TARGETS.forEach((f) => {
+    const m = TOKEN_RE.exec(read(f));
+    const want = TOKEN_RE.exec(versionRefs("assets/css/tokens.css", tokenBlock(), /(url\(["']?)([^"')]+\.woff2(?:\?[^"')]*)?)(["']?\))/g));
+    if (!m || !want || m[0] !== want[0]) bad.push(f + ": design tokens out of sync with tokens.css");
+  });
   const sw = read("sw.js");
   (sw.match(/"\.\/assets\/(?:css|js|fonts|vendor)\/[^"]+"/g) || []).forEach((q) => {
     const ref = q.slice(3, -1); const target = ref.split("?")[0]; const m = /\?v=([0-9a-f]{8})$/.exec(ref);

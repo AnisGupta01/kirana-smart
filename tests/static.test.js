@@ -195,7 +195,7 @@ console.log("Trust pages, honesty, contact details");
   ["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((id) => ok(JSON.parse(read("store/shops/" + id + ".json")).demo === true && /\(Demo\)/.test(JSON.parse(read("store/shops/" + id + ".json")).storeName), id + " demo shop is flagged demo and named '(Demo)'"));
   ok(/local demo/i.test(read("store/admin.html")) && /exportShopBtn/.test(read("store/admin.html")), "setup tool is labelled local demo and has a working export button");
   ok(/Needs a backend/.test(read("docs/ARCHITECTURE.md")) || /needs a backend/i.test(read("docs/ARCHITECTURE.md")), "ARCHITECTURE.md documents what needs a backend");
-  ok(/var CACHE = "ks-shell-v6-[0-9a-f]{8}"/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v6-<hash>)");
+  ok(/var CACHE = "ks-shell-v9-[0-9a-f]{8}"/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v9-<hash>)");
   const htmlFiles = pages;
   /* 404.html is the one exception: the host serves it for any missing address, at any depth */
   const rootAbs = htmlFiles.filter((f) => f !== "404.html" && /\s(href|src)="\/(?!\/)/.test(read(f)));
@@ -312,7 +312,10 @@ ok(!/"DENY"/.test(read("vercel.json")), "vercel.json allows same-origin framing 
   ok(big.length === 0, "thumbnails are small (<= 80 KB)" + (big.length ? " -> " + big.join(",") : ""));
   const css = read("assets/css/landing.css");
   const faces = css.match(/@font-face\s*{[^}]*}/g) || [];
-  ok(faces.length >= 3 && faces.every((f) => /font-display:\s*swap/.test(f) && /unicode-range/.test(f)), "landing fonts: every @font-face uses font-display: swap and a unicode-range subset");
+  ok(faces.length >= 3 && faces.every((f) => /font-display:\s*swap/.test(f) && /unicode-range/.test(f)), "landing fonts (tokens.css + landing.css): every @font-face uses font-display: swap and a unicode-range subset");
+  { const tok = read("assets/css/tokens.css").trim(); ok(["assets/css/landing.css", "assets/css/style.css"].every((f) => read(f).indexOf(tok) >= 0) && !/assets\/css\/tokens\.css/.test(read("index.html")), "v6: landing.css and style.css carry the current tokens.css block, no extra CSS request (run: node tools/version-assets.js)"); }
+  ok(!/@font-face/.test(read("assets/css/landing.css").replace(/\/\* @tokens:start[\s\S]*?@tokens:end \*\//, "")) && /--ky-em:/.test(read("assets/css/tokens.css")) && /plusjakarta-latin\.woff2/.test(read("assets/css/tokens.css")), "v6: design tokens and fonts are defined in tokens.css only (Plus Jakarta Sans Latin subset)");
+  ok(fs.statSync(path.join(root, "assets/fonts/plusjakarta-latin.woff2")).size < 30 * 1024 && /Plus Jakarta Sans/.test(read("assets/fonts/LICENSE.md")), "v6: Plus Jakarta Sans subset is small (< 30 KB) and listed in fonts/LICENSE.md");
   ok(fs.statSync(path.join(root, "assets/fonts/baloo2-bold-latin.woff2")).size < 30 * 1024 && fs.statSync(path.join(root, "assets/fonts/inter-latin.woff2")).size < 35 * 1024, "subset fonts are small (Baloo Latin < 30 KB, Inter Latin < 35 KB)");
   ok(!/tiro-deva\.woff2|inter\.woff2/.test(css), "landing no longer downloads the 99 KB Tiro or the full Inter font");
   ok(/SIL OPEN FONT LICENSE Version 1\.1/.test(read("assets/fonts/LICENSE.md")) && /Baloo 2/.test(read("assets/fonts/LICENSE.md")), "fonts/LICENSE.md carries the full OFL text and lists Baloo 2");

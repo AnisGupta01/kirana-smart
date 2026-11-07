@@ -1036,7 +1036,7 @@
     });
     global.KS_CONFIG = {
       brandName: cleanText(shop.brandName, 40) || "KiranaYap",
-      brandColor: hexOr(colors.brand, "#14532d"),
+      brandColor: hexOr(colors.brand, "#0e7a55"),
       accentColor: hexOr(colors.accent, ""),
       shopColors: id !== KS.DEFAULT_SHOP,
       currency: "₹",

@@ -319,6 +319,8 @@
     "l.final.kicker": "फ़्री डेमो, आने की ज़रूरत नहीं",
     "l.nav.how": "कैसे काम करता है",
     "l.nav.contact": "संपर्क",
+    "l.nav.demo": "फ़्री डेमो",
+    "l.nav.menu": "मेन्यू",
     "l.cta.live": "लाइव डेमो",
     "l.cta.start": "शुरू करें",
     "l.cta.wa": "WhatsApp करें",

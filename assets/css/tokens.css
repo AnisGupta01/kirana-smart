@@ -1,0 +1,79 @@
+/* ============================================================
+   KIRANAYAP - DESIGN TOKENS (v6 "Bahi-khata")
+   One shared layer for the landing page, the inner pages and the
+   shop storefront: fonts, colour, type, 8px spacing, radii,
+   shadows, motion. This file is the source; tools/version-assets.js
+   copies it to the top of landing.css and style.css (between the
+   @tokens markers), so no page pays for an extra CSS request.
+   Emerald + lime on off-white, navy text. Contrast notes are
+   against --bg (#FAFAF7) unless stated.
+   Fonts (assets/fonts/LICENSE.md):
+   - Plus Jakarta Sans, Latin subset + ₹, variable 400-800, ~20 KB.
+   - Noto Sans Devanagari 400-700, ~78 KB, the Hindi fallback for
+     phones without a Devanagari font. Downloaded only when Devanagari
+     text is on screen (unicode-range) and the phone has none.
+   - "हिंदी" on the language button: a 1.4 KB font with just those
+     glyphs, so English visitors never download Devanagari.
+   ============================================================ */
+@font-face { font-family: "KY Sans"; src: url("../fonts/plusjakarta-latin.woff2?v=eaccdd0a") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2010-2015, U+2018-201F, U+2022, U+2026, U+2032-2033, U+20B9, U+2190-2193, U+2212, U+00D7; }
+@font-face { font-family: "KY Deva"; src: url("../fonts/notosans-deva.woff2?v=9ca9576a") format("woff2"); font-weight: 400 700; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+25CC, U+A8E0-A8FF; }
+@font-face { font-family: "KY Label"; src: url("../fonts/baloo2-bold-label.woff2?v=ddb0f290") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0900-097F; }
+
+:root {
+  /* ---- colour ---- */
+  --ky-bg: #FAFAF7;          /* page */
+  --ky-bg-2: #F3F4EF;        /* alternate band, tinted tiles */
+  --ky-surface: #FFFFFF;
+  --ky-ink: #0F1B2D;         /* navy text, 16.9:1 */
+  --ky-ink-2: #4A5568;       /* secondary text, 7.2:1 */
+  --ky-mute: #5B6474;        /* fine print, 5.7:1 (5.4:1 on --ky-bg-2) */
+  --ky-line: #E5E7E0;        /* hairlines */
+  --ky-line-2: #D3D7CD;      /* stronger borders, inputs */
+  --ky-em: #0E7A55;          /* emerald primary, 5.1:1; white on it 5.3:1 */
+  --ky-em-d: #075E42;        /* deep emerald, 7.5:1 */
+  --ky-em-dd: #053F2D;
+  --ky-em-50: #EEF7F2;
+  --ky-em-100: #D3EBDF;
+  --ky-lime: #D9F99D;        /* accent fill: badges, highlights, selection */
+  --ky-lime-50: #ECFCCB;
+  --ky-lime-ink: #365314;    /* text on lime, 7.5:1 */
+  --ky-navy: #0F1B2D;        /* dark band, premium card */
+  --ky-navy-2: #16253B;
+  --ky-on-navy: #F4F6F8;
+  --ky-on-navy-2: #B8C2D0;   /* 8.9:1 on --ky-navy */
+  --ky-wa: #25D366;          /* WhatsApp actions only */
+  --ky-wa-d: #1EBE5A;
+  --ky-wa-ink: #04301A;      /* 7.3:1 on --ky-wa */
+  --ky-wa-bubble: #E7FBD9;
+  --ky-danger: #B42318;
+  --ky-danger-50: #FEF3F2;
+
+  /* ---- type ---- */
+  --ky-sans: "KY Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", "Nirmala UI", "Mangal", "KY Deva", sans-serif;
+  --ky-display: var(--ky-sans);
+  --ky-mono: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+
+  /* ---- 8px spacing scale (4px half-step) ---- */
+  --ky-s1: 4px; --ky-s2: 8px; --ky-s3: 12px; --ky-s4: 16px; --ky-s5: 24px; --ky-s6: 32px; --ky-s7: 40px; --ky-s8: 48px; --ky-s9: 64px; --ky-s10: 96px;
+
+  /* ---- radii: 10 / 14 / 20 / 28 ---- */
+  --ky-r1: 10px; --ky-r2: 14px; --ky-r3: 20px; --ky-r4: 28px; --ky-pill: 999px;
+
+  /* ---- 3-level shadow scale (navy-tinted, soft) ---- */
+  --ky-sh1: 0 1px 2px rgba(15, 27, 45, .05), 0 1px 1px rgba(15, 27, 45, .03);
+  --ky-sh2: 0 1px 2px rgba(15, 27, 45, .04), 0 8px 24px -10px rgba(15, 27, 45, .14);
+  --ky-sh3: 0 2px 6px rgba(15, 27, 45, .05), 0 28px 56px -22px rgba(15, 27, 45, .30);
+
+  /* ---- motion: 150-250 ms ---- */
+  --ky-ease: cubic-bezier(.2, .7, .2, 1);
+  --ky-t1: .15s; --ky-t2: .2s; --ky-t3: .25s;
+
+  /* ---- focus ring ---- */
+  --ky-ring: 0 0 0 2px var(--ky-bg), 0 0 0 4px var(--ky-em);
+
+  /* ---- texture: fine dotted "bahi-khata" grid (use sparingly) ---- */
+  --ky-dots: radial-gradient(rgba(15, 27, 45, .11) 1px, transparent 1.3px) 0 0 / 16px 16px;
+}
+::selection { background: var(--ky-lime); color: var(--ky-ink); }
+/* headings: tighter space before . , : ; ! (opt-in feature of the KY Sans subset) */
+h1, h2, h3, .block-title { font-feature-settings: "ss07"; }

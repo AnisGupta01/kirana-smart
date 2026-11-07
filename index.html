@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#fff8ec">
+  <meta name="theme-color" content="#FAFAF7">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>KiranaYap: Kirana dukaan ki website, orders WhatsApp par</title>
   <meta name="google-site-verification" content="goc9woc-g5TXb2PB8_i2RrJmrqTb79LeAENkEYLwB1I" />
@@ -28,12 +28,12 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
   <link rel="apple-touch-icon" href="assets/images/icon-180.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="preload" href="assets/fonts/baloo2-bold-latin.woff2?v=3ae2b744" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/landing.css?v=28c52f95">
+  <link rel="preload" href="assets/fonts/plusjakarta-latin.woff2?v=eaccdd0a" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/landing.css?v=745d44ce">
   <script src="assets/js/site-config.js?v=3d3ddc98" defer></script>
-  <script src="assets/js/site-i18n.js?v=18f178ae" defer></script>
+  <script src="assets/js/site-i18n.js?v=37347413" defer></script>
   <script src="assets/js/site.js?v=5907096a" defer></script>
-  <script src="assets/js/landing.js?v=4d2c02e8" defer></script>
+  <script src="assets/js/landing.js?v=1245c5da" defer></script>
   <script src="assets/js/pwa.js?v=5222bb28" defer></script>
   <script type="application/ld+json">
   {
@@ -101,7 +101,23 @@
         <a href="#faq" data-i18n="l.nav.faq">FAQ</a>
         <a href="contact" data-i18n="l.nav.contact">Contact</a>
       </nav>
-      <button id="langBtn" class="lx-lang" type="button">हिंदी</button>
+      <div class="lx-head-end">
+        <button id="langBtn" class="lx-lang" type="button">हिंदी</button>
+        <a class="lx-btn lx-btn-wa lx-btn-sm lx-head-cta btn-whatsapp" href="contact" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.nav.demo">Free demo</span></a>
+        <details class="lx-menu">
+          <summary class="lx-menu-btn" aria-label="Menu" data-i18n-aria="l.nav.menu"><span class="lx-burger" aria-hidden="true"></span></summary>
+          <div class="lx-menu-panel">
+            <nav class="lx-menu-nav" aria-label="Menu" data-i18n-aria="l.nav.menu">
+              <a href="#demos" data-i18n="l.nav.demos">Demos</a>
+              <a href="#how" data-i18n="l.nav.how">How it works</a>
+              <a href="#pricing" data-i18n="l.nav.pricing">Pricing</a>
+              <a href="#faq" data-i18n="l.nav.faq">FAQ</a>
+              <a href="contact" data-i18n="l.nav.contact">Contact</a>
+            </nav>
+            <a class="lx-btn lx-btn-wa lx-btn-block btn-whatsapp" href="contact" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.nav.demo">Free demo</span></a>
+          </div>
+        </details>
+      </div>
     </div>
   </header>
 
@@ -128,6 +144,7 @@
           <a class="lx-phone" href="store/kirana/" aria-label="Demo shop: Sharma Kirana Store (sample products and prices)" data-i18n-aria="l.hero.storeLabel">
             <span class="lx-phone-notch" aria-hidden="true"></span>
             <span class="lx-screen lx-screen-store" aria-hidden="true">
+              <span class="lx-status"><span class="lx-status-time">9:41</span><span class="lx-status-ico"><i></i><i></i><i></i></span></span>
               <span class="lx-mini-bar"><span class="lx-mini-logo"><img src="assets/images/logo.svg" alt="" width="24" height="24" decoding="async"></span><span class="lx-mini-shop">Sharma Kirana Store<small data-i18n="l.demoTag">Demo</small></span><span class="lx-mini-cart">2</span></span>
               <span class="lx-mini-search" data-i18n="l.ph.search">Search atta, dal, oil…</span>
               <span class="lx-mini-grid">
@@ -139,16 +156,19 @@
               <span class="lx-mini-order"><span class="lx-mini-total">2 items · ₹400</span><span class="lx-mini-wa" data-i18n="l.ph.order">Order on WhatsApp</span></span>
             </span>
           </a>
+          <div class="lx-toast" aria-hidden="true">
+            <span class="lx-toast-ico"><span class="lx-wa-ico"></span></span>
+            <span class="lx-toast-txt"><b data-i18n="l.hero.bubble">New order on WhatsApp</b><small>Sharma Kirana Store · ₹400</small></span>
+          </div>
           <div class="lx-bubble" aria-hidden="true">
-            <span class="lx-bubble-head"><span class="lx-wa-ico"></span><span data-i18n="l.hero.bubble">New order on WhatsApp</span></span>
-            <span class="lx-bubble-line"><span>Whole Wheat Atta 5 kg × 1</span><b>₹235</b></span>
-            <span class="lx-bubble-line"><span>Toor Dal 1 kg × 1</span><b>₹165</b></span>
+            <span class="lx-bubble-head"><span class="lx-bubble-shop">Sharma Kirana Store</span><span class="lx-demo-tag" data-i18n="l.demoTag">Demo</span></span>
+            <span class="lx-bubble-line"><span>Whole Wheat Atta 5 kg</span><i>× 1</i><b>₹235</b></span>
+            <span class="lx-bubble-line"><span>Toor Dal 1 kg</span><i>× 1</i><b>₹165</b></span>
             <span class="lx-bubble-line lx-bubble-total"><span data-i18n="l.hero.bubbleTotal">Total</span><b>₹400</b></span>
           </div>
           <p class="lx-live"><span class="lx-demo-tag" data-i18n="l.demoTag">Demo</span> <span data-i18n="l.hero.cineTag">Sample shop with sample prices</span> · <a href="store/kirana/" data-i18n="l.hero.cineOpen">Open full screen</a></p>
         </div>
       </div>
-      <div class="lx-toran" aria-hidden="true"></div>
     </section>
 
     <!-- LIVE DEMOS CAROUSEL -->
@@ -297,11 +317,11 @@
           <h2 id="featTitle" class="lx-h2" data-i18n="l.feat.title2">Built for how your shop already works</h2>
         </div>
         <ul class="lx-fgrid">
-          <li class="lx-f"><img src="assets/images/thumbs/hero-kirana.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f1">Orders on WhatsApp</h3><p data-i18n="l.feat.f1d">Customers send a neat order list with items, quantities, totals, name and address straight to your WhatsApp.</p></div></li>
+          <li class="lx-f"><img src="assets/images/thumbs/hero-kirana.webp" srcset="assets/images/thumbs/hero-kirana.webp 320w, assets/images/products/hero-kirana.webp 480w" sizes="(min-width: 1024px) 560px, (min-width: 640px) 50vw, 100vw" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f1">Orders on WhatsApp</h3><p data-i18n="l.feat.f1d">Customers send a neat order list with items, quantities, totals, name and address straight to your WhatsApp.</p></div></li>
           <li class="lx-f"><img src="assets/images/thumbs/k002.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.b1.t">0% commission</h3><p data-i18n="l.b1.d">A ₹199 order means ₹199 for you. No app takes a cut, and the customer stays yours.</p></div></li>
           <li class="lx-f"><img src="assets/images/thumbs/m001.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f3">Hindi + English</h3><p data-i18n="l.feat.f3d">One tap switches the whole website. Your customers read in the language they like.</p></div></li>
           <li class="lx-f"><img src="assets/images/thumbs/p022.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f4">Search, categories &amp; stock</h3><p data-i18n="l.feat.f4d">Customers search and filter your items. Show MRP and your price, and mark items out of stock.</p></div></li>
-          <li class="lx-f"><img src="assets/images/thumbs/b005.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f5">QR code &amp; counter poster</h3><p data-i18n="l.feat.f5d">Download your shop QR as PNG, print an A4 poster or a small counter card. Works offline.</p></div></li>
+          <li class="lx-f lx-f-qr"><span class="lx-f-art" aria-hidden="true"><svg class="lx-qr-art" viewBox="0 0 120 160" width="120" height="160" aria-hidden="true" focusable="false"><rect width="120" height="160" rx="9" fill="#fff"/><path d="M0 9a9 9 0 0 1 9-9h102a9 9 0 0 1 9 9v27H0z" fill="#0E7A55"/><rect y="34" width="120" height="3" fill="#D9F99D"/><rect x="12" y="11" width="13" height="13" rx="3.5" fill="#fff" opacity=".18"/><rect x="31" y="12" width="46" height="5" rx="2.5" fill="#fff"/><rect x="31" y="20" width="30" height="3.5" rx="1.75" fill="#D9F99D" opacity=".85"/><rect x="22.5" y="51" width="75" height="75" rx="7" fill="#D9F99D"/><rect x="22.5" y="47.5" width="75" height="75" rx="7" fill="#fff" stroke="#0E7A55" stroke-width="3"/><g transform="translate(28 53) scale(2.2069)"><path d="M8 0h1v1h-1zM10 0h1v1h-1zM12 0h1v1h-1zM14 0h1v1h-1zM16 0h1v1h-1zM19 0h2v1h-2zM8 1h1v1h-1zM12 1h3v1h-3zM16 1h1v1h-1zM9 2h1v1h-1zM12 2h2v1h-2zM16 2h1v1h-1zM18 2h3v1h-3zM8 3h4v1h-4zM13 3h2v1h-2zM17 3h2v1h-2zM9 4h1v1h-1zM11 4h1v1h-1zM14 4h3v1h-3zM19 4h1v1h-1zM9 5h3v1h-3zM13 5h1v1h-1zM17 5h4v1h-4zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM8 7h1v1h-1zM15 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM0 8h1v1h-1zM2 8h2v1h-2zM5 8h3v1h-3zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h6v1h-6zM22 8h1v1h-1zM25 8h1v1h-1zM27 8h2v1h-2zM0 9h2v1h-2zM4 9h2v1h-2zM9 9h1v1h-1zM12 9h2v1h-2zM16 9h1v1h-1zM18 9h7v1h-7zM28 9h1v1h-1zM2 10h5v1h-5zM8 10h1v1h-1zM11 10h1v1h-1zM13 10h1v1h-1zM16 10h3v1h-3zM21 10h2v1h-2zM26 10h2v1h-2zM4 11h2v1h-2zM9 11h1v1h-1zM11 11h1v1h-1zM13 11h1v1h-1zM15 11h1v1h-1zM19 11h1v1h-1zM28 11h1v1h-1zM1 12h1v1h-1zM4 12h3v1h-3zM8 12h4v1h-4zM13 12h2v1h-2zM17 12h1v1h-1zM25 12h2v1h-2zM0 13h1v1h-1zM2 13h4v1h-4zM7 13h2v1h-2zM11 13h2v1h-2zM14 13h2v1h-2zM17 13h1v1h-1zM19 13h1v1h-1zM22 13h1v1h-1zM26 13h3v1h-3zM1 14h3v1h-3zM6 14h1v1h-1zM10 14h4v1h-4zM18 14h2v1h-2zM22 14h1v1h-1zM24 14h1v1h-1zM26 14h3v1h-3zM3 15h2v1h-2zM8 15h3v1h-3zM14 15h3v1h-3zM24 15h1v1h-1zM27 15h1v1h-1zM6 16h1v1h-1zM10 16h2v1h-2zM13 16h2v1h-2zM18 16h1v1h-1zM21 16h1v1h-1zM24 16h2v1h-2zM27 16h1v1h-1zM1 17h2v1h-2zM5 17h1v1h-1zM7 17h1v1h-1zM11 17h2v1h-2zM15 17h1v1h-1zM18 17h1v1h-1zM20 17h2v1h-2zM23 17h1v1h-1zM25 17h3v1h-3zM0 18h1v1h-1zM4 18h3v1h-3zM13 18h3v1h-3zM17 18h1v1h-1zM21 18h4v1h-4zM26 18h1v1h-1zM3 19h2v1h-2zM8 19h1v1h-1zM10 19h1v1h-1zM12 19h1v1h-1zM15 19h1v1h-1zM17 19h1v1h-1zM19 19h1v1h-1zM21 19h1v1h-1zM23 19h2v1h-2zM26 19h1v1h-1zM1 20h4v1h-4zM6 20h1v1h-1zM10 20h2v1h-2zM13 20h1v1h-1zM17 20h1v1h-1zM20 20h7v1h-7zM8 21h1v1h-1zM11 21h3v1h-3zM16 21h3v1h-3zM20 21h1v1h-1zM24 21h5v1h-5zM8 22h2v1h-2zM12 22h2v1h-2zM16 22h1v1h-1zM18 22h3v1h-3zM22 22h1v1h-1zM24 22h2v1h-2zM27 22h1v1h-1zM8 23h1v1h-1zM11 23h1v1h-1zM15 23h1v1h-1zM18 23h3v1h-3zM24 23h2v1h-2zM27 23h2v1h-2zM9 24h4v1h-4zM14 24h1v1h-1zM17 24h1v1h-1zM20 24h5v1h-5zM26 24h3v1h-3zM8 25h1v1h-1zM11 25h1v1h-1zM14 25h5v1h-5zM20 25h2v1h-2zM23 25h3v1h-3zM28 25h1v1h-1zM8 26h1v1h-1zM10 26h2v1h-2zM13 26h1v1h-1zM16 26h2v1h-2zM19 26h1v1h-1zM23 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM10 27h1v1h-1zM14 27h3v1h-3zM19 27h3v1h-3zM23 27h1v1h-1zM25 27h1v1h-1zM27 27h1v1h-1zM8 28h1v1h-1zM12 28h1v1h-1zM16 28h1v1h-1zM18 28h4v1h-4zM23 28h2v1h-2zM27 28h1v1h-1z" fill="#0F1B2D"/><rect x="0.5" y="0.5" width="6" height="6" rx="1.6" fill="none" stroke="#0F1B2D" stroke-width="1"/><rect x="2" y="2" width="3" height="3" rx=".8" fill="#0F1B2D"/><rect x="22.5" y="0.5" width="6" height="6" rx="1.6" fill="none" stroke="#0F1B2D" stroke-width="1"/><rect x="24" y="2" width="3" height="3" rx=".8" fill="#0F1B2D"/><rect x="0.5" y="22.5" width="6" height="6" rx="1.6" fill="none" stroke="#0F1B2D" stroke-width="1"/><rect x="2" y="24" width="3" height="3" rx=".8" fill="#0F1B2D"/></g><rect x="30" y="134" width="60" height="4" rx="2" fill="#D3D7CD"/><rect x="40" y="142" width="40" height="4" rx="2" fill="#E5E7E0"/></svg></span><div><h3 data-i18n="l.feat.f5">QR code &amp; counter poster</h3><p data-i18n="l.feat.f5d">Download your shop QR as PNG, print an A4 poster or a small counter card. Works offline.</p></div></li>
           <li class="lx-f"><img src="assets/images/thumbs/k011.webp" alt="" width="320" height="320" loading="lazy" decoding="async"><div><h3 data-i18n="l.feat.f6">Fast on any phone</h3><p data-i18n="l.feat.f6d">Light pages with compressed photos that open quickly on budget Android phones and slow internet.</p></div></li>
         </ul>
       </div>
@@ -320,8 +340,10 @@
               <h3 data-i18n="l.price.starter">Starter</h3>
               <p class="lx-plan-for" data-i18n="l.price.sFor">For a kirana or small shop getting online</p>
             </div>
-            <p class="lx-amt"><strong>₹999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
-            <p class="lx-amt2"><strong>+ ₹149</strong> <span data-i18n="l.price.month">per month</span> <em class="lx-free" data-i18n="l.price.free">First month free</em></p>
+            <div class="lx-bill">
+              <p class="lx-amt"><strong>₹999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
+              <p class="lx-amt2"><strong>+ ₹149</strong> <span data-i18n="l.price.month">per month</span> <em class="lx-free" data-i18n="l.price.free">First month free</em></p>
+            </div>
             <h4 class="lx-plan-sub" data-i18n="l.price.incl">Included</h4>
             <ul class="lx-ticks">
               <li data-i18n="l.price.i1">Website in your shop's name and colours</li>
@@ -344,8 +366,10 @@
               <h3 data-i18n="l.price.premium">Premium</h3>
               <p class="lx-plan-for" data-i18n="l.price.pFor">For sweet shops, bakeries and kitchens that want big photos of their items</p>
             </div>
-            <p class="lx-amt"><strong>₹2,999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
-            <p class="lx-amt2"><strong>+ ₹199</strong> <span data-i18n="l.price.month">per month</span></p>
+            <div class="lx-bill">
+              <p class="lx-amt"><strong>₹2,999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
+              <p class="lx-amt2"><strong>+ ₹199</strong> <span data-i18n="l.price.month">per month</span></p>
+            </div>
             <h4 class="lx-plan-sub" data-i18n="l.price.incl">Included</h4>
             <ul class="lx-ticks">
               <li data-i18n="l.price.pm1">Everything in Starter</li>
@@ -388,10 +412,10 @@
           <h2 id="trustTitle" class="lx-h2" data-i18n="l.trust.title">No risk in trying it</h2>
         </div>
         <ul class="lx-tgrid">
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico1" aria-hidden="true"></span><h3 data-i18n="l.trust.t1">Pay only after you like the demo</h3><p data-i18n="l.trust.d1">The demo in your shop's name is free. The setup fee is paid by UPI only after you approve it.</p></li>
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico2" aria-hidden="true"></span><h3 data-i18n="l.trust.t2">Live on time, or setup fee back</h3><p data-i18n="l.trust.d2">If your website is not live within 2 working days of receiving your details, the full setup fee is refunded.</p></li>
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico3" aria-hidden="true"></span><h3 data-i18n="l.trust.t3">Money comes straight to you</h3><p data-i18n="l.trust.d3">Customers pay you in cash or on your own UPI. No payment passes through us, and there is no commission.</p></li>
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico4" aria-hidden="true"></span><h3 data-i18n="l.trust.t4">No lock-in</h3><p data-i18n="l.trust.d4">Stop anytime on WhatsApp. Your website goes offline at the end of the month you paid for.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico1" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12.2 2.3 2.3 4.3-4.6"/></svg></span><h3 data-i18n="l.trust.t1">Pay only after you like the demo</h3><p data-i18n="l.trust.d1">The demo in your shop's name is free. The setup fee is paid by UPI only after you approve it.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico2" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9.5 2.5h5"/></svg></span><h3 data-i18n="l.trust.t2">Live on time, or setup fee back</h3><p data-i18n="l.trust.d2">If your website is not live within 2 working days of receiving your details, the full setup fee is refunded.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico3" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5v10A2.5 2.5 0 0 0 6.5 20H20V8H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="14" r="1.3"/></svg></span><h3 data-i18n="l.trust.t3">Money comes straight to you</h3><p data-i18n="l.trust.d3">Customers pay you in cash or on your own UPI. No payment passes through us, and there is no commission.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico4" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.8"/><path d="M12 14.5v2"/></svg></span><h3 data-i18n="l.trust.t4">No lock-in</h3><p data-i18n="l.trust.d4">Stop anytime on WhatsApp. Your website goes offline at the end of the month you paid for.</p></li>
         </ul>
         <p class="lx-trust-note"><span data-i18n="l.trust.note">No reviews or customer numbers are shown here yet, because we only show real ones. Talk to us on WhatsApp before you pay anything.</span> <a class="lx-link" href="about" data-i18n="l.trust.about">Who runs KiranaYap</a> · <a class="lx-link" href="refund" data-i18n="l.foot.refund">Refund policy</a></p>
       </div>

@@ -9,7 +9,7 @@
    Bump CACHE when you change files so phones pick up the update.
    ============================================================ */
 "use strict";
-var CACHE = "ks-shell-v6-8fa764a3"; /* v6: "dukaan" redesign, versioned CSS/JS (?v=), small pre-cache. The -<hash> suffix is added by tools/version-assets.js */
+var CACHE = "ks-shell-v9-e9264c37"; /* v9: design pass 3 (proof strip, compact phone mockup, framed demo photos, QR poster art, ledger double rule, micro-interactions); v8: art-direction pass (ss07 headings, emerald WhatsApp buttons, new app icons); v7: "bahi-khata" redesign (tokens.css, Plus Jakarta Sans); v6: "dukaan" redesign, versioned CSS/JS (?v=), small pre-cache. The -<hash> suffix is added by tools/version-assets.js */
 /* Only the page shell: pages, styles, scripts, fonts, icons and shop files
    (about 0.6 MB). Product photos are cached the first time they are seen,
    so a first visit on prepaid data does not download every demo photo. */
@@ -22,12 +22,12 @@ var SHELL = [
   "./store/kirana/", "./store/mithai/", "./store/bakery/", "./store/cloud-kitchen/",
   "./store/shops/shops.json", "./store/shops/kirana.json", "./store/shops/mithai.json", "./store/shops/bakery.json", "./store/shops/cloud-kitchen.json",
   "./manifest.webmanifest", "./404.html",
-  "./assets/css/style.css?v=0006ee3d", "./assets/css/site.css?v=072b57a9", "./assets/css/tools.css?v=295e1f63", "./assets/css/print-a6.css?v=ea575f9c", "./assets/css/landing.css?v=28c52f95",
-  "./assets/js/site-config.js?v=3d3ddc98", "./assets/js/site-i18n.js?v=18f178ae", "./assets/js/site-i18n-hi.js?v=d1e397c4", "./assets/js/site.js?v=5907096a", "./assets/js/pwa.js?v=5222bb28", "./assets/js/landing.js?v=4d2c02e8",
-  "./assets/js/shop-loader.js?v=fe9a7dfc", "./assets/js/i18n.js?v=7b9810f6", "./assets/js/common.js?v=77d23e0d", "./assets/js/cart.js?v=2f012e34",
+  "./assets/css/style.css?v=e6d65bb2", "./assets/css/site.css?v=ee9ead1f", "./assets/css/tools.css?v=295e1f63", "./assets/css/print-a6.css?v=ea575f9c", "./assets/css/landing.css?v=745d44ce",
+  "./assets/js/site-config.js?v=3d3ddc98", "./assets/js/site-i18n.js?v=37347413", "./assets/js/site-i18n-hi.js?v=c04ef667", "./assets/js/site.js?v=5907096a", "./assets/js/pwa.js?v=5222bb28", "./assets/js/landing.js?v=1245c5da",
+  "./assets/js/shop-loader.js?v=fe9a7dfc", "./assets/js/i18n.js?v=7b9810f6", "./assets/js/common.js?v=82023d38", "./assets/js/cart.js?v=2f012e34",
   "./assets/js/app.js?v=bc468df6", "./assets/js/admin.js?v=747c0ae6", "./assets/js/udhaar-core.js?v=ceb3c580", "./assets/js/udhaar.js?v=ba5a4f5e",
   "./assets/js/qr-poster.js?v=a8bcbf2d", "./assets/vendor/qrcode-generator/qrcode.js?v=79ec86f8",
-  "./assets/fonts/baloo2-bold-latin.woff2?v=3ae2b744", "./assets/fonts/baloo2-bold-label.woff2?v=ddb0f290", "./assets/fonts/inter-latin.woff2?v=7caf5e47",
+  "./assets/fonts/plusjakarta-latin.woff2?v=eaccdd0a", "./assets/fonts/baloo2-bold-label.woff2?v=ddb0f290",
   "./assets/images/logo.svg", "./assets/images/placeholder.svg", "./assets/images/check.svg", "./assets/images/tick.svg",
   "./assets/images/cart.svg", "./assets/images/chat.svg", "./assets/images/search.svg", "./assets/images/chevron.svg",
   "./assets/images/icon-192.png",
