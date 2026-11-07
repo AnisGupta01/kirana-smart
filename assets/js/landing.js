@@ -322,7 +322,39 @@
     }, { threshold: 0 }).observe(hero);
   }
 
+  /* ---------------- Header: hairline once scrolled, active section, mobile menu ---------------- */
+  function initHeader() {
+    var header = doc.querySelector(".lx-header");
+    if (!header) return;
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      global.requestAnimationFrame(function () { ticking = false; header.classList.toggle("is-stuck", (global.scrollY || global.pageYOffset) > 8); });
+    }
+    global.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    var menu = header.querySelector(".lx-menu");
+    if (menu) {
+      menu.addEventListener("click", function (e) { if (e.target && e.target.closest && e.target.closest(".lx-menu-panel a")) menu.open = false; });
+      doc.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.open) { menu.open = false; var s = menu.querySelector("summary"); if (s) s.focus(); } });
+      doc.addEventListener("click", function (e) { if (menu.open && !menu.contains(e.target)) menu.open = false; });
+    }
+    if (!("IntersectionObserver" in global)) return;
+    var links = Array.prototype.slice.call(doc.querySelectorAll('.lx-nav a[href^="#"], .lx-menu-nav a[href^="#"]'));
+    var ids = ["demos", "how", "pricing", "faq"];
+    var seen = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { seen[en.target.id] = en.isIntersecting; });
+      var cur = "";
+      for (var i = 0; i < ids.length; i++) if (seen[ids[i]]) { cur = ids[i]; break; }
+      links.forEach(function (a) { if (a.getAttribute("href") === "#" + cur) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    ids.forEach(function (id) { var el = doc.getElementById(id); if (el) io.observe(el); });
+  }
+
   function init() {
+    initHeader();
     initCarousel();
     initShop();
     initFaq();

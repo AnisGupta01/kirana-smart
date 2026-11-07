@@ -14,7 +14,7 @@
    tools/version-assets.js so a changed Hindi file is never served
    from an old cache).
    ============================================================ */
-window.KS_SITE_I18N_HI_V = "d1e397c4";
+window.KS_SITE_I18N_HI_V = "c04ef667";
 window.KS_SITE_I18N = {
   en: {
     "a11y.skip": "Skip to main content",
@@ -332,6 +332,8 @@ window.KS_SITE_I18N = {
     "l.final.kicker": "Free demo, no visit needed",
     "l.nav.how": "How it works",
     "l.nav.contact": "Contact",
+    "l.nav.demo": "Free demo",
+    "l.nav.menu": "Menu",
     "l.cta.live": "Live Demo",
     "l.cta.start": "Get Started",
     "l.cta.wa": "WhatsApp karein",

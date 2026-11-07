@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#fff8ec">
+  <meta name="theme-color" content="#FAFAF7">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>KiranaYap: Kirana dukaan ki website, orders WhatsApp par</title>
   <meta name="google-site-verification" content="goc9woc-g5TXb2PB8_i2RrJmrqTb79LeAENkEYLwB1I" />
@@ -28,12 +28,13 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
   <link rel="apple-touch-icon" href="assets/images/icon-180.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="preload" href="assets/fonts/baloo2-bold-latin.woff2?v=3ae2b744" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/landing.css?v=28c52f95">
+  <link rel="preload" href="assets/fonts/plusjakarta-latin.woff2?v=082b427a" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css?v=e1d0e7e0">
+  <link rel="stylesheet" href="assets/css/landing.css?v=ae2f87ed">
   <script src="assets/js/site-config.js?v=3d3ddc98" defer></script>
-  <script src="assets/js/site-i18n.js?v=18f178ae" defer></script>
+  <script src="assets/js/site-i18n.js?v=37347413" defer></script>
   <script src="assets/js/site.js?v=5907096a" defer></script>
-  <script src="assets/js/landing.js?v=4d2c02e8" defer></script>
+  <script src="assets/js/landing.js?v=6fb97da6" defer></script>
   <script src="assets/js/pwa.js?v=5222bb28" defer></script>
   <script type="application/ld+json">
   {
@@ -101,7 +102,23 @@
         <a href="#faq" data-i18n="l.nav.faq">FAQ</a>
         <a href="contact" data-i18n="l.nav.contact">Contact</a>
       </nav>
-      <button id="langBtn" class="lx-lang" type="button">हिंदी</button>
+      <div class="lx-head-end">
+        <button id="langBtn" class="lx-lang" type="button">हिंदी</button>
+        <a class="lx-btn lx-btn-wa lx-btn-sm lx-head-cta btn-whatsapp" href="contact" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.nav.demo">Free demo</span></a>
+        <details class="lx-menu">
+          <summary class="lx-menu-btn" aria-label="Menu" data-i18n-aria="l.nav.menu"><span class="lx-burger" aria-hidden="true"></span></summary>
+          <div class="lx-menu-panel">
+            <nav class="lx-menu-nav" aria-label="Menu" data-i18n-aria="l.nav.menu">
+              <a href="#demos" data-i18n="l.nav.demos">Demos</a>
+              <a href="#how" data-i18n="l.nav.how">How it works</a>
+              <a href="#pricing" data-i18n="l.nav.pricing">Pricing</a>
+              <a href="#faq" data-i18n="l.nav.faq">FAQ</a>
+              <a href="contact" data-i18n="l.nav.contact">Contact</a>
+            </nav>
+            <a class="lx-btn lx-btn-wa lx-btn-block btn-whatsapp" href="contact" data-wa="demo"><span class="lx-wa-ico" aria-hidden="true"></span><span data-i18n="l.nav.demo">Free demo</span></a>
+          </div>
+        </details>
+      </div>
     </div>
   </header>
 
@@ -128,6 +145,7 @@
           <a class="lx-phone" href="store/kirana/" aria-label="Demo shop: Sharma Kirana Store (sample products and prices)" data-i18n-aria="l.hero.storeLabel">
             <span class="lx-phone-notch" aria-hidden="true"></span>
             <span class="lx-screen lx-screen-store" aria-hidden="true">
+              <span class="lx-status"><span class="lx-status-time">9:41</span><span class="lx-status-ico"><i></i><i></i><i></i></span></span>
               <span class="lx-mini-bar"><span class="lx-mini-logo"><img src="assets/images/logo.svg" alt="" width="24" height="24" decoding="async"></span><span class="lx-mini-shop">Sharma Kirana Store<small data-i18n="l.demoTag">Demo</small></span><span class="lx-mini-cart">2</span></span>
               <span class="lx-mini-search" data-i18n="l.ph.search">Search atta, dal, oil…</span>
               <span class="lx-mini-grid">
@@ -139,10 +157,14 @@
               <span class="lx-mini-order"><span class="lx-mini-total">2 items · ₹400</span><span class="lx-mini-wa" data-i18n="l.ph.order">Order on WhatsApp</span></span>
             </span>
           </a>
+          <div class="lx-toast" aria-hidden="true">
+            <span class="lx-toast-ico"><span class="lx-wa-ico"></span></span>
+            <span class="lx-toast-txt"><b data-i18n="l.hero.bubble">New order on WhatsApp</b><small>Sharma Kirana Store · ₹400</small></span>
+          </div>
           <div class="lx-bubble" aria-hidden="true">
-            <span class="lx-bubble-head"><span class="lx-wa-ico"></span><span data-i18n="l.hero.bubble">New order on WhatsApp</span></span>
-            <span class="lx-bubble-line"><span>Whole Wheat Atta 5 kg × 1</span><b>₹235</b></span>
-            <span class="lx-bubble-line"><span>Toor Dal 1 kg × 1</span><b>₹165</b></span>
+            <span class="lx-bubble-head"><span class="lx-bubble-shop">Sharma Kirana Store</span><span class="lx-demo-tag" data-i18n="l.demoTag">Demo</span></span>
+            <span class="lx-bubble-line"><span>Whole Wheat Atta 5 kg</span><i>× 1</i><b>₹235</b></span>
+            <span class="lx-bubble-line"><span>Toor Dal 1 kg</span><i>× 1</i><b>₹165</b></span>
             <span class="lx-bubble-line lx-bubble-total"><span data-i18n="l.hero.bubbleTotal">Total</span><b>₹400</b></span>
           </div>
           <p class="lx-live"><span class="lx-demo-tag" data-i18n="l.demoTag">Demo</span> <span data-i18n="l.hero.cineTag">Sample shop with sample prices</span> · <a href="store/kirana/" data-i18n="l.hero.cineOpen">Open full screen</a></p>
@@ -320,8 +342,10 @@
               <h3 data-i18n="l.price.starter">Starter</h3>
               <p class="lx-plan-for" data-i18n="l.price.sFor">For a kirana or small shop getting online</p>
             </div>
-            <p class="lx-amt"><strong>₹999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
-            <p class="lx-amt2"><strong>+ ₹149</strong> <span data-i18n="l.price.month">per month</span> <em class="lx-free" data-i18n="l.price.free">First month free</em></p>
+            <div class="lx-bill">
+              <p class="lx-amt"><strong>₹999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
+              <p class="lx-amt2"><strong>+ ₹149</strong> <span data-i18n="l.price.month">per month</span> <em class="lx-free" data-i18n="l.price.free">First month free</em></p>
+            </div>
             <h4 class="lx-plan-sub" data-i18n="l.price.incl">Included</h4>
             <ul class="lx-ticks">
               <li data-i18n="l.price.i1">Website in your shop's name and colours</li>
@@ -344,8 +368,10 @@
               <h3 data-i18n="l.price.premium">Premium</h3>
               <p class="lx-plan-for" data-i18n="l.price.pFor">For sweet shops, bakeries and kitchens that want big photos of their items</p>
             </div>
-            <p class="lx-amt"><strong>₹2,999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
-            <p class="lx-amt2"><strong>+ ₹199</strong> <span data-i18n="l.price.month">per month</span></p>
+            <div class="lx-bill">
+              <p class="lx-amt"><strong>₹2,999</strong> <span data-i18n="l.price.setup">one-time setup</span></p>
+              <p class="lx-amt2"><strong>+ ₹199</strong> <span data-i18n="l.price.month">per month</span></p>
+            </div>
             <h4 class="lx-plan-sub" data-i18n="l.price.incl">Included</h4>
             <ul class="lx-ticks">
               <li data-i18n="l.price.pm1">Everything in Starter</li>
@@ -388,10 +414,10 @@
           <h2 id="trustTitle" class="lx-h2" data-i18n="l.trust.title">No risk in trying it</h2>
         </div>
         <ul class="lx-tgrid">
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico1" aria-hidden="true"></span><h3 data-i18n="l.trust.t1">Pay only after you like the demo</h3><p data-i18n="l.trust.d1">The demo in your shop's name is free. The setup fee is paid by UPI only after you approve it.</p></li>
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico2" aria-hidden="true"></span><h3 data-i18n="l.trust.t2">Live on time, or setup fee back</h3><p data-i18n="l.trust.d2">If your website is not live within 2 working days of receiving your details, the full setup fee is refunded.</p></li>
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico3" aria-hidden="true"></span><h3 data-i18n="l.trust.t3">Money comes straight to you</h3><p data-i18n="l.trust.d3">Customers pay you in cash or on your own UPI. No payment passes through us, and there is no commission.</p></li>
-          <li class="lx-t"><span class="lx-t-ico lx-t-ico4" aria-hidden="true"></span><h3 data-i18n="l.trust.t4">No lock-in</h3><p data-i18n="l.trust.d4">Stop anytime on WhatsApp. Your website goes offline at the end of the month you paid for.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico1" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12.2 2.3 2.3 4.3-4.6"/></svg></span><h3 data-i18n="l.trust.t1">Pay only after you like the demo</h3><p data-i18n="l.trust.d1">The demo in your shop's name is free. The setup fee is paid by UPI only after you approve it.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico2" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9.5 2.5h5"/></svg></span><h3 data-i18n="l.trust.t2">Live on time, or setup fee back</h3><p data-i18n="l.trust.d2">If your website is not live within 2 working days of receiving your details, the full setup fee is refunded.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico3" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5v10A2.5 2.5 0 0 0 6.5 20H20V8H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="14" r="1.3"/></svg></span><h3 data-i18n="l.trust.t3">Money comes straight to you</h3><p data-i18n="l.trust.d3">Customers pay you in cash or on your own UPI. No payment passes through us, and there is no commission.</p></li>
+          <li class="lx-t"><span class="lx-t-ico lx-t-ico4" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.8"/><path d="M12 14.5v2"/></svg></span><h3 data-i18n="l.trust.t4">No lock-in</h3><p data-i18n="l.trust.d4">Stop anytime on WhatsApp. Your website goes offline at the end of the month you paid for.</p></li>
         </ul>
         <p class="lx-trust-note"><span data-i18n="l.trust.note">No reviews or customer numbers are shown here yet, because we only show real ones. Talk to us on WhatsApp before you pay anything.</span> <a class="lx-link" href="about" data-i18n="l.trust.about">Who runs KiranaYap</a> · <a class="lx-link" href="refund" data-i18n="l.foot.refund">Refund policy</a></p>
       </div>
