@@ -111,6 +111,7 @@ html[lang="hi"] .lx-kicker { letter-spacing: .01em; font-size: .9rem; }
 .lx-menu[open] .lx-burger::after { transform: translateY(-5px) rotate(-45deg); }
 .lx-menu[open] .lx-menu-btn { border-color: var(--ky-ink); }
 .lx-menu-panel { position: absolute; top: calc(100% + 1px); left: 12px; right: 12px; padding: var(--ky-s2); border-radius: var(--ky-r3); background: var(--ky-surface); border: 1px solid var(--ky-line); box-shadow: var(--ky-sh3); animation: ky-drop var(--ky-t3) var(--ky-ease) both; }
+.lx-menu:not([open]) .lx-menu-panel { display: none; }
 .lx-menu-nav { display: flex; flex-direction: column; margin-bottom: var(--ky-s2); }
 .lx-menu-nav a { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: 0 var(--ky-s4); border-radius: var(--ky-r1); text-decoration: none; color: var(--ky-ink); font-weight: 600; transition: background-color var(--ky-t1) var(--ky-ease); }
 .lx-menu-nav a::after { content: "→"; color: var(--ky-mute); font-weight: 500; }
@@ -400,7 +401,7 @@ html[lang="hi"] .lx-kicker { letter-spacing: .01em; font-size: .9rem; }
 .lx-acc details p { padding: 0 56px var(--ky-s5) 0; color: var(--ky-ink-2); font-size: .98rem; line-height: 1.7; }
 @supports selector(::details-content) {
   .lx-acc { interpolate-size: allow-keywords; }
-  .lx-acc details::details-content { block-size: 0; overflow: hidden; transition: block-size var(--ky-t3) var(--ky-ease), content-visibility var(--ky-t3) allow-discrete; }
+  .lx-acc details::details-content { block-size: 0; overflow: hidden; transition: block-size var(--ky-t3) var(--ky-ease); }
   .lx-acc details[open]::details-content { block-size: auto; }
 }
 
