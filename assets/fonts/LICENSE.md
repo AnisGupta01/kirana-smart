@@ -5,15 +5,16 @@ All fonts here are licensed under the SIL Open Font License, Version 1.1. They a
 | File | Font | Copyright |
 |---|---|---|
 | `plusjakarta-latin.woff2` | Plus Jakarta Sans, Latin subset + ₹, variable weights 400–800 (landing, inner pages and shop pages, since v6) | Copyright 2020 The Plus Jakarta Sans Project Authors (https://github.com/tokotype/PlusJakartaSans) |
+| `notosans-deva.woff2` | Noto Sans Devanagari, Devanagari subset, variable weights 400–700 (Hindi text on phones without a Devanagari font; loaded only when Hindi text is shown, since v6) | Copyright 2022 The Noto Project Authors (https://github.com/notofonts/devanagari) |
 | `inter.woff2` | Inter (variable, 100–900; used by the premium demo) | Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter) |
 | `inter-latin.woff2` | Inter, Latin subset, weights 400–700 (landing page before v6; no longer loaded) | Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter) |
 | `baloo2-bold-latin.woff2` | Baloo 2 Bold, Latin subset + ₹ (headings before v6; no longer loaded) | Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2) |
-| `baloo2-bold-deva.woff2` | Baloo 2 Bold, Devanagari subset (Hindi headings, loaded only when Hindi text is shown; the Devanagari fallback for Plus Jakarta Sans) | Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2) |
+| `baloo2-bold-deva.woff2` | Baloo 2 Bold, Devanagari subset (Hindi headings before v6; no longer loaded) | Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2) |
 | `baloo2-bold-label.woff2` | Baloo 2 Bold, only the glyphs of "हिंदी" (language button) | Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2) |
 | `cormorant.woff2`, `cormorant-italic.woff2` | Cormorant Garamond | Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant) |
 | `tiro-deva.woff2`, `tiro-deva-italic.woff2` | Tiro Devanagari Hindi (fallback when a phone has no Hindi font) | Copyright 2020 The Indigo Project Authors (https://github.com/TiroTypeworks/Indigo) |
 
-Subsets: Plus Jakarta Sans was instanced to weights 400–800 and subset from the official Google Fonts source (github.com/google/fonts, ofl/plusjakartasans) with fontTools, keeping kerning, ligatures and tabular figures (tnum) for prices. Inter and Baloo 2 were subset and instanced from the Google Fonts sources with fontTools (`pyftsubset`-equivalent, all OpenType layout features kept so Devanagari conjuncts shape correctly). None of Plus Jakarta Sans, Inter or Baloo 2 declares a Reserved Font Name in its copyright line.
+Subsets: Noto Sans Devanagari was instanced to width 100 and weights 400–700 and subset to the Devanagari block from the official Google Fonts source (ofl/notosansdevanagari), keeping all OpenType layout features so conjuncts shape correctly. Plus Jakarta Sans was instanced to weights 400–800 and subset from the official Google Fonts source (github.com/google/fonts, ofl/plusjakartasans) with fontTools, keeping kerning, ligatures and tabular figures (tnum) for prices. Inter and Baloo 2 were subset and instanced from the Google Fonts sources with fontTools (`pyftsubset`-equivalent, all OpenType layout features kept so Devanagari conjuncts shape correctly). None of Plus Jakarta Sans, Noto Sans Devanagari, Inter or Baloo 2 declares a Reserved Font Name in its copyright line.
 
 ---
 

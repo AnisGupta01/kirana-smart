@@ -342,7 +342,7 @@
 /* city hero: light, like the landing hero */
 .lp-hero { color: var(--ky-ink); background: radial-gradient(rgba(15, 27, 45, .07) 1px, transparent 1.3px) 0 0 / 16px 16px, var(--ky-bg); border-bottom: 1px solid var(--ky-line); }
 .lp-hero::after { display: none; }
-.lp-hero h1 { color: var(--ky-ink); font-weight: 800; letter-spacing: -.034em; word-spacing: .04em; max-width: 22ch; }
+.lp-hero h1 { color: var(--ky-ink); font-weight: 800; letter-spacing: -.028em; word-spacing: .04em; max-width: 22ch; }
 html[lang="hi"] .lp-hero h1 { letter-spacing: 0; word-spacing: 0; line-height: 1.3; }
 .lp-hero-sub { color: var(--ky-ink-2); }
 .lp-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--ky-ink-2); background: var(--ky-surface); border: 1px solid var(--ky-line); box-shadow: var(--ky-sh1); font-weight: 600; }

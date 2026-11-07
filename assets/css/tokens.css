@@ -7,13 +7,14 @@
    against --bg (#FAFAF7) unless stated.
    Fonts (assets/fonts/LICENSE.md):
    - Plus Jakarta Sans, Latin subset + ₹, variable 400-800, ~20 KB.
-   - Baloo 2 Bold Devanagari, only for headings and only when
-     Devanagari text is on screen (unicode-range), i.e. Hindi mode.
+   - Noto Sans Devanagari 400-700, ~78 KB, the Hindi fallback for
+     phones without a Devanagari font. Downloaded only when Devanagari
+     text is on screen (unicode-range) and the phone has none.
    - "हिंदी" on the language button: a 1.4 KB font with just those
      glyphs, so English visitors never download Devanagari.
    ============================================================ */
-@font-face { font-family: "KY Sans"; src: url("../fonts/plusjakarta-latin.woff2?v=082b427a") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2010-2015, U+2018-201F, U+2022, U+2026, U+2032-2033, U+20B9, U+2190-2193, U+2212, U+00D7; }
-@font-face { font-family: "KY Deva"; src: url("../fonts/baloo2-bold-deva.woff2?v=38c7ac7f") format("woff2"); font-weight: 500 800; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+25CC, U+A8E0-A8FF; }
+@font-face { font-family: "KY Sans"; src: url("../fonts/plusjakarta-latin.woff2?v=1880a6fc") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2010-2015, U+2018-201F, U+2022, U+2026, U+2032-2033, U+20B9, U+2190-2193, U+2212, U+00D7; }
+@font-face { font-family: "KY Deva"; src: url("../fonts/notosans-deva.woff2?v=9ca9576a") format("woff2"); font-weight: 400 700; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+25CC, U+A8E0-A8FF; }
 @font-face { font-family: "KY Label"; src: url("../fonts/baloo2-bold-label.woff2?v=ddb0f290") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0900-097F; }
 
 :root {
@@ -46,8 +47,8 @@
   --ky-danger-50: #FEF3F2;
 
   /* ---- type ---- */
-  --ky-sans: "KY Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", "Nirmala UI", "Mangal", sans-serif;
-  --ky-display: "KY Sans", "KY Deva", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+  --ky-sans: "KY Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", "Nirmala UI", "Mangal", "KY Deva", sans-serif;
+  --ky-display: var(--ky-sans);
   --ky-mono: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
 
   /* ---- 8px spacing scale (4px half-step) ---- */

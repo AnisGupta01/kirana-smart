@@ -944,8 +944,8 @@ body.has-cartbar .toasts { bottom: calc(92px + env(safe-area-inset-bottom, 0px))
   --shadow: var(--ky-sh2);
   --shadow-lg: var(--ky-sh3);
   --ease: var(--ky-ease);
-  --font: "KY Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", "Mangal", "Helvetica Neue", Arial, "Tiro Devanagari Hindi", sans-serif;
-  --display: "KY Sans", "KY Deva", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", "Tiro Devanagari Hindi", sans-serif;
+  --font: "KY Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", "Mangal", "KY Deva", "Helvetica Neue", Arial, sans-serif;
+  --display: var(--font);
 }
 body { font-family: var(--font); -moz-osx-font-smoothing: grayscale; }
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
