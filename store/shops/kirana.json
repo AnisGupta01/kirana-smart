@@ -8,7 +8,7 @@
   "storeLocation": "Demo Colony, Sample City (fictional address)",
   "whatsappNumber": "917266042235",
   "hours": {"en":"Every day, 7 AM to 10 PM (sample hours)","hi":"रोज़, सुबह 7 से रात 10 बजे तक (नमूना समय)"},
-  "colors": {"brand":"#14532d","accent":"#f59e0b"},
+  "colors": {"brand":"#0e7a55","accent":"#d9f99d"},
   "logoText": "",
   "heroImage": "assets/images/products/hero-kirana.webp",
   "deliveryFee": 20,

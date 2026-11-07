@@ -319,3 +319,120 @@
 .trust-faq summary { cursor: pointer; padding: 12px 16px; min-height: 48px; display: flex; align-items: center; font-weight: 650; }
 .trust-faq details p { padding: 0 16px 14px; margin: 0; color: #374151; }
 .trust-foot-links a, .lp-footer .footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ============================================================
+   v6 "BAHI-KHATA": inner pages on the shared tokens (tokens.css)
+   Same look as the landing: off-white page, navy type, emerald
+   links and buttons, lime only for small highlights, hairlines,
+   off-white footer. WhatsApp green only on WhatsApp buttons.
+   ============================================================ */
+.lp { background: var(--ky-bg); }
+.lp-wrap { max-width: 1160px; }
+.lp .lp-header { background: rgba(250, 250, 247, .97); border-bottom: 1px solid var(--ky-line); box-shadow: 0 8px 24px -20px rgba(15, 27, 45, .3); }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .lp .lp-header { background: rgba(250, 250, 247, .84); -webkit-backdrop-filter: saturate(1.6) blur(14px); backdrop-filter: saturate(1.6) blur(14px); }
+}
+.lp .lp-header .brand-text strong { color: var(--ky-ink); font-weight: 800; font-size: 1.1rem; letter-spacing: -.03em; }
+.lp .lp-header .store-line { color: var(--ky-mute); }
+.lp .lp-nav a, .trust-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: var(--ky-r1); color: var(--ky-ink-2); font-weight: 550; transition: background-color var(--ky-t1) var(--ky-ease), color var(--ky-t1) var(--ky-ease); }
+.lp .lp-nav a:hover, .trust-nav a:hover { background: rgba(15, 27, 45, .05); color: var(--ky-ink); }
+.lp .lp-header .lang-btn { color: var(--ky-ink); border-color: var(--ky-line-2); border-radius: var(--ky-r1); }
+.lp .lp-header .lang-btn:hover { border-color: var(--ky-em); color: var(--ky-em-d); }
+
+/* city hero: light, like the landing hero */
+.lp-hero { color: var(--ky-ink); background: radial-gradient(rgba(15, 27, 45, .07) 1px, transparent 1.3px) 0 0 / 16px 16px, var(--ky-bg); border-bottom: 1px solid var(--ky-line); }
+.lp-hero::after { display: none; }
+.lp-hero h1 { color: var(--ky-ink); font-weight: 800; letter-spacing: -.034em; word-spacing: .04em; max-width: 22ch; }
+html[lang="hi"] .lp-hero h1 { letter-spacing: 0; word-spacing: 0; line-height: 1.3; }
+.lp-hero-sub { color: var(--ky-ink-2); }
+.lp-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--ky-ink-2); background: var(--ky-surface); border: 1px solid var(--ky-line); box-shadow: var(--ky-sh1); font-weight: 600; }
+.lp-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ky-lime); box-shadow: inset 0 0 0 1.5px var(--ky-em); }
+.lp-hero :focus-visible { outline-color: var(--ky-em); }
+.lp-hero .btn-outline-light, .lp-sec .btn-outline-light { background: var(--ky-surface); color: var(--ky-ink); border-color: var(--ky-line-2); }
+.lp-hero .btn-outline-light:hover { border-color: var(--ky-em); color: var(--ky-em-d); background: var(--ky-surface); }
+.lp-proof li { color: var(--ky-ink); }
+.lp-proof li::before { background-color: var(--ky-em); }
+
+/* sections + type */
+.lp-sec { padding: clamp(56px, 8vw, 96px) 0; }
+.lp-sec-alt { background: var(--ky-surface); border-color: var(--ky-line); }
+.lp-sec-dark { background: var(--ky-navy); }
+.lp-sec-dark .lp-lead { color: var(--ky-on-navy-2); }
+.lp-kicker { color: var(--ky-em-d); font-size: .76rem; letter-spacing: .1em; }
+.lp-kicker-light { color: var(--ky-lime); }
+.lp-h2 { font-weight: 760; letter-spacing: -.026em; word-spacing: .03em; color: var(--ky-ink); text-wrap: balance; }
+html[lang="hi"] .lp-h2 { letter-spacing: 0; word-spacing: 0; line-height: 1.32; }
+.lp-lead { color: var(--ky-ink-2); }
+.lp-fine { color: var(--ky-mute); }
+
+/* cards */
+.feat, .trust-card, .trust-steps li, .price-card { border: 1px solid var(--ky-line); border-radius: var(--ky-r3); background: var(--ky-surface); box-shadow: var(--ky-sh1); }
+.feat-ico { border-radius: var(--ky-r2); background: var(--ky-em-50); color: var(--ky-em-d); border: 1px solid var(--ky-em-100); }
+.feat-hl { border-color: var(--ky-em-100); background: var(--ky-em-50); }
+.feat-hl .feat-ico { background: var(--ky-lime); color: var(--ky-lime-ink); border-color: transparent; }
+.feat p, .step p { color: var(--ky-ink-2); }
+.step { background: var(--ky-surface); border-radius: var(--ky-r3); }
+.step-n { background: var(--ky-lime); color: var(--ky-ink); box-shadow: 0 0 0 4px var(--ky-lime-50); font-variant-numeric: tabular-nums; }
+.niche-card { border-radius: var(--ky-r3); box-shadow: var(--ky-sh1); }
+.niche-card:hover { box-shadow: var(--ky-sh3); }
+.niche-kirana, .niche-mithai, .niche-bakery, .niche-cloud { background: var(--ky-bg-2); }
+.niche-go { color: var(--ky-em-d); }
+.tool-chip { background: var(--ky-surface); border: 1px solid var(--ky-line-2); color: var(--ky-ink); border-radius: var(--ky-r1); font-weight: 650; }
+.tool-chip:hover { background: var(--ky-em-50); border-color: var(--ky-em); color: var(--ky-em-d); }
+.trust-lead { color: var(--ky-ink-2); }
+.trust-big a { color: var(--ky-em-d); }
+
+/* comparison table */
+.cmp-wrap { border-radius: var(--ky-r3); border-color: var(--ky-line); }
+.cmp th, .cmp td { border-bottom-color: var(--ky-line); }
+.cmp thead th { background: var(--ky-bg); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ky-mute); }
+.cmp .cmp-us { background: var(--ky-em); color: #fff; }
+.cmp td.yes { background: var(--ky-em-50); color: var(--ky-ink); font-weight: 650; }
+.cmp td.yes::before { color: var(--ky-em); }
+.cmp td.no { color: var(--ky-mute); }
+
+/* pricing */
+.price-main { border: 2px solid var(--ky-em); box-shadow: 0 0 0 4px rgba(14, 122, 85, .08), var(--ky-sh3); }
+.price-badge { background: var(--ky-lime); color: var(--ky-lime-ink); border-radius: 8px; }
+.price-amt strong { font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.price-amt2 strong { font-variant-numeric: tabular-nums; }
+.price-free { background: var(--ky-em-50); color: var(--ky-em-d); border: 1px solid var(--ky-em-100); }
+.tick-list li::before { background-color: var(--ky-em); }
+.agency-card { border-radius: var(--ky-r3); }
+.agency-card .price-amt strong { color: var(--ky-lime); }
+
+/* FAQ (city pages + faq page) */
+.faq, .trust-faq { gap: 0; border-top: 1px solid var(--ky-line); }
+.faq details, .trust-faq details, .lp-sec-alt .faq details { background: transparent; border: 0; border-bottom: 1px solid var(--ky-line); border-radius: 0; padding: 0; }
+.faq summary, .trust-faq summary { position: relative; display: flex; align-items: center; min-height: 64px; padding: 14px 52px 14px 0; font-weight: 650; color: var(--ky-ink); transition: color var(--ky-t2) var(--ky-ease); }
+.faq summary:hover, .trust-faq summary:hover { color: var(--ky-em-d); }
+.trust-faq summary { list-style: none; }
+.trust-faq summary::-webkit-details-marker { display: none; }
+.faq summary::before, .trust-faq summary::before { content: ""; position: absolute; right: 2px; top: 50%; width: 32px; height: 32px; margin-top: -16px; border-radius: 50%; border: 1px solid var(--ky-line-2); background: var(--ky-surface) linear-gradient(var(--ky-ink), var(--ky-ink)) center / 12px 1.75px no-repeat; transition: background-color var(--ky-t2) var(--ky-ease), border-color var(--ky-t2) var(--ky-ease); }
+.faq summary::after, .trust-faq summary::after { content: ""; position: absolute; right: 17.1px; top: 50%; width: 1.75px; height: 12px; margin-top: -6px; border-radius: 1px; background: var(--ky-ink); font-size: 0; transition: transform var(--ky-t3) var(--ky-ease), opacity var(--ky-t3) var(--ky-ease); }
+.faq details[open] summary::after, .trust-faq details[open] summary::after { content: ""; transform: rotate(90deg); opacity: 0; }
+.faq details[open] summary::before, .trust-faq details[open] summary::before { background-color: var(--ky-lime); border-color: var(--ky-lime); }
+.faq details p, .trust-faq details p { margin: 0; padding: 0 52px 20px 0; color: var(--ky-ink-2); }
+
+/* final CTA */
+.lp-final { background: var(--ky-bg-2); border-top: 1px solid var(--ky-line); }
+.lp-cities { color: var(--ky-mute); }
+.lp-cities a { color: var(--ky-em-d); }
+.city-price { background: var(--ky-surface); border-radius: var(--ky-r3); border-color: var(--ky-line); box-shadow: var(--ky-sh1); }
+.city-price-line { color: var(--ky-ink); font-variant-numeric: tabular-nums; }
+.wa-notice { background: var(--ky-surface); color: var(--ky-ink); border: 1px solid var(--ky-line-2); border-radius: var(--ky-r2); font-weight: 600; }
+.lp-sticky { background: rgba(250, 250, 247, .97); border-top-color: var(--ky-line); box-shadow: 0 -10px 28px -18px rgba(15, 27, 45, .35); }
+
+/* legal + trust pages */
+.legal h1 { font-weight: 800; letter-spacing: -.03em; }
+.legal h2 { font-weight: 700; letter-spacing: -.015em; }
+.legal-hi { background: #f6fde9; border: 1px solid #d9eeb4; border-radius: var(--ky-r2); }
+.sample-note { border-radius: var(--ky-r2); }
+
+/* off-white footer on the KiranaYap pages (shop pages keep the navy one) */
+.lp .site-footer { background: var(--ky-bg); color: var(--ky-ink-2); border-top: 1px solid var(--ky-line); }
+.lp .site-footer a { color: var(--ky-em-d); }
+.lp .site-footer a:hover { color: var(--ky-em-dd); }
+.lp .site-footer .brand-footer, .lp .site-footer .brand-footer:hover, .lp .footer-strong, .lp .footer-bottom strong { color: var(--ky-ink); }
+.lp .footer-title { color: var(--ky-mute); border-bottom-color: var(--ky-line); }
+.lp .footer-bottom { border-top-color: var(--ky-line); color: var(--ky-mute); }
