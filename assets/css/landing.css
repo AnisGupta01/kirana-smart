@@ -788,9 +788,10 @@ html[lang="hi"] .lx-mini-wa { letter-spacing: 0; word-spacing: .14em; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   .lx-rv { opacity: 1; transform: none; }
-  .lx-btn:hover, .lx-phone:hover, .lx-dcard:hover, .lx-card:hover, .lx-step:hover { transform: none; }
-  .lx-f:hover img, .lx-dcard:hover .lx-dcard-img, .lx-card:hover .lx-card-media img { transform: none; }
+  .lx-btn:hover, .lx-phone:hover, .lx-dcard:hover, .lx-card:hover, .lx-step:hover, .lx-f:hover, .lx-tools a:hover { transform: none; }
+  .lx-f:hover img, .lx-card:hover .lx-card-media img { transform: none; }
+  .lx-f:hover .lx-qr-art { transform: rotate(-3deg); }
 }
 @media (hover: none) {
-  .lx-btn:hover, .lx-phone:hover, .lx-dcard:hover, .lx-card:hover { transform: none; }
+  .lx-btn:hover, .lx-phone:hover, .lx-dcard:hover, .lx-card:hover, .lx-f:hover, .lx-tools a:hover { transform: none; }
 }
