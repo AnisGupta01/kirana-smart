@@ -277,6 +277,7 @@ html[lang="hi"] .lx-kicker { letter-spacing: .01em; font-size: .9rem; }
 .lx-shop { background: var(--ky-bg); border-top: 1px solid var(--ky-line); }
 .lx-feat { background: var(--ky-surface); }
 .lx-price { background: var(--ky-bg-2); border-top: 1px solid var(--ky-line); }
+.lx-price .lx-plan { --notch-bg: var(--ky-bg-2); }
 .lx-trust { background: var(--ky-surface); border-top: 1px solid var(--ky-line); }
 .lx-why { background: var(--ky-bg); border-top: 1px solid var(--ky-line); }
 .lx-faq { background: var(--ky-surface); border-top: 1px solid var(--ky-line); }
@@ -646,9 +647,14 @@ html[lang="hi"] .lx-kicker { letter-spacing: .01em; font-size: .9rem; }
 @media (min-width: 860px) {
   .lx-plans { grid-template-columns: 1fr 1fr; gap: var(--ky-s6); }
   @supports (grid-template-rows: subgrid) {
-    .lx-plans { grid-template-rows: repeat(8, auto); row-gap: 0; }
-    .lx-plan { display: grid; grid-row: span 8; grid-template-rows: subgrid; row-gap: var(--ky-s2); align-content: start; }
-    .lx-plan > .lx-btn { align-self: end; }
+    .lx-plans { grid-template-rows: repeat(7, auto); row-gap: 0; }
+    .lx-plan { display: grid; grid-row: span 7; grid-template-rows: subgrid; row-gap: var(--ky-s2); align-content: start; }
+    .lx-plan > .lx-btn { align-self: start; }
+    .lx-plans { margin-bottom: 36px; }
+    .lx-plan.price-premium { overflow: visible; clip-path: inset(-40px 0 -150px 0 round 28px); }
+    .price-premium .lx-plan-link { position: absolute; left: 50%; top: calc(100% + 4px); transform: translateX(-50%); margin: 0; white-space: nowrap; color: var(--ky-em-d); text-decoration-color: rgba(7, 94, 66, .35); }
+    .price-premium .lx-plan-link:hover { color: var(--ky-em-dd); }
+    .price-premium .lx-plan-link:focus-visible { outline-color: var(--ky-em); }
   }
   .lx-plan { --pp: 40px; padding-top: var(--ky-s7); }
   .lx-steps { grid-template-columns: repeat(3, 1fr); gap: var(--ky-s5); }
