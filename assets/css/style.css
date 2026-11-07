@@ -16,7 +16,7 @@
    - "हिंदी" on the language button: a 1.4 KB font with just those
      glyphs, so English visitors never download Devanagari.
    ============================================================ */
-@font-face { font-family: "KY Sans"; src: url("../fonts/plusjakarta-latin.woff2?v=1880a6fc") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2010-2015, U+2018-201F, U+2022, U+2026, U+2032-2033, U+20B9, U+2190-2193, U+2212, U+00D7; }
+@font-face { font-family: "KY Sans"; src: url("../fonts/plusjakarta-latin.woff2?v=eaccdd0a") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2010-2015, U+2018-201F, U+2022, U+2026, U+2032-2033, U+20B9, U+2190-2193, U+2212, U+00D7; }
 @font-face { font-family: "KY Deva"; src: url("../fonts/notosans-deva.woff2?v=9ca9576a") format("woff2"); font-weight: 400 700; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+25CC, U+A8E0-A8FF; }
 @font-face { font-family: "KY Label"; src: url("../fonts/baloo2-bold-label.woff2?v=ddb0f290") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; unicode-range: U+0900-097F; }
 
@@ -76,6 +76,8 @@
   --ky-dots: radial-gradient(rgba(15, 27, 45, .11) 1px, transparent 1.3px) 0 0 / 16px 16px;
 }
 ::selection { background: var(--ky-lime); color: var(--ky-ink); }
+/* headings: tighter space before . , : ; ! (opt-in feature of the KY Sans subset) */
+h1, h2, h3, .block-title { font-feature-settings: "ss07"; }
 /* @tokens:end */
 @font-face { font-family: "Tiro Devanagari Hindi"; src: url("../fonts/tiro-deva.woff2?v=ba48f7ea") format("woff2"); font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+25CC, U+A830-A839, U+A8E0-A8FF; }
 /* ============================================================
@@ -1030,7 +1032,7 @@ body { font-family: var(--font); -moz-osx-font-smoothing: grayscale; }
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 ::selection { background: var(--ky-lime); color: var(--ky-ink); }
 h1, h2, h3, .block-title, .drawer-head h2, .state-panel h2, .state-panel h3, .how .block-title { font-family: var(--display); }
-h1, h2, .block-title { font-weight: 760; letter-spacing: -.024em; word-spacing: .03em; }
+h1, h2, .block-title { font-weight: 780; letter-spacing: -.028em; text-wrap: balance; }
 h3 { font-weight: 700; letter-spacing: -.01em; }
 html[lang="hi"] h1, html[lang="hi"] h2, html[lang="hi"] h3, html[lang="hi"] .block-title { line-height: 1.35; letter-spacing: 0; word-spacing: 0; }
 .block-title { font-size: 1.4rem; }

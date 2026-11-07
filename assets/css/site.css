@@ -342,7 +342,7 @@
 /* city hero: light, like the landing hero */
 .lp-hero { color: var(--ky-ink); background: radial-gradient(rgba(15, 27, 45, .07) 1px, transparent 1.3px) 0 0 / 16px 16px, var(--ky-bg); border-bottom: 1px solid var(--ky-line); }
 .lp-hero::after { display: none; }
-.lp-hero h1 { color: var(--ky-ink); font-weight: 800; letter-spacing: -.028em; word-spacing: .04em; max-width: 22ch; }
+.lp-hero h1 { color: var(--ky-ink); font-weight: 800; letter-spacing: -.032em; max-width: 22ch; text-wrap: balance; }
 html[lang="hi"] .lp-hero h1 { letter-spacing: 0; word-spacing: 0; line-height: 1.3; }
 .lp-hero-sub { color: var(--ky-ink-2); }
 .lp-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--ky-ink-2); background: var(--ky-surface); border: 1px solid var(--ky-line); box-shadow: var(--ky-sh1); font-weight: 600; }
@@ -360,7 +360,7 @@ html[lang="hi"] .lp-hero h1 { letter-spacing: 0; word-spacing: 0; line-height: 1
 .lp-sec-dark .lp-lead { color: var(--ky-on-navy-2); }
 .lp-kicker { color: var(--ky-em-d); font-size: .76rem; letter-spacing: .1em; }
 .lp-kicker-light { color: var(--ky-lime); }
-.lp-h2 { font-weight: 760; letter-spacing: -.026em; word-spacing: .03em; color: var(--ky-ink); text-wrap: balance; }
+.lp-h2 { font-weight: 780; letter-spacing: -.028em; color: var(--ky-ink); text-wrap: balance; }
 html[lang="hi"] .lp-h2 { letter-spacing: 0; word-spacing: 0; line-height: 1.32; }
 .lp-lead { color: var(--ky-ink-2); }
 .lp-fine { color: var(--ky-mute); }
@@ -436,3 +436,40 @@ html[lang="hi"] .lp-h2 { letter-spacing: 0; word-spacing: 0; line-height: 1.32; 
 .lp .site-footer .brand-footer, .lp .site-footer .brand-footer:hover, .lp .footer-strong, .lp .footer-bottom strong { color: var(--ky-ink); }
 .lp .footer-title { color: var(--ky-mute); border-bottom-color: var(--ky-line); }
 .lp .footer-bottom { border-top-color: var(--ky-line); color: var(--ky-mute); }
+
+/* ============================================================
+   v8 art-direction pass: readable measure + air on the legal /
+   trust pages, emerald WhatsApp buttons with a green icon chip
+   (same as the landing), refined footer.
+   ============================================================ */
+.lp .lp-wrap.lp-narrow { max-width: calc(760px + 48px); }
+.lp .legal { padding-top: clamp(40px, 7vw, 80px); padding-bottom: clamp(56px, 8vw, 96px); }
+.lp .legal h1 { font-size: clamp(2rem, 6.4vw, 3rem); line-height: 1.06; letter-spacing: -.034em; margin-bottom: 20px; text-wrap: balance; }
+html[lang="hi"] .lp .legal h1 { letter-spacing: 0; line-height: 1.3; }
+.lp .legal h2 { font-size: 1.2rem; margin-top: 36px; margin-bottom: 8px; letter-spacing: -.018em; }
+.lp .legal p, .lp .legal li { color: var(--ky-ink-2); line-height: 1.7; text-wrap: pretty; }
+.lp .legal strong { color: var(--ky-ink); }
+.lp .legal ul { padding-left: 0; list-style: none; }
+.lp .legal ul li { position: relative; padding-left: 22px; margin-bottom: 8px; }
+.lp .legal ul li::before { content: ""; position: absolute; left: 3px; top: .72em; width: 7px; height: 7px; border-radius: 2px; background: var(--ky-em); transform: rotate(45deg); }
+.lp .legal-hi { padding: 18px 22px 10px; margin: 8px 0 28px; background: var(--ky-lime-50); border-color: #d9eeb4; }
+.lp .legal-hi h2 { font-size: 1rem; margin: 0 0 8px; }
+.lp .legal-hi li { color: var(--ky-ink); }
+.lp .legal > p:first-of-type, .lp .legal .lead { font-size: 1.125rem; color: var(--ky-ink-2); }
+.lp .trust-cta { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--ky-line); }
+.lp .trust-cta .btn { min-height: 54px; }
+.lp .btn-whatsapp { background: var(--ky-em); color: #fff; padding-left: 10px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 -1px 0 rgba(0, 0, 0, .18), 0 1px 2px rgba(7, 94, 66, .25), 0 10px 24px -12px rgba(7, 94, 66, .7); }
+.lp .btn-whatsapp:hover { background: var(--ky-em-d); color: #fff; }
+.lp .btn-whatsapp:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, .22); transform: scale(.985); }
+.lp .btn-whatsapp::before { width: 32px; height: 32px; border-radius: 9px; background: var(--ky-wa) url("../images/chat.svg") center / 18px no-repeat; box-shadow: inset 0 -1px 0 rgba(4, 48, 26, .2); }
+.lp .lp-sticky .btn-whatsapp, .lp .lp-final .btn-whatsapp { background: var(--ky-em); }
+.lp .site-footer .footer-bottom p { line-height: 1.7; }
+.lp .site-footer a { text-decoration: none; }
+.lp .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.lp .site-footer .lp-wrap > .footer-bottom:first-child { margin-top: 0; border-top: 0; }
+.lp .lp-sec .lp-h2 { margin-bottom: 28px; }
+.lp .lp-hero h1 { margin-bottom: 18px; line-height: 1.04; }
+.lp .feat h3, .lp .feat .feat-t { margin-bottom: 6px; }
+.lp .feat { transition: box-shadow var(--ky-t3) var(--ky-ease), transform var(--ky-t3) var(--ky-ease); }
+.lp .feat:hover { box-shadow: var(--ky-sh2); transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .lp .feat:hover { transform: none; } }
