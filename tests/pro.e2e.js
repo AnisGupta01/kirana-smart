@@ -475,7 +475,7 @@ function pdfInfo(buf) {
         const robots = await (await page.request.get(base + "robots.txt")).text();
         ok(/Sitemap: https:\/\/kiranayap\.pages\.dev\/sitemap\.xml/.test(robots), "robots.txt points at the sitemap");
         const sw = await (await page.request.get(base + "sw.js")).text();
-        ok(/ks-shell-v7-[0-9a-f]{8}/.test(sw) && /about\.html/.test(sw) && /shops\.json/.test(sw) && !/images\/products\//.test(sw), "service worker cache bumped to ks-shell-v7-<hash>, pre-caches pages, no product photos");
+        ok(/ks-shell-v8-[0-9a-f]{8}/.test(sw) && /about\.html/.test(sw) && /shops\.json/.test(sw) && !/images\/products\//.test(sw), "service worker cache bumped to ks-shell-v8-<hash>, pre-caches pages, no product photos");
         await ctx.close();
       }
     }

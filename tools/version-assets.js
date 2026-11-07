@@ -11,7 +11,7 @@
    - the design tokens: tokens.css is copied into the top of
      landing.css and style.css (between the @tokens markers),
    - the service worker's pre-cache list, whose cache name gets the
-     same kind of hash (ks-shell-v7-<hash>) so phones drop old copies.
+     same kind of hash (ks-shell-v8-<hash>) so phones drop old copies.
    Because a changed file always gets a new URL, Cloudflare can cache
    these folders for a year ("immutable" in _headers).
 

@@ -9,7 +9,7 @@
    Bump CACHE when you change files so phones pick up the update.
    ============================================================ */
 "use strict";
-var CACHE = "ks-shell-v7-b0c6e38b"; /* v7: "bahi-khata" redesign (tokens.css, Plus Jakarta Sans); v6: "dukaan" redesign, versioned CSS/JS (?v=), small pre-cache. The -<hash> suffix is added by tools/version-assets.js */
+var CACHE = "ks-shell-v8-b0c6e38b"; /* v8: art-direction pass (ss07 headings, emerald WhatsApp buttons, new app icons); v7: "bahi-khata" redesign (tokens.css, Plus Jakarta Sans); v6: "dukaan" redesign, versioned CSS/JS (?v=), small pre-cache. The -<hash> suffix is added by tools/version-assets.js */
 /* Only the page shell: pages, styles, scripts, fonts, icons and shop files
    (about 0.6 MB). Product photos are cached the first time they are seen,
    so a first visit on prepaid data does not download every demo photo. */
