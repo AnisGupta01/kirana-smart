@@ -473,3 +473,11 @@ html[lang="hi"] .lp .legal h1 { letter-spacing: 0; line-height: 1.3; }
 .lp .feat { transition: box-shadow var(--ky-t3) var(--ky-ease), transform var(--ky-t3) var(--ky-ease); }
 .lp .feat:hover { box-shadow: var(--ky-sh2); transform: translateY(-2px); }
 @media (prefers-reduced-motion: reduce) { .lp .feat:hover { transform: none; } }
+/* v7: the same small details as the landing - nav underline, ledger double rule after kickers */
+.lp .lp-nav a, .trust-nav a { position: relative; transition: color var(--ky-t2) var(--ky-ease); }
+.lp .lp-nav a:hover, .trust-nav a:hover { background: transparent; color: var(--ky-ink); }
+.lp .lp-nav a::after, .trust-nav a::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 9px; height: 1.5px; border-radius: 2px; background: currentColor; transform: scaleX(0); transform-origin: 0 50%; transition: transform var(--ky-t3) var(--ky-ease); }
+.lp .lp-nav a:hover::after, .trust-nav a:hover::after, .lp .lp-nav a[aria-current]::after, .trust-nav a[aria-current]::after { transform: scaleX(1); }
+.lp .lp-nav a[aria-current], .trust-nav a[aria-current] { color: var(--ky-em-d); }
+.lp-kicker::after { content: ""; display: inline-block; vertical-align: middle; width: 22px; height: 4px; margin: -2px 0 0 10px; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; opacity: .45; }
+@media (prefers-reduced-motion: reduce) { .lp .lp-nav a::after, .trust-nav a::after { transition: none; } }

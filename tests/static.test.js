@@ -195,7 +195,7 @@ console.log("Trust pages, honesty, contact details");
   ["kirana", "mithai", "bakery", "cloud-kitchen"].forEach((id) => ok(JSON.parse(read("store/shops/" + id + ".json")).demo === true && /\(Demo\)/.test(JSON.parse(read("store/shops/" + id + ".json")).storeName), id + " demo shop is flagged demo and named '(Demo)'"));
   ok(/local demo/i.test(read("store/admin.html")) && /exportShopBtn/.test(read("store/admin.html")), "setup tool is labelled local demo and has a working export button");
   ok(/Needs a backend/.test(read("docs/ARCHITECTURE.md")) || /needs a backend/i.test(read("docs/ARCHITECTURE.md")), "ARCHITECTURE.md documents what needs a backend");
-  ok(/var CACHE = "ks-shell-v8-[0-9a-f]{8}"/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v8-<hash>)");
+  ok(/var CACHE = "ks-shell-v9-[0-9a-f]{8}"/.test(read("sw.js")), "service worker cache version bumped (ks-shell-v9-<hash>)");
   const htmlFiles = pages;
   /* 404.html is the one exception: the host serves it for any missing address, at any depth */
   const rootAbs = htmlFiles.filter((f) => f !== "404.html" && /\s(href|src)="\/(?!\/)/.test(read(f)));
