@@ -9,7 +9,7 @@
    Bump CACHE when you change files so phones pick up the update.
    ============================================================ */
 "use strict";
-var CACHE = "ks-shell-v8-35896c5f"; /* v8: art-direction pass (ss07 headings, emerald WhatsApp buttons, new app icons); v7: "bahi-khata" redesign (tokens.css, Plus Jakarta Sans); v6: "dukaan" redesign, versioned CSS/JS (?v=), small pre-cache. The -<hash> suffix is added by tools/version-assets.js */
+var CACHE = "ks-shell-v8-40e2aceb"; /* v8: art-direction pass (ss07 headings, emerald WhatsApp buttons, new app icons); v7: "bahi-khata" redesign (tokens.css, Plus Jakarta Sans); v6: "dukaan" redesign, versioned CSS/JS (?v=), small pre-cache. The -<hash> suffix is added by tools/version-assets.js */
 /* Only the page shell: pages, styles, scripts, fonts, icons and shop files
    (about 0.6 MB). Product photos are cached the first time they are seen,
    so a first visit on prepaid data does not download every demo photo. */
@@ -22,7 +22,7 @@ var SHELL = [
   "./store/kirana/", "./store/mithai/", "./store/bakery/", "./store/cloud-kitchen/",
   "./store/shops/shops.json", "./store/shops/kirana.json", "./store/shops/mithai.json", "./store/shops/bakery.json", "./store/shops/cloud-kitchen.json",
   "./manifest.webmanifest", "./404.html",
-  "./assets/css/style.css?v=e6d65bb2", "./assets/css/site.css?v=95baf693", "./assets/css/tools.css?v=295e1f63", "./assets/css/print-a6.css?v=ea575f9c", "./assets/css/landing.css?v=531fc6f5",
+  "./assets/css/style.css?v=e6d65bb2", "./assets/css/site.css?v=95baf693", "./assets/css/tools.css?v=295e1f63", "./assets/css/print-a6.css?v=ea575f9c", "./assets/css/landing.css?v=95ac9a02",
   "./assets/js/site-config.js?v=3d3ddc98", "./assets/js/site-i18n.js?v=37347413", "./assets/js/site-i18n-hi.js?v=c04ef667", "./assets/js/site.js?v=5907096a", "./assets/js/pwa.js?v=5222bb28", "./assets/js/landing.js?v=1245c5da",
   "./assets/js/shop-loader.js?v=fe9a7dfc", "./assets/js/i18n.js?v=7b9810f6", "./assets/js/common.js?v=82023d38", "./assets/js/cart.js?v=2f012e34",
   "./assets/js/app.js?v=bc468df6", "./assets/js/admin.js?v=747c0ae6", "./assets/js/udhaar-core.js?v=ceb3c580", "./assets/js/udhaar.js?v=ba5a4f5e",
