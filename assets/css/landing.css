@@ -155,7 +155,7 @@ html[lang="hi"] .lx-kicker { letter-spacing: .01em; font-size: .9rem; }
 /* ---------- header ---------- */
 .lx-header { position: sticky; top: 0; z-index: 50; background: rgba(250, 250, 247, .97); border-bottom: 1px solid transparent; transition: border-color var(--ky-t3) var(--ky-ease), box-shadow var(--ky-t3) var(--ky-ease), background-color var(--ky-t3) var(--ky-ease); }
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .lx-header { background: rgba(250, 250, 247, .82); -webkit-backdrop-filter: saturate(1.6) blur(14px); backdrop-filter: saturate(1.6) blur(14px); }
+  .lx-header.is-stuck { background: rgba(250, 250, 247, .82); -webkit-backdrop-filter: saturate(1.6) blur(14px); backdrop-filter: saturate(1.6) blur(14px); }
 }
 .lx-header.is-stuck { border-bottom-color: var(--ky-line); box-shadow: 0 1px 0 rgba(15, 27, 45, .02), 0 8px 24px -18px rgba(15, 27, 45, .25); }
 .lx-header-row { display: flex; align-items: center; gap: var(--ky-s3); min-height: var(--header-h); }
