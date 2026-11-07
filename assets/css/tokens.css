@@ -1,8 +1,10 @@
 /* ============================================================
    KIRANAYAP - DESIGN TOKENS (v6 "Bahi-khata")
    One shared layer for the landing page, the inner pages and the
-   shop storefront, loaded before every page stylesheet:
-   fonts, colour, type, 8px spacing, radii, shadows, motion.
+   shop storefront: fonts, colour, type, 8px spacing, radii,
+   shadows, motion. This file is the source; tools/version-assets.js
+   copies it to the top of landing.css and style.css (between the
+   @tokens markers), so no page pays for an extra CSS request.
    Emerald + lime on off-white, navy text. Contrast notes are
    against --bg (#FAFAF7) unless stated.
    Fonts (assets/fonts/LICENSE.md):

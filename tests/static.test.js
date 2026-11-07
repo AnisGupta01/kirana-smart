@@ -310,11 +310,11 @@ ok(!/"DENY"/.test(read("vercel.json")), "vercel.json allows same-origin framing 
   ok(/KS\.thumbFor = function/.test(read("assets/js/common.js")) && /thumbOf\(/.test(read("assets/js/landing.js")), "store cards and landing grid use thumbnails");
   const big = fs.readdirSync(path.join(root, "assets/images/thumbs")).filter((f) => fs.statSync(path.join(root, "assets/images/thumbs", f)).size > 80 * 1024);
   ok(big.length === 0, "thumbnails are small (<= 80 KB)" + (big.length ? " -> " + big.join(",") : ""));
-  const css = read("assets/css/tokens.css") + read("assets/css/landing.css");
+  const css = read("assets/css/landing.css");
   const faces = css.match(/@font-face\s*{[^}]*}/g) || [];
   ok(faces.length >= 3 && faces.every((f) => /font-display:\s*swap/.test(f) && /unicode-range/.test(f)), "landing fonts (tokens.css + landing.css): every @font-face uses font-display: swap and a unicode-range subset");
-  ok(/<link rel="stylesheet" href="assets\/css\/tokens\.css\?v=[0-9a-f]{8}">\s*<link rel="stylesheet" href="assets\/css\/landing\.css/.test(read("index.html")), "landing loads the shared design tokens before landing.css");
-  ok(!/@font-face/.test(read("assets/css/landing.css")) && /--ky-em:/.test(read("assets/css/tokens.css")) && /plusjakarta-latin\.woff2/.test(read("assets/css/tokens.css")), "v6: design tokens and fonts live in tokens.css only (Plus Jakarta Sans Latin subset)");
+  { const tok = read("assets/css/tokens.css").trim(); ok(["assets/css/landing.css", "assets/css/style.css"].every((f) => read(f).indexOf(tok) >= 0) && !/assets\/css\/tokens\.css/.test(read("index.html")), "v6: landing.css and style.css carry the current tokens.css block, no extra CSS request (run: node tools/version-assets.js)"); }
+  ok(!/@font-face/.test(read("assets/css/landing.css").replace(/\/\* @tokens:start[\s\S]*?@tokens:end \*\//, "")) && /--ky-em:/.test(read("assets/css/tokens.css")) && /plusjakarta-latin\.woff2/.test(read("assets/css/tokens.css")), "v6: design tokens and fonts are defined in tokens.css only (Plus Jakarta Sans Latin subset)");
   ok(fs.statSync(path.join(root, "assets/fonts/plusjakarta-latin.woff2")).size < 30 * 1024 && /Plus Jakarta Sans/.test(read("assets/fonts/LICENSE.md")), "v6: Plus Jakarta Sans subset is small (< 30 KB) and listed in fonts/LICENSE.md");
   ok(fs.statSync(path.join(root, "assets/fonts/baloo2-bold-latin.woff2")).size < 30 * 1024 && fs.statSync(path.join(root, "assets/fonts/inter-latin.woff2")).size < 35 * 1024, "subset fonts are small (Baloo Latin < 30 KB, Inter Latin < 35 KB)");
   ok(!/tiro-deva\.woff2|inter\.woff2/.test(css), "landing no longer downloads the 99 KB Tiro or the full Inter font");
